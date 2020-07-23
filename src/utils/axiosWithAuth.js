@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+/**
+ * Component to handle authorized api requests with token
+ *
+ * @returns {object} an object with api properties for axios
+ */
 export const axiosWithAuth = () => {
   //  get the token from localStorage
   const token = window.localStorage.getItem('token');
@@ -9,6 +14,7 @@ export const axiosWithAuth = () => {
     headers: {
       authorization: token,
     },
+    // temporary fake url until we get the real one from backend
     baseURL: 'http://localhost:5000',
   });
 
