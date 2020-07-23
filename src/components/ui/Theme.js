@@ -10,15 +10,26 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 // * fonts
 
-// * colors
+const mulishFont = 'Mulish sans-serif';
+const ralewayFont = 'Raleway, sans-serif';
+const robotoFont = 'Roboto, sans-serif';
 
+// * colors
+const lightGreen = '#869965';
+const green = '#66724C';
+const yellow = '#FDBD17';
+const pink = '#E86895';
+const lightPink = '#FAD6F6';
 
 export default createMuiTheme({
   palette: {
-    common: {},
-    primary: {},
-    secondary: {},
-
+    common: {
+      green: green,
+      lightGreen: lightGreen,
+      yellow: yellow,
+      pink: pink,
+      lightPink: lightPink,
+    },
     action: {
       //       active:
       // rgba(0, 0, 0, 0.54)
@@ -38,8 +49,12 @@ export default createMuiTheme({
       // focusOpacity: 0.12
       // activatedOpacity: 0.12
     },
-    primary: {},
-    secondary: {},
+    primary: {
+      main: lightGreen,
+    },
+    secondary: {
+      main: lightPink,
+    },
   },
   typography: {
     h1: {},
