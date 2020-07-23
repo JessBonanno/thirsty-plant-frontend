@@ -9,6 +9,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <h1>water my plants!</h1>
+      {/* DeleteModal component here for dev only will be moved */}
+      <DeleteModal />
     </ThemeProvider>
   );
 }

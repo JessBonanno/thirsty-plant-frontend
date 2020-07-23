@@ -1,28 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import { Grid, Typography } from '@material-ui/core';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+// api imports
+import { axiosWithAuth } from '../utils/axiosWithAuth';
+import useFetch from '../hooks/useFetch';
 
 const useStyles = makeStyles(theme => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   paper: {
-    position: 'absolute',
-    width: 400,
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -30,11 +24,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleModal() {
+export default function DeleteModal({ plantId }) {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
+
   const [open, setOpen] = React.useState(false);
+  const [fetchParams, setFetchParams] = useState({
+    method: '',
+    url: '',
+    data: '',
+  });
+  const { response, isLoading } = useFetch({
+    api: axiosWithAuth(),
+    method: fetchParams.method,
+    url: fetchParams.url,
+    data: fetchParams.data,
+  });
+  console.log(response);
 
   const handleOpen = () => {
     setOpen(true);
@@ -44,32 +49,44 @@ export default function SimpleModal() {
     setOpen(false);
   };
 
+  const handleDeletePlant = e => {
+    e.preventDefault();
+    setFetchParams({
+      ...fetchParams,
+      // temporary fake url until we get the endpoint from backend
+      url: `/api/plants/${plantId}`,
+      method: 'delete',
+    });
+    setOpen(false);
+  };
+
   const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <Grid container direction='column' alignItems='center' justify='center'>
-        <Grid item style={{ margin: '1em' }}>
-          <Typography variant='h4'>Don't kale my vibe!</Typography>
+    <Grid container direction='column' alignItems='center' justify='center'>
+      <Grid item style={{ margin: '1em' }}>
+        <Typography variant='h4'>Don't kale my vibe!</Typography>
+      </Grid>
+      <Grid item style={{ margin: '1em' }}>
+        <Typography variant='subtitle1'>
+          {' '}
+          Are you sure you want to delete this plant?
+        </Typography>
+      </Grid>
+      <Grid container justify='space-evenly'>
+        <Grid item>
+          <Button variant='contained' color='primary' onClick={handleClose}>
+            Cancel
+          </Button>
         </Grid>
-        <Grid item style={{ margin: '1em' }}>
-          <Typography variant='subtitle1'>
-            {' '}
-            Are you sure you want to delete this plant?
-          </Typography>
-        </Grid>
-        <Grid container justify='space-evenly'>
-          <Grid item>
-            <Button variant='contained' color='primary' onClick={handleClose}>
-              Cancel
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant='contained' color='primary' onClick={handleClose}>
-              Delete
-            </Button>
-          </Grid>
+        <Grid item>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={handleDeletePlant}>
+            Delete
+          </Button>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 
   return (
@@ -78,11 +95,19 @@ export default function SimpleModal() {
         Open Modal
       </Button>
       <Modal
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
+        className={classes.modal}
         open={open}
         onClose={handleClose}
-        aria-labelledby='simple-modal-title'
-        aria-describedby='simple-modal-description'>
-        {body}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}>
+        <Fade in={open}>
+          <div className={classes.paper}>{body}</div>
+        </Fade>
       </Modal>
     </div>
   );

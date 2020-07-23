@@ -9,6 +9,7 @@ export const axiosWithAuth = () => {
     headers: {
       authorization: token,
     },
+    // temporary fake url until we get the real one from backend
     baseURL: 'http://localhost:5000',
   });
 
