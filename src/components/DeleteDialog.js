@@ -12,7 +12,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useFetch from '../hooks/useFetch';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 /**
@@ -20,11 +20,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  *
  * @export
  * @param {number} plantId the id of the plant to be deleted
+ * @param {boolean} dialogOpen the state of the delete dialog
  * @returns {jsx}
  */
 
-export default function AlertDialogSlide({ plantId }) {
-  const [open, setOpen] = React.useState(false);
+export default function AlertDialogSlide({
+  plantId,
+  dialogOpen,
+  setDialogOpen,
+}) {
   const [fetchParams, setFetchParams] = useState({
     method: '',
     url: '',
@@ -39,12 +43,8 @@ export default function AlertDialogSlide({ plantId }) {
   });
   console.log(response);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
-    setOpen(false);
+    setDialogOpen(false);
   };
 
   const handleDeletePlant = e => {
@@ -55,36 +55,32 @@ export default function AlertDialogSlide({ plantId }) {
       url: `/api/plants/${plantId}`,
       method: 'delete',
     });
-    setOpen(false);
+    setDialogOpen(false);
   };
 
   return (
-    <div>
-      <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Delete Plant
-      </Button>
-      <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-labelledby='delete-plant-dialog'
-        aria-describedby='delete-plant-dialog'>
-        <DialogTitle id='dialog-title'>{"Don't kale my vibe!"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='dialog-description'>
-            Are you sure you want to delete this plant?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary'>
-            Cancel
-          </Button>
-          <Button onClick={handleDeletePlant} color='primary'>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={dialogOpen}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-labelledby="delete-plant-dialog"
+      aria-describedby="delete-plant-dialog"
+    >
+      <DialogTitle id="dialog-title">{"Don't kale my vibe!"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="dialog-description">
+          Are you sure you want to delete this plant?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleDeletePlant} color="primary">
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
