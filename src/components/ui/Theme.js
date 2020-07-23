@@ -53,7 +53,7 @@ export default createMuiTheme({
       main: lightGreen,
     },
     secondary: {
-      main: lightPink,
+      main: yellow,
     },
   },
   typography: {
