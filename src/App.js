@@ -3,7 +3,6 @@ import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 
 // * local imports
-import DeleteModal from './components/DeleteModal';
 
 function App() {
   return (

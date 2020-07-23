@@ -24,6 +24,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/**
+ * Component for handling user plant deletion
+ *
+ * @export
+ * @param {number} plantId the id of the plant to be deleted
+ * @returns {jsx}
+ */
 export default function DeleteModal({ plantId }) {
   const classes = useStyles();
 
@@ -33,6 +40,7 @@ export default function DeleteModal({ plantId }) {
     url: '',
     data: '',
   });
+
   const { response, isLoading } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,
