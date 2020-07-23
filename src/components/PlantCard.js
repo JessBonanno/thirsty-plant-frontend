@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
+import EditPlantModal from '../components/EditPlantModal';
 
 const useStyles = makeStyles({
   root: {
@@ -28,12 +29,27 @@ const PlantCard = props => {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState();
 
+  const [addModalOpen, setAddModalOpen] = React.useState(false);
+  const [editModalOpen, setEditModalOpen] = React.useState(false);
+
+  const handleAddModalOpen = () => {
+    setAddModalOpen(true);
+  };
+
+  const handleEditModalOpen = () => {
+    setEditModalOpen(true);
+  };
+
   const handleDialogOpen = () => {
     setDialogOpen(true);
   };
 
   return (
     <>
+      <EditPlantModal
+        editModalOpen={editModalOpen}
+        setEditModalOpen={setEditModalOpen}
+      />
       <DeleteDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
@@ -92,7 +108,7 @@ const PlantCard = props => {
               <Grid item style={{ marginLeft: 'auto' }}>
                 <IconButton
                   style={{ marginBottom: '.25em' }}
-                  onClick={handleDialogOpen}
+                  onClick={handleEditModalOpen}
                 >
                   <EditTwoToneIcon />
                 </IconButton>
