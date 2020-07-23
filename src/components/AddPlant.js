@@ -137,7 +137,8 @@ function AddPlant() {
 						type="text"
 						placeholder="Special Instructions"
 						onChange={changeHandler}
-						value={formState.specialInstructions}
+                        value={formState.specialInstructions}
+                        errors = {errors}
 					/>
 				</label>
 				<Link to="/">
