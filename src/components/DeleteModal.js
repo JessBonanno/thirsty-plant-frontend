@@ -58,12 +58,12 @@ export default function SimpleModal() {
         </Grid>
         <Grid container justify='space-evenly'>
           <Grid item>
-            <Button variant='contained' color='primary' onClick={handleOpen}>
+            <Button variant='contained' color='primary' onClick={handleClose}>
               Cancel
             </Button>
           </Grid>
           <Grid item>
-            <Button variant='contained' color='primary' onClick={handleOpen}>
+            <Button variant='contained' color='primary' onClick={handleClose}>
               Delete
             </Button>
           </Grid>
