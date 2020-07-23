@@ -8,6 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
 
@@ -15,6 +16,7 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 345,
     margin: '1em',
+    minWidth: 250,
   },
   media: {
     height: 140,
@@ -39,8 +41,13 @@ const PlantCard = props => {
       />
       <Card className={classes.root}>
         <CardActionArea>
-          <CardContent>
-            <Grid container justify="space-between" alignItems="center">
+          <CardContent style={{ padding: 0 }}>
+            <Grid
+              container
+              justify="space-between"
+              alignItems="center"
+              style={{ padding: '0 1em' }}
+            >
               <Grid item>
                 <Typography gutterBottom variant="h5" component="h2">
                   Plant Name
@@ -61,12 +68,36 @@ const PlantCard = props => {
               title="Contemplative Reptile"
               style={{ marginBottom: '1em' }}
             />
-            <Typography variant="body2" color="textSecondary" component="p">
-              Species Name Goes Here
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Next Watering Time
-            </Typography>
+            <Grid item container style={{ padding: '0 1em' }}>
+              <Grid item container style={{ width: '75%' }} direction="column">
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Species Name Goes Here
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    Next Watering Time
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item style={{ marginLeft: 'auto' }}>
+                <IconButton
+                  style={{ marginBottom: '.25em' }}
+                  onClick={handleDialogOpen}
+                >
+                  <EditTwoToneIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
           </CardContent>
         </CardActionArea>
       </Card>
