@@ -12,6 +12,7 @@ import PlantCard from '../PlantCard';
 const useStyles = makeStyles(theme => ({
   search: {
     position: 'relative',
+    marginRight: '2em',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
@@ -64,7 +65,7 @@ const Dashboard = () => {
   return (
     <Grid container direction="column">
       {/* ----- Page Header ---- */}
-      <Grid item style={{ margin: '1em' }}>
+      <Grid item style={{ margin: '1em', maxWidth: '90%' }}>
         <Typography variant="h2">My Plants</Typography>
       </Grid>
       {/* ---- Plant Bar ----- */}
@@ -73,7 +74,7 @@ const Dashboard = () => {
         container
         direction="row"
         justify="space-between"
-        style={{ margin: '1em' }}
+        style={{ margin: '1em', maxWidth: '90%' }}
       >
         <Grid item>
           <Button
