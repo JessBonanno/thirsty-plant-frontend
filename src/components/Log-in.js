@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "./Input.js";
+import axios from 'axios';
 import * as Yup from "yup";
 
 function Login() {
 	const defaultState = { username: "", password: "" };
-	const [formState, setFormState] = useState(defaultState);
+    const [formState, setFormState] = useState(defaultState);
+    const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
 		username: "",
 		password: "",
@@ -42,7 +44,14 @@ function Login() {
 			...formState,
 			[e.target.name]: value,
 		});
-		validateChange(e);
+        validateChange(e);
+        axios
+            .post("https://reqres.in/api/users", formState)
+            .then(res => {
+                setPost(res.data);
+                console.log("success", res);
+            })
+            .catch(err => console.log(err.response));
 	};
 
 	const changeHandler = (event) => {
@@ -79,6 +88,7 @@ function Login() {
 					<button>Sign In</button>
 				</Link>
 			</form>
+            <pre>{JSON.stringify(post, null, 2)}</pre>
 		</div>
 	);
 }

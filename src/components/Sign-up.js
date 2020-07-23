@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import axios from 'axios';
 import Input from "./Input.js";
 
 function Signup() {
@@ -11,10 +12,14 @@ function Signup() {
 		confirm: "",
 		terms: false,
 	};
-	const [formState, setFormState] = useState(defaultState);
+    const [formState, setFormState] = useState(defaultState);
+    const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
-		username: "",
-		password: "",
+        email: "",
+        username: "",
+        password: "",
+        confirm: "",
+        terms: false
 	});
 	const formSchema = Yup.object().shape({
 		email: Yup.string()
@@ -58,7 +63,14 @@ function Signup() {
 			...formState,
 			[e.target.name]: value,
 		});
-		validateChange(e);
+        validateChange(e);
+        axios
+            .post("https://reqres.in/api/users", formState)
+            .then(res => {
+                setPost(res.data); 
+                console.log("success", res);
+            })
+            .catch(err => console.log(err.response));
 	};
 
 	const changeHandler = (event) => {
@@ -109,7 +121,7 @@ function Signup() {
 					/>
 				</label>
 				<label className="terms" htmlFor="terms">
-					<input name="terms" type="checkbox" onChange={changeHandler} />
+                    <input name="terms" type="checkbox" onChange={changeHandler} errors={errors}/>
 					Terms & Conditions
 				</label>
 				<p>Already have an account?</p>
@@ -117,6 +129,7 @@ function Signup() {
                     <button>Sign Up</button>
                 </Link>
 			</form>
+            <pre>{JSON.stringify(post, null, 2)}</pre>
 		</div>
 	);
 }

@@ -5,7 +5,7 @@ function Input(props) {
         <label htmlFor="name">
             {props.label}
             <input  {...props} />
-            {/* <p>{props.errors[props.name]}</p> */}
+            <p>{props.errors[props.name]}</p>
         </label>
     );
 }

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import Input from "./Input.js";
 import * as Yup from "yup";
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
 	const [formState, setFormState] = useState(defaultState);
+	const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
-		username: "",
-		password: "",
+		current: "",
+		new: "",
+		confirm: "",
+		phoneNumber: "",
 	});
 	const formSchema = Yup.object().shape({
 		current: Yup.string()
@@ -49,6 +53,13 @@ function ChangePass() {
 			[e.target.name]: value,
 		});
 		validateChange(e);
+		axios
+			.post("https://reqres.in/api/users", formState)
+			.then((res) => {
+				setPost(res.data);
+				console.log("success", res);
+			})
+			.catch((err) => console.log(err.response));
 	};
 
 	const changeHandler = (event) => {
@@ -64,6 +75,7 @@ function ChangePass() {
 						onChange={changeHandler}
 						name="current"
 						value={formState.current}
+						errors={errors}
 					/>
 				</label>
 				<label>
@@ -73,6 +85,7 @@ function ChangePass() {
 						onChange={changeHandler}
 						name="new"
 						value={formState.new}
+						errors={errors}
 					/>
 				</label>
 				<label>
@@ -82,6 +95,7 @@ function ChangePass() {
 						onChange={changeHandler}
 						name="confirm"
 						value={formState.confirm}
+						errors={errors}
 					/>
 				</label>
 				<label>
@@ -91,6 +105,7 @@ function ChangePass() {
 						onChange={changeHandler}
 						name="phone"
 						value={formState.phoneNumber}
+						errors={errors}
 					/>
 				</label>
 				<Link to="/">
@@ -100,6 +115,7 @@ function ChangePass() {
 					<button>Submit</button>
 				</Link>
 			</form>
+			<pre>{JSON.stringify(post, null, 2)}</pre>
 		</div>
 	);
 }

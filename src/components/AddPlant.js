@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios'
 import { Link } from "react-router-dom";
 import Input from "./Input.js";
 import * as Yup from "yup";
@@ -11,10 +12,13 @@ function AddPlant() {
         days: "",
 		specialInstructions: "",
 	};
-	const [formState, setFormState] = useState(defaultState);
+    const [formState, setFormState] = useState(defaultState);
+    const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
-		username: "",
-		password: "",
+        plantName: "",
+        species: "",
+        every: "",
+        days: "",
 	});
 
 	const formSchema = Yup.object().shape({
@@ -55,7 +59,14 @@ function AddPlant() {
 			...formState,
 			[e.target.name]: value,
 		});
-		validateChange(e);
+        validateChange(e);
+        axios
+            .post("https://reqres.in/api/users", formState)
+            .then(res => {
+                setPost(res.data);
+                console.log("success", res);
+            })
+            .catch(err => console.log(err.response));
 	};
 
 	const changeHandler = (event) => {
@@ -70,7 +81,8 @@ function AddPlant() {
 						type="text"
 						onChange={changeHandler}
 						name="plantName"
-						value={formState.plantName}
+                        value={formState.plantName}
+                        errors={errors}
 					/>
 				</label>
 				<label>
@@ -78,7 +90,8 @@ function AddPlant() {
 					<Input
 						type="text"
 						onChange={changeHandler}
-						value={formState.species}
+                        value={formState.species}
+                        errors={errors}
 					/>
 				</label>
                 Watering Frequency:
@@ -125,7 +138,6 @@ function AddPlant() {
 						placeholder="Special Instructions"
 						onChange={changeHandler}
 						value={formState.specialInstructions}
-						errors={errors}
 					/>
 				</label>
 				<Link to="/">
@@ -135,6 +147,7 @@ function AddPlant() {
 					<button>Submit</button>
 				</Link>
 			</form>
+            <pre>{JSON.stringify(post, null, 2)}</pre>
 		</div>
 	);
 }
