@@ -30,7 +30,7 @@ const PlantCard = props => {
   const [dialogOpen, setDialogOpen] = useState();
 
   const [addModalOpen, setAddModalOpen] = React.useState(false);
-  const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const [editModalOpen, setEditModalOpen] = React.useState(true);
 
   const handleAddModalOpen = () => {
     setAddModalOpen(true);

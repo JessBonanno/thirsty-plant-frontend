@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 import { Route, Link } from 'react-router-dom';
@@ -11,6 +12,7 @@ import Signup from './components/Sign-up.js';
 import AddPlant from './components/AddPlant.js';
 import Dashboard from './components/containers/Dashboard';
 import ChangePass from './components/ChangePass.js';
+import EditPlantModal from './components/EditPlantModal';
 
 function App() {
   return (
@@ -43,6 +45,9 @@ function App() {
           <Route path="/AddPlant" component={AddPlant} />
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/modal">
+            <EditPlantModal />
           </Route>
         </div>
       </flexbox>

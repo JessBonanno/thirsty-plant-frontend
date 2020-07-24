@@ -60,15 +60,29 @@ export default createMuiTheme({
     h1: {},
     h2: {},
     h3: {},
-    h4: {},
-    h5: {},
-    h6: {},
+    h4: {
+      fontFamily: ralewayFont,
+      color: green,
+    },
+    h5: {
+      fontFamily: ralewayFont,
+      color: green,
+    },
+    h6: {
+      fontFamily: ralewayFont,
+      color: green,
+    },
     p: {},
     subtitle1: {},
     subtitle2: {},
     body1: {},
     body2: {},
-    button: {},
+    button: {
+      color: 'white',
+      fontSize: '1.2em',
+      fontFamily: ralewayFont,
+      textTransform: 'capitalize',
+    },
     caption: {},
   },
 });
