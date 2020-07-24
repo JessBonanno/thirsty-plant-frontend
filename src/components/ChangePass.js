@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input.js";
 import * as Yup from "yup";
+import { makeStyles } from "@material-ui/core/styles";
+import signUp from "./signUp.jpeg";
+import Button from "@material-ui/core/Button";
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
 	const [formState, setFormState] = useState(defaultState);
+	// eslint-disable-next-line
 	const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
 		current: "",
@@ -52,7 +56,7 @@ function ChangePass() {
 			...formState,
 			[e.target.name]: value,
 		});
-		validateChange(e);
+
 		axios
 			.post("https://reqres.in/api/users", formState)
 			.then((res) => {
@@ -64,13 +68,37 @@ function ChangePass() {
 
 	const changeHandler = (event) => {
 		setFormState(event.target.value);
+		validateChange(event);
 	};
+	const useStyles = makeStyles((theme) => ({
+		form: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			height: "100vh",
+			backgroundImage: `url(${signUp})`,
+			position: "fixed",
+			minWidth: "100%",
+			minHeight: "100%",
+			backgroundSize: "cover",
+			backgroundPosition: "center",
+		},
+		buttons: {
+			width: "100%",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			justifyItems: "space-between",
+			marginLeft: "25px",
+		},
+	}));
+	const classes = useStyles();
 	return (
-		<div className="App">
+		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
 				<label>
-					Current Password:
 					<Input
+						placeholder="Current Password"
 						type="text"
 						onChange={changeHandler}
 						name="current"
@@ -79,8 +107,8 @@ function ChangePass() {
 					/>
 				</label>
 				<label>
-					New Password:
 					<Input
+						placeholder="New Password"
 						type="text"
 						onChange={changeHandler}
 						name="new"
@@ -89,8 +117,8 @@ function ChangePass() {
 					/>
 				</label>
 				<label>
-					Confirm Password:
 					<Input
+						placeholder="Confirm Password"
 						type="text"
 						onChange={changeHandler}
 						name="confirm"
@@ -99,8 +127,8 @@ function ChangePass() {
 					/>
 				</label>
 				<label>
-					Phone Number:
 					<Input
+						placeholder="Phone Number"
 						type="text"
 						onChange={changeHandler}
 						name="phone"
@@ -108,14 +136,26 @@ function ChangePass() {
 						errors={errors}
 					/>
 				</label>
-				<Link to="/">
-					<button>Cancel</button>
-				</Link>
-				<Link to="/">
-					<button>Submit</button>
-				</Link>
+				<div className={classes.buttons}>
+					<Button
+						variant="contained"
+						color="secondary"
+                        style={{ color: "white", margin: "20px", }}
+						onClick={formSubmit}
+					>
+						Submit
+					</Button>
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ color: "white" }}
+						onClick={formSubmit}
+					>
+						Cancel
+					</Button>
+				</div>
 			</form>
-			<pre>{JSON.stringify(post, null, 2)}</pre>
+			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>
 	);
 }
