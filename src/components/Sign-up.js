@@ -63,7 +63,7 @@ function Signup() {
 			...formState,
 			[e.target.name]: value,
 		});
-        validateChange(e);
+        
         axios
             .post("https://reqres.in/api/users", formState)
             .then(res => {
@@ -74,7 +74,8 @@ function Signup() {
 	};
 
 	const changeHandler = (event) => {
-		setFormState(event.target.value);
+        setFormState(event.target.value);
+        validateChange(event);
 	};
 
 	return (

@@ -59,7 +59,7 @@ function AddPlant() {
 			...formState,
 			[e.target.name]: value,
 		});
-        validateChange(e);
+        
         axios
             .post("https://reqres.in/api/users", formState)
             .then(res => {
@@ -70,7 +70,8 @@ function AddPlant() {
 	};
 
 	const changeHandler = (event) => {
-		setFormState(event.target.value);
+        setFormState(event.target.value);
+        validateChange(event);
 	};
 	return (
 		<div className="App">
@@ -89,7 +90,8 @@ function AddPlant() {
 					Species:
 					<Input
 						type="text"
-						onChange={changeHandler}
+                        onChange={changeHandler}
+                        name="plantName"
                         value={formState.species}
                         errors={errors}
 					/>
