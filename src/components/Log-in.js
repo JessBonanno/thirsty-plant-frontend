@@ -96,6 +96,7 @@ function Login() {
 	return (
 		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
+                <Typography variant="h2">Log In</Typography>
 				<label>
 					<Input
 						placeholder="Username"

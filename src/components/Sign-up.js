@@ -6,6 +6,7 @@ import Input from "./Input.js";
 import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
+import Typography from '@material-ui/core/Typography';
 
 function Signup() {
 	const defaultState = {
@@ -108,8 +109,11 @@ function Signup() {
 	}));
 	const classes = useStyles();
 	return (
+        
 		<div className={classes.form}>
+            
 			<form onSubmit={formSubmit}>
+                <Typography variant="h2">Sign Up</Typography>
 				<label>
 					<Input
 						placeholder="Email"

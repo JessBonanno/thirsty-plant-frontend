@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
+import Typography from '@material-ui/core/Typography';
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
@@ -96,6 +97,7 @@ function ChangePass() {
 	return (
 		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
+                <Typography variant="h2">Change Your Password</Typography>
 				<label>
 					<Input
 						placeholder="Current Password"
