@@ -39,6 +39,14 @@ const inputProps = {
   padding: '4px',
 };
 
+/**
+ * Modal component allowing a user to edit selected plant
+ *
+ * @export
+ * @param {boolean} editModalOpen holds open state of modal
+ * @param {function} setEditModalOpen changes open state of modal
+ * @returns {jsx}
+ */
 export default function TransitionsModal(props) {
   const [plantData, setPlantData] = useState({
     nickname: '',
@@ -48,10 +56,6 @@ export default function TransitionsModal(props) {
 
   const { setEditModalOpen, editModalOpen } = props;
   const classes = useStyles();
-
-  const handleOpen = () => {
-    setEditModalOpen(true);
-  };
 
   const handleClose = () => {
     setEditModalOpen(false);
@@ -230,6 +234,30 @@ export default function TransitionsModal(props) {
                   </Grid>
                 </Grid>
                 {/* --- Watering frequencey, buttons */}
+              </Grid>
+              <Grid container direction="row">
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: theme.palette.common.lightPink,
+                      color: 'white',
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: theme.palette.common.green,
+                      color: 'white',
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </div>

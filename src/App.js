@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.css';
-import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 import { Route, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 import { flexbox } from '@material-ui/system';
+import './App.css';
 
 // * local imports
 import Login from './components/Log-in.js';
@@ -12,11 +13,15 @@ import Signup from './components/Sign-up.js';
 import AddPlant from './components/AddPlant.js';
 import Dashboard from './components/containers/Dashboard';
 import ChangePass from './components/ChangePass.js';
-import EditPlantModal from './components/EditPlantModal';
+import AppBar from './components/ui/AppBar';
+import Footer from './components/ui/Footer';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <Hidden smDown>
+        <AppBar style={{ margin: 0 }} />
+      </Hidden>
       <flexbox flexDirection="column">
         <div className="App">
           <Link to="/">
@@ -46,11 +51,11 @@ function App() {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
-          <Route path="/modal">
-            <EditPlantModal />
-          </Route>
         </div>
       </flexbox>
+      <Hidden mdUp>
+        <Footer />
+      </Hidden>
     </ThemeProvider>
   );
 }
