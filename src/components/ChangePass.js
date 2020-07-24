@@ -4,6 +4,8 @@ import axios from "axios";
 import Input from "./Input.js";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
+import signUp from "./signUp.jpeg";
+import Button from "@material-ui/core/Button";
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
@@ -68,15 +70,29 @@ function ChangePass() {
 		setFormState(event.target.value);
 		validateChange(event);
 	};
-    const useStyles = makeStyles((theme) => ({
-        form: {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100vh",
-        },
-    }));
-    const classes = useStyles();
+	const useStyles = makeStyles((theme) => ({
+		form: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			height: "100vh",
+			backgroundImage: `url(${signUp})`,
+			position: "fixed",
+			minWidth: "100%",
+			minHeight: "100%",
+			backgroundSize: "cover",
+			backgroundPosition: "center",
+		},
+		buttons: {
+			width: "100%",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			justifyItems: "space-between",
+			marginLeft: "25px",
+		},
+	}));
+	const classes = useStyles();
 	return (
 		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
@@ -120,12 +136,24 @@ function ChangePass() {
 						errors={errors}
 					/>
 				</label>
-				<Link to="/">
-					<button>Cancel</button>
-				</Link>
-				<Link to="/">
-					<button>Submit</button>
-				</Link>
+				<div className={classes.buttons}>
+					<Button
+						variant="contained"
+						color="secondary"
+                        style={{ color: "white", margin: "20px", }}
+						onClick={formSubmit}
+					>
+						Submit
+					</Button>
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ color: "white" }}
+						onClick={formSubmit}
+					>
+						Cancel
+					</Button>
+				</div>
 			</form>
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>

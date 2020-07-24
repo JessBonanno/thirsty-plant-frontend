@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Input from "./Input.js";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
+import signUp from "./signUp.jpeg";
+import Button from "@material-ui/core/Button";
 
 function AddPlant() {
 	const defaultState = {
@@ -81,16 +83,27 @@ function AddPlant() {
 			alignItems: "center",
 			justifyContent: "center",
 			height: "100vh",
+			backgroundImage: `url(${signUp})`,
+			position: "fixed",
+			minWidth: "100%",
+			minHeight: "100%",
+			backgroundSize: "cover",
+			backgroundPosition: "center",
 		},
 		select: {
 			width: "100 %",
 			padding: "10px",
-            borderRadius: "10px",
-            margin: "10px 0px 0px 20px",
-        },
-        buttons: {
-            
-        }
+			borderRadius: "10px",
+			margin: "10px 0px 0px 20px",
+		},
+		buttons: {
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            justifyItems: "space-between",
+            marginLeft: "20px",
+		},
 	}));
 	const classes = useStyles();
 	return (
@@ -129,12 +142,12 @@ function AddPlant() {
 						errors={errors}
 					>
 						<option value="1">every day</option>
-                        <option value="2">every 2 days</option>
-                        <option value="3">every 3 days</option>
-                        <option value="4">every 4 days</option>
-                        <option value="5">every 5 days</option>
-                        <option value="6">every 6 days</option>
-                        <option value="7">every 7 days</option>
+						<option value="2">every 2 days</option>
+						<option value="3">every 3 days</option>
+						<option value="4">every 4 days</option>
+						<option value="5">every 5 days</option>
+						<option value="6">every 6 days</option>
+						<option value="7">every 7 days</option>
 					</select>
 				</label>
 				<label>
@@ -164,14 +177,24 @@ function AddPlant() {
 						errors={errors}
 					/>
 				</label>
-                <div className="buttons">
-				<Link to="/">
-					<button>Cancel</button>
-				</Link>
-				<Link to="/">
-					<button>Submit</button>
-				</Link>
-                </div>
+				<div className={classes.buttons}>
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ color: "white", display: "flex", margin: "20px", }}
+						onClick={formSubmit}
+					>
+						Cancel
+					</Button>
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ color: "white" }}
+						onClick={formSubmit}
+					>
+						Submit
+					</Button>
+				</div>
 			</form>
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>

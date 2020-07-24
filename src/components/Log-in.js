@@ -13,7 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // eslint-disable-next-line
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import signUp from "./signUp.jpeg"
+import signUp from "./signUp.jpeg";
 
 function Login() {
 	const defaultState = { username: "", password: "" };
@@ -75,13 +75,21 @@ function Login() {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-            height: "100vh",
-            backgroundImage: {signUp},
-            position: "fixed",
-            minWidth: "100%",
-            minHeight: "100%",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+			height: "100vh",
+			backgroundImage: `url(${signUp})`,
+			position: "fixed",
+			minWidth: "100%",
+			minHeight: "100%",
+			backgroundSize: "cover",
+			backgroundPosition: "center",
+		},
+		buttons: {
+			width: "100%",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			justifyItems: "space-between",
+			marginLeft: "35px",
 		},
 	}));
 	const classes = useStyles();
@@ -108,10 +116,7 @@ function Login() {
 						errors={errors}
 					/>
 				</label>
-				<Link to="/">
-					<p>Having trouble logging in?</p>
-				</Link>
-				
+				<div className={classes.buttons}>
 					<Button
 						variant="contained"
 						color="secondary"
@@ -119,7 +124,7 @@ function Login() {
 					>
 						Login
 					</Button>
-				
+				</div>
 			</form>
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>

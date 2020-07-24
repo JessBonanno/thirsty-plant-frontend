@@ -4,8 +4,8 @@ import * as Yup from "yup";
 import axios from "axios";
 import Input from "./Input.js";
 import { makeStyles } from "@material-ui/core/styles";
-import signUp from "./signUp.jpeg"
-
+import signUp from "./signUp.jpeg";
+import Button from "@material-ui/core/Button";
 
 function Signup() {
 	const defaultState = {
@@ -17,7 +17,7 @@ function Signup() {
 	};
 	const [formState, setFormState] = useState(defaultState);
 	// eslint-disable-next-line
-	const [post, setPost] = useState([]);
+	const [postState, setPost] = useState([]);
 	const [errors, setErrors] = useState({
 		email: "",
 		username: "",
@@ -67,7 +67,11 @@ function Signup() {
 			...formState,
 			[e.target.name]: value,
 		});
-
+		const post = setPost({
+			...postState,
+			formState,
+		});
+		console.log(postState);
 		axios
 			.post("https://reqres.in/api/users", formState)
 			.then((res) => {
@@ -85,14 +89,26 @@ function Signup() {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-            height: "100vh",
-            backgroundImage: signUp,
+			height: "100vh",
+			backgroundImage: `url(${signUp})`,
+			position: "fixed",
+			minWidth: "100%",
+			minHeight: "100%",
+			backgroundSize: "cover",
+			backgroundPosition: "center",
+		},
+		buttons: {
+			width: "100%",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			justifyItems: "space-between",
+			marginLeft: "20px",
 		},
 	}));
 	const classes = useStyles();
 	return (
-     
-        <div className={classes.form} >
+		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
 				<label>
 					<Input
@@ -115,9 +131,8 @@ function Signup() {
 					/>
 				</label>
 				<label>
-					
 					<Input
-                        placeholder="Password"
+						placeholder="Password"
 						type="text"
 						onChange={changeHandler}
 						value={formState.password}
@@ -127,7 +142,7 @@ function Signup() {
 				</label>
 				<label>
 					<Input
-                        placeholder="Confirm Password"
+						placeholder="Confirm Password"
 						type="text"
 						onChange={changeHandler}
 						value={formState.confirm}
@@ -135,7 +150,7 @@ function Signup() {
 						errors={errors}
 					/>
 				</label>
-				<label className="terms" htmlFor="terms">
+				<label htmlFor="terms">
 					<input
 						name="terms"
 						type="checkbox"
@@ -145,11 +160,18 @@ function Signup() {
 					Terms & Conditions
 				</label>
 				<p>Already have an account?</p>
-				<Link to="/">
-					<button>Sign Up</button>
-				</Link>
+				<div className={classes.buttons}>
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ color: "white" }}
+						onClick={formSubmit}
+					>
+						Sign Up
+					</Button>
+				</div>
 			</form>
-			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
+			{/* <pre>{JSON.stringify(postState, null, 2)}</pre> */}
 		</div>
 	);
 }
