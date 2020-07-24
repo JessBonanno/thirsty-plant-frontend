@@ -56,6 +56,7 @@ export default function TransitionsModal(props) {
     species: '',
     wateringTime: '',
   });
+  const [imageUrl, setImageUrl] = useState('');
 
   const { setAddModalOpen, addModalOpen } = props;
   const classes = useStyles();
@@ -86,6 +87,7 @@ export default function TransitionsModal(props) {
 
     const file = await res;
     console.log(file);
+    setImageUrl(res.data.url);
   };
 
   const handleClose = () => {
@@ -278,10 +280,15 @@ export default function TransitionsModal(props) {
                         <Grid item>
                           <img
                             // src={require('../assets/images/plant-for-card.jpg')}
-                            src={`https://res.cloudinary.com/watermyplants/image/upload/v1595611616/plant_card_image_a0wvvj.jpg`}
+                            src={
+                              imageUrl === ''
+                                ? undefined
+                                : // `https://res.cloudinary.com/watermyplants/image/upload/v1595611616/plant_card_image_a0wvvj.jpg`
+                                  imageUrl
+                            }
                             alt=""
-                            width="300"
-                            height="350"
+                            // width="300"
+                            // height="350"
                           />
                         </Grid>
                         <Grid
