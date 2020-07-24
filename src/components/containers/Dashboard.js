@@ -68,7 +68,7 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
-  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(true);
 
   const matchesXS = useMediaquery(theme.breakpoints.down('xs'));
   const matchesSM = useMediaquery(theme.breakpoints.down('sm'));

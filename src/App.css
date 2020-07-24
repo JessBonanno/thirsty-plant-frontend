@@ -7,6 +7,7 @@ body {
   padding: 5px;
   height: 30px;
   text-align: center;
+  margin-top: 0;
 }
 
 .no-border-radius button {
