@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
@@ -17,7 +15,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
 }));
-
+/**
+ *  AppBar component displaying nav link items on desktop screen sizes
+ *
+ * @export
+ * @returns {jsx}
+ */
 export default function DenseAppBar() {
   const classes = useStyles();
 
@@ -39,16 +42,24 @@ export default function DenseAppBar() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/dashboard'  color='inherit'>Dashboard</Button>
+                  <Button component={Link} to='/dashboard' color='inherit'>
+                    Dashboard
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/about'  color='inherit'>About Us</Button>
+                  <Button component={Link} to='/about' color='inherit'>
+                    About Us
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/login'  color='inherit'>Login</Button>
+                  <Button component={Link} to='/login' color='inherit'>
+                    Login
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/signup'  color='inherit'>Sign Up</Button>
+                  <Button component={Link} to='/signup' color='inherit'>
+                    Sign Up
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>

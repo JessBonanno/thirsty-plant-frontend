@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import theme from '../components/ui/Theme';
 
@@ -25,16 +24,19 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3),
   },
 }));
-
+/**
+ * Modal component allowing a user to edit selected plant
+ *
+ * @export
+ * @param {boolean} editModalOpen holds open state of modal
+ * @param {function} setEditModalOpen changes open state of modal
+ * @returns {jsx}
+ */
 export default function TransitionsModal(props) {
   const [wateringTime, setWateringTime] = useState();
 
   const { setEditModalOpen, editModalOpen } = props;
   const classes = useStyles();
-
-  const handleOpen = () => {
-    setEditModalOpen(true);
-  };
 
   const handleClose = () => {
     setEditModalOpen(false);
@@ -49,8 +51,8 @@ export default function TransitionsModal(props) {
   return (
     <div>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
         className={classes.modal}
         open={editModalOpen}
         onClose={handleClose}
@@ -58,69 +60,66 @@ export default function TransitionsModal(props) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}
-      >
+        }}>
         <Fade in={editModalOpen}>
           <div className={classes.paper}>
-            <Grid container direction="column">
+            <Grid container direction='column'>
               {' '}
               {/* --- Main container */}
               <Grid item>
-                <Typography variant="h4">Add/Edit a Plant</Typography>
+                <Typography variant='h4'>Add/Edit a Plant</Typography>
               </Grid>
               <Grid item>
                 {/* --- Form and upload image container */}
-                <Grid container direction="row">
+                <Grid container direction='row'>
                   <Grid item>
                     <form>
-                      <Grid container direction="column">
+                      <Grid container direction='column'>
                         <Grid item>
-                          <TextField variant="outlined" label="Plant name" />
+                          <TextField variant='outlined' label='Plant name' />
                         </Grid>
                         <Grid item>
-                          <TextField variant="outlined" label="Species name" />
+                          <TextField variant='outlined' label='Species name' />
                         </Grid>{' '}
                       </Grid>
                     </form>
                   </Grid>
                   <Grid item>
                     <input
-                      accept="image/*"
+                      accept='image/*'
                       className={classes.input}
                       style={{ display: 'none' }}
-                      id="raised-button-file"
+                      id='raised-button-file'
                       multiple
-                      type="file"
+                      type='file'
                     />
-                    <label htmlFor="raised-button-file">
+                    <label htmlFor='raised-button-file'>
                       <Button
-                        variant="raised"
-                        component="span"
-                        className={classes.button}
-                      >
+                        variant='raised'
+                        component='span'
+                        className={classes.button}>
                         Upload
                       </Button>
                     </label>
                   </Grid>
                 </Grid>
                 {/* --- Watering frequencey, buttons */}
-                <Grid container direction="column">
+                <Grid container direction='column'>
                   <Grid item>
-                    <Typography variant="h5">Watering Frequency</Typography>
+                    <Typography variant='h5'>Watering Frequency</Typography>
                   </Grid>
                   <Grid item>
-                    <Grid container direction="row">
+                    <Grid container direction='row'>
                       <FormControl
-                        variant="outlined"
-                        className={classes.formControl}
-                      >
+                        variant='outlined'
+                        className={classes.formControl}>
                         <Grid item>
-                          <Grid container direction="row">
+                          <Grid container direction='row'>
                             <Grid item>
                               <Typography>Every </Typography>
                             </Grid>
                             <Grid item>
-                              <TextField variant="outlined" />
+                              <TextField variant='outlined' />
                             </Grid>
                             <Grid item>
                               <Typography>Day(s), in the</Typography>
@@ -137,9 +136,8 @@ export default function TransitionsModal(props) {
                                 inputProps={{
                                   // name: 'age',
                                   id: 'outlined-age-native-simple',
-                                }}
-                              >
-                                <option aria-label="None" value="" />
+                                }}>
+                                <option aria-label='None' value='' />
                                 <option value={10}>Morning</option>
                                 <option value={20}>Afternoon</option>
                                 <option value={30}>Evening</option>
@@ -152,26 +150,24 @@ export default function TransitionsModal(props) {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container direction="row">
+              <Grid container direction='row'>
                 <Grid item>
                   <Button
-                    variant="contained"
+                    variant='contained'
                     style={{
                       backgroundColor: theme.palette.common.lightPink,
                       color: 'white',
-                    }}
-                  >
+                    }}>
                     Cancel
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
-                    variant="contained"
+                    variant='contained'
                     style={{
                       backgroundColor: theme.palette.common.green,
                       color: 'white',
-                    }}
-                  >
+                    }}>
                     Submit
                   </Button>
                 </Grid>

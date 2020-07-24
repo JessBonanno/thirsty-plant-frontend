@@ -1,9 +1,7 @@
-/*THIS COMPONENT CAN BE DELETED ONCE WE MERGE THE TSX VERSION TO MASTER*/
-
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Toolbar, AppBar, IconButton, Hidden } from '@material-ui/core/';
+import { Toolbar, AppBar } from '@material-ui/core/';
 
 // local components
 import Drawer from './Drawer';
@@ -37,8 +35,13 @@ const useStyles = makeStyles(theme => ({
     margin: '0 auto',
   },
 }));
-
-export default function BottomAppBar({ handleLogout }) {
+/**
+ * Footer component displaying a drawer of nav link items on mobile screen sizes
+ *
+ * @export
+ * @returns {jsx}
+ */
+export default function BottomAppBar() {
   const classes = useStyles();
 
   return (
@@ -47,8 +50,7 @@ export default function BottomAppBar({ handleLogout }) {
 
       <AppBar position='fixed' color='primary' className={classes.appBar}>
         <Toolbar>
-          {/* todo: going to use menu icon below for mobile and hide the top appbar */}
-          <Drawer handleLogout={handleLogout} />
+          <Drawer />
         </Toolbar>
       </AppBar>
     </React.Fragment>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 import { Route, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';

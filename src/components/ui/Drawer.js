@@ -24,8 +24,12 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
   },
 }));
-
-const SwipeableTemporaryDrawer = ({ handleLogout }) => {
+/**
+ * Drawer component containing navigation links for footer
+ *
+ * @returns {jsx}
+ */
+const Drawer = () => {
   const history = useHistory();
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -55,9 +59,9 @@ const SwipeableTemporaryDrawer = ({ handleLogout }) => {
         <ListItem button component={Link} to='/dashboard'>
           <ListItemText primary={'Dashboard'} />
         </ListItem>
-          <ListItem button component={Link} to='/about'>
-            <ListItemText primary={'About Us'} />
-          </ListItem>
+        <ListItem button component={Link} to='/about'>
+          <ListItemText primary={'About Us'} />
+        </ListItem>
       </List>
       <Divider />
       <List>
@@ -67,7 +71,6 @@ const SwipeableTemporaryDrawer = ({ handleLogout }) => {
         <ListItem button component={Link} to='/signup'>
           <ListItemText primary={'Sign Up'} />
         </ListItem>
-
       </List>
     </div>
   );
@@ -94,4 +97,4 @@ const SwipeableTemporaryDrawer = ({ handleLogout }) => {
     </div>
   );
 };
-export default SwipeableTemporaryDrawer;
+export default Drawer;
