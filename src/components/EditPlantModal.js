@@ -12,6 +12,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import theme from '../components/ui/Theme';
 import Hidden from '@material-ui/core/Hidden';
 
+// api imports
+import { axiosWithAuth } from '../utils/axiosWithAuth';
+import useFetch from '../hooks/useFetch';
+
 const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
@@ -58,19 +62,30 @@ const inputProps = {
  * @returns {jsx}
  */
 export default function TransitionsModal(props) {
+  const { setEditModalOpen, editModalOpen } = props;
+  const classes = useStyles();
   const [plantData, setPlantData] = useState({
     nickname: '',
     species: '',
     wateringTime: '',
+  });
+  const [fetchParams, setFetchParams] = useState({
+    method: '',
+    url: '',
+    data: '',
+  });
+
+  const { response, isLoading } = useFetch({
+    api: axiosWithAuth().backendApi,
+    method: fetchParams.method,
+    url: fetchParams.url,
+    data: fetchParams.data,
   });
 
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
-
-  const { setEditModalOpen, editModalOpen } = props;
-  const classes = useStyles();
 
   const handleClose = () => {
     setEditModalOpen(false);
@@ -84,13 +99,12 @@ export default function TransitionsModal(props) {
     });
   };
 
-  console.log(editModalOpen);
 
   return (
     <div>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
         className={classes.modal}
         open={editModalOpen}
         onClose={handleClose}
@@ -98,74 +112,68 @@ export default function TransitionsModal(props) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}
-      >
+        }}>
         <Fade in={editModalOpen}>
           <div className={classes.paper}>
             <Grid
               container
-              direction="column"
-              alignItems={matchesSM && 'center'}
-            >
+              direction='column'
+              alignItems={matchesSM && 'center'}>
               {' '}
               {/* --- Main container */}
               <Grid item>
-                <Typography variant="h4" style={{ marginBottom: 20 }}>
+                <Typography variant='h4' style={{ marginBottom: 20 }}>
                   Edit a Plant
                 </Typography>
               </Grid>
               <Grid item>
                 {/* --- Form and upload image container */}
-                <Grid container direction="row">
+                <Grid container direction='row'>
                   <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
-                    <Grid container direction="column">
+                    <Grid container direction='column'>
                       <form>
                         <Grid item>
                           <TextField
                             className={classes.formField}
-                            variant="outlined"
-                            label="Plant name"
+                            variant='outlined'
+                            label='Plant name'
                           />
                         </Grid>
                         <Grid item>
                           <TextField
                             className={classes.formField}
-                            variant="outlined"
-                            label="Species name"
+                            variant='outlined'
+                            label='Species name'
                           />
                         </Grid>{' '}
                       </form>
 
                       <Grid item align={matchesSM && 'center'}>
                         <Typography
-                          variant="h5"
+                          variant='h5'
                           style={{
                             margin: matchesSM ? '20px auto 0' : '20px 0',
                             textAlign: matchesSM && 'center',
                             height: matchesSM && 30,
-                          }}
-                        >
+                          }}>
                           Watering Frequency
                         </Typography>
                       </Grid>
                       <Grid item>
                         <Grid
                           container
-                          direction="row"
-                          justify={matchesSM && 'center'}
-                        >
+                          direction='row'
+                          justify={matchesSM && 'center'}>
                           <FormControl
-                            variant="outlined"
-                            className={classes.formControl}
-                          >
+                            variant='outlined'
+                            className={classes.formControl}>
                             <Grid item>
                               <Grid
                                 container
-                                direction="row"
-                                alignItems="center"
-                              >
+                                direction='row'
+                                alignItems='center'>
                                 <Grid item>
-                                  <Typography variant="h6">Every </Typography>
+                                  <Typography variant='h6'>Every </Typography>
                                 </Grid>
                                 <Grid item>
                                   <TextField
@@ -178,11 +186,11 @@ export default function TransitionsModal(props) {
                                       // height: 20,
                                     }}
                                     inputProps={inputProps}
-                                    variant="outlined"
+                                    variant='outlined'
                                   />
                                 </Grid>
                                 <Grid item>
-                                  <Typography variant="h6">Day(s)</Typography>
+                                  <Typography variant='h6'>Day(s)</Typography>
                                 </Grid>
                               </Grid>
                             </Grid>
@@ -191,61 +199,56 @@ export default function TransitionsModal(props) {
                       </Grid>
                       <Grid
                         container
-                        direction="row"
+                        direction='row'
                         justify={matchesSM && 'space-between'}
-                        style={{ marginTop: '2em' }}
-                      >
+                        style={{ marginTop: '2em' }}>
                         <Grid item>
                           <Button
-                            variant="contained"
+                            variant='contained'
                             style={{
                               backgroundColor: theme.palette.common.lightPink,
                             }}
-                            className={classes.button}
-                          >
-                            <Typography variant="button">Cancel</Typography>
+                            className={classes.button}>
+                            <Typography variant='button'>Cancel</Typography>
                           </Button>
                         </Grid>
                         <Grid item>
                           <Button
-                            variant="contained"
+                            variant='contained'
                             style={{
                               backgroundColor: theme.palette.common.green,
                               marginLeft: matchesSM ? 0 : '1em',
                             }}
-                            className={classes.button}
-                          >
-                            <Typography variant="button">Submit</Typography>
+                            className={classes.button}>
+                            <Typography variant='button'>Submit</Typography>
                           </Button>
                         </Grid>
                       </Grid>
                       <Hidden mdUp>
                         <Grid
                           item
-                          className="uploadButton"
+                          className='uploadButton'
                           style={{
                             alignSelf: 'center',
                             marginTop: '2.5em',
-                          }}
-                        >
+                          }}>
                           <input
-                            accept="image/*"
+                            accept='image/*'
                             className={classes.input}
                             style={{ display: 'none' }}
-                            id="raised-button-file"
+                            id='raised-button-file'
                             multiple
-                            type="file"
+                            type='file'
                           />
-                          <label htmlFor="raised-button-file">
+                          <label htmlFor='raised-button-file'>
                             <Button
-                              variant="contained"
-                              component="span"
+                              variant='contained'
+                              component='span'
                               className={classes.button}
                               style={{
                                 backgroundColor: theme.palette.common.yellow,
-                              }}
-                            >
-                              <Typography variant="button">
+                              }}>
+                              <Typography variant='button'>
                                 Upload Image
                               </Typography>
                             </Button>
@@ -257,39 +260,37 @@ export default function TransitionsModal(props) {
                   <Grid item>
                     {/* <Typography variant="h5">Image</Typography> */}
                     <Hidden smDown>
-                      <Grid container direction="column" justify="flex-end">
+                      <Grid container direction='column' justify='flex-end'>
                         <Grid item>
                           <img
                             // src={require('../assets/images/plant-for-card.jpg')}
                             src={`https://res.cloudinary.com/watermyplants/image/upload/v1595611616/plant_card_image_a0wvvj.jpg`}
-                            alt=""
-                            width="300"
-                            height="350"
+                            alt=''
+                            width='300'
+                            height='350'
                           />
                         </Grid>
                         <Grid
                           item
-                          className="uploadButton"
-                          style={{ alignSelf: 'flex-end', marginTop: 2.5 }}
-                        >
+                          className='uploadButton'
+                          style={{ alignSelf: 'flex-end', marginTop: 2.5 }}>
                           <input
-                            accept="image/*"
+                            accept='image/*'
                             className={classes.input}
                             style={{ display: 'none' }}
-                            id="raised-button-file"
+                            id='raised-button-file'
                             multiple
-                            type="file"
+                            type='file'
                           />
-                          <label htmlFor="raised-button-file">
+                          <label htmlFor='raised-button-file'>
                             <Button
-                              variant="contained"
-                              component="span"
+                              variant='contained'
+                              component='span'
                               className={classes.button}
                               style={{
                                 backgroundColor: theme.palette.common.yellow,
-                              }}
-                            >
-                              <Typography variant="button">
+                              }}>
+                              <Typography variant='button'>
                                 Upload Image
                               </Typography>
                             </Button>

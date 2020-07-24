@@ -12,7 +12,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useFetch from '../hooks/useFetch';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 /**
@@ -36,12 +36,11 @@ export default function AlertDialogSlide({
   });
 
   const { response, isLoading } = useFetch({
-    api: axiosWithAuth(),
+    api: axiosWithAuth().backendApi,
     method: fetchParams.method,
     url: fetchParams.url,
     data: fetchParams.data,
   });
-  console.log(response);
 
   const handleClose = () => {
     setDialogOpen(false);
@@ -64,20 +63,19 @@ export default function AlertDialogSlide({
       TransitionComponent={Transition}
       keepMounted
       onClose={handleClose}
-      aria-labelledby="delete-plant-dialog"
-      aria-describedby="delete-plant-dialog"
-    >
-      <DialogTitle id="dialog-title">{"Don't kale my vibe!"}</DialogTitle>
+      aria-labelledby='delete-plant-dialog'
+      aria-describedby='delete-plant-dialog'>
+      <DialogTitle id='dialog-title'>{"Don't kale my vibe!"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="dialog-description">
+        <DialogContentText id='dialog-description'>
           Are you sure you want to delete this plant?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleClose} color='primary'>
           Cancel
         </Button>
-        <Button onClick={handleDeletePlant} color="primary">
+        <Button onClick={handleDeletePlant} color='primary'>
           Delete
         </Button>
       </DialogActions>
