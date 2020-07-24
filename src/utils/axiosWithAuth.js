@@ -14,9 +14,20 @@ export const axiosWithAuth = () => {
     headers: {
       authorization: token,
     },
+
     // temporary fake url until we get the real one from backend
     baseURL: 'http://localhost:5000',
   });
+  const cloudinaryApi = axios.create({
+    timeout: 10000,
+    headers: {
+      authorization: token,
+    },
 
-  return localApi;
+    // temporary fake url until we get the real one from backend
+    baseURL: process.env.REACT_APP-CLOUDINARY-URL,
+  });
+
+
+  return {localApi, cloudinaryApi};
 };
