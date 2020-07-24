@@ -3,6 +3,7 @@ import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 import { Route, Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 import { flexbox } from '@material-ui/system';
 import './App.css';
 
@@ -18,7 +19,9 @@ import Footer from './components/ui/Footer';
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AppBar style={{ margin: 0 }} />
+      <Hidden smDown>
+        <AppBar style={{ margin: 0 }} />
+      </Hidden>
       <flexbox flexDirection='column'>
         <div className='App'>
           <Link to='/'>
@@ -50,6 +53,9 @@ function App() {
           </Route>
         </div>
       </flexbox>
+      <Hidden mdUp>
+        <Footer />
+      </Hidden>
     </ThemeProvider>
   );
 }

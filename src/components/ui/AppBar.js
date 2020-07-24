@@ -48,7 +48,7 @@ export default function DenseAppBar() {
                   <Button component={Link} to='/login'  color='inherit'>Login</Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/signup'  color='inherit'>Sign-Up</Button>
+                  <Button component={Link} to='/signup'  color='inherit'>Sign Up</Button>
                 </Grid>
               </Grid>
             </Grid>
