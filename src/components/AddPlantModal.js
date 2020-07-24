@@ -7,12 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import theme from '../components/ui/Theme';
-
-const placeholderImage = require('../assets/images/plant-for-card.jpg');
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -22,11 +18,11 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: '50px',
     width: 654,
     height: 500,
+    outline: 'none',
   },
   formField: {
     margin: '1em 0',
@@ -50,15 +46,15 @@ export default function TransitionsModal(props) {
     wateringTime: '',
   });
 
-  const { setEditModalOpen, editModalOpen } = props;
+  const { setAddModalOpen, addModalOpen } = props;
   const classes = useStyles();
 
   const handleOpen = () => {
-    setEditModalOpen(true);
+    setAddModalOpen(true);
   };
 
   const handleClose = () => {
-    setEditModalOpen(false);
+    setAddModalOpen(false);
   };
 
   const handleChange = e => {
@@ -69,7 +65,7 @@ export default function TransitionsModal(props) {
     });
   };
 
-  console.log(editModalOpen);
+  console.log(addModalOpen);
 
   return (
     <div>
@@ -77,7 +73,7 @@ export default function TransitionsModal(props) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={editModalOpen}
+        open={addModalOpen}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -85,7 +81,7 @@ export default function TransitionsModal(props) {
           timeout: 500,
         }}
       >
-        <Fade in={editModalOpen}>
+        <Fade in={addModalOpen}>
           <div className={classes.paper}>
             <Grid container direction="column">
               {' '}
