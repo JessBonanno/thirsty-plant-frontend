@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -8,8 +8,12 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 
 import theme from '../ui/Theme';
 import PlantCard from '../PlantCard';
+import AddPlantModal from '../AddPlantModal';
 
 const useStyles = makeStyles(theme => ({
+  modal: {
+    border: 'none',
+  },
   search: {
     position: 'relative',
     marginRight: '2em',
@@ -61,52 +65,66 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
+  const handleAddModalOpen = () => {
+    console.log('open modal');
+    setAddModalOpen(true);
+  };
 
   return (
-    <Grid container direction="column">
-      {/* ----- Page Header ---- */}
-      <Grid item style={{ margin: '1em', maxWidth: '90%' }}>
-        <Typography variant="h2">My Plants</Typography>
-      </Grid>
-      {/* ---- Plant Bar ----- */}
-      <Grid
-        item
-        container
-        direction="row"
-        justify="space-between"
-        style={{ margin: '1em', maxWidth: '90%' }}
-      >
-        <Grid item>
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ color: 'white' }}
-          >
-            Add New Plant
-          </Button>
+    <>
+      <AddPlantModal
+        addModalOpen={addModalOpen}
+        setAddModalOpen={setAddModalOpen}
+        className={classes.modal}
+      />
+      <Grid container direction="column">
+        {/* ----- Page Header ---- */}
+        <Grid item style={{ margin: '1em', maxWidth: '90%' }}>
+          <Typography variant="h2">My Plants</Typography>
         </Grid>
-        <Grid item>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+        {/* ---- Plant Bar ----- */}
+        <Grid
+          item
+          container
+          direction="row"
+          justify="space-between"
+          style={{ margin: '1em', maxWidth: '90%' }}
+        >
+          <Grid item>
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ color: 'white' }}
+              onClick={handleAddModalOpen}
+            >
+              Add New Plant
+            </Button>
+          </Grid>
+          <Grid item>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+          </Grid>
+        </Grid>
+        <Grid item container direction="row">
+          {array.map(item => (
+            <PlantCard />
+          ))}
         </Grid>
       </Grid>
-      <Grid item container direction="row">
-        {array.map(item => (
-          <PlantCard />
-        ))}
-      </Grid>
-    </Grid>
+    </>
   );
 };
 
