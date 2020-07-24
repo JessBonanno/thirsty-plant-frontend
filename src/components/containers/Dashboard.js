@@ -6,7 +6,6 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
 
-import theme from '../ui/Theme';
 import PlantCard from '../PlantCard';
 
 const useStyles = makeStyles(theme => ({
@@ -54,34 +53,36 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const array = [1, 2, 3, 4, 5, 6];
-
+/**
+ * Dashboard component displays users plants and allows editing, deleting, searching and adding plants
+ *
+ * @returns {jsx}
+ */
 const Dashboard = () => {
-  // this insures page always renders at the top
+  // this ensures page always renders at the top
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
 
   return (
-    <Grid container direction="column">
+    <Grid container direction='column'>
       {/* ----- Page Header ---- */}
       <Grid item style={{ margin: '1em', maxWidth: '90%' }}>
-        <Typography variant="h2">My Plants</Typography>
+        <Typography variant='h2'>My Plants</Typography>
       </Grid>
       {/* ---- Plant Bar ----- */}
       <Grid
         item
         container
-        direction="row"
-        justify="space-between"
-        style={{ margin: '1em', maxWidth: '90%' }}
-      >
+        direction='row'
+        justify='space-between'
+        style={{ margin: '1em', maxWidth: '90%' }}>
         <Grid item>
           <Button
-            variant="contained"
-            color="secondary"
-            style={{ color: 'white' }}
-          >
+            variant='contained'
+            color='secondary'
+            style={{ color: 'white' }}>
             Add New Plant
           </Button>
         </Grid>
@@ -91,7 +92,7 @@ const Dashboard = () => {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder='Search…'
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -101,7 +102,7 @@ const Dashboard = () => {
           </div>
         </Grid>
       </Grid>
-      <Grid item container direction="row">
+      <Grid item container direction='row'>
         {array.map(item => (
           <PlantCard />
         ))}
