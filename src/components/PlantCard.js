@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
+import theme from '../components/ui/Theme';
+
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
@@ -16,8 +18,9 @@ import EditPlantModal from '../components/EditPlantModal';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    minWidth: 245,
+    minHeight: 275,
     margin: '1em',
-    minWidth: 250,
   },
   media: {
     height: 140,
@@ -28,13 +31,7 @@ const PlantCard = props => {
   const { id } = props;
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState();
-// eslint-disable-next-line
-  const [addModalOpen, setAddModalOpen] = React.useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
-// eslint-disable-next-line
-  const handleAddModalOpen = () => {
-    setAddModalOpen(true);
-  };
 
   const handleEditModalOpen = () => {
     setEditModalOpen(true);
@@ -65,7 +62,15 @@ const PlantCard = props => {
               style={{ padding: '0 1em' }}
             >
               <Grid item>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography
+                  gutterBottom
+                  variant="plantCardHeader"
+                  component="h2"
+                  style={{
+                    fontFamily: 'Mulish',
+                    color: theme.palette.common.pink,
+                  }}
+                >
                   Plant Name
                 </Typography>
               </Grid>
@@ -82,26 +87,23 @@ const PlantCard = props => {
               className={classes.media}
               image={require('../assets/images/plant-for-card.jpg')}
               title="Contemplative Reptile"
-              style={{ marginBottom: '1em' }}
+              style={{ marginBottom: '1em', height: 167 }}
             />
             <Grid item container style={{ padding: '0 1em' }}>
               <Grid item container style={{ width: '75%' }} direction="column">
                 <Grid item>
                   <Typography
-                    variant="body2"
+                    variant="h6"
                     color="textSecondary"
-                    component="p"
+                    component="h6"
+                    style={{ marginBottom: '1em' }}
                   >
-                    Species Name Goes Here
+                    Species Name
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Next Watering Time
+                  <Typography variant="h6" color="textSecondary" component="h6">
+                    Next watering: Today
                   </Typography>
                 </Grid>
               </Grid>
