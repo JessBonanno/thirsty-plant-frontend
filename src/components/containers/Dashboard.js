@@ -138,6 +138,7 @@ const Dashboard = () => {
         </Grid>
         <Grid item container direction="row" justify="center">
           {array.map(item => (
+            // 12 is full width, 6 half width, etc...
             <Grid item xs={12} sm={6} md={4} lg={3} align="center">
               <PlantCard />
             </Grid>
