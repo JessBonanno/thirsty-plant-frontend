@@ -128,15 +128,20 @@ export default function TransitionsModal(props) {
               {' '}
               {/* --- Main container */}
               <Grid item>
-                <Typography variant="h4" style={{ marginBottom: 20 }}>
-                  Add a Plant
-                </Typography>
-              </Grid>
-              <Grid item>
                 {/* --- Form and upload image container */}
-                <Grid container direction="row">
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-around"
+                  alignItems="center"
+                >
                   <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
                     <Grid container direction="column">
+                      <Grid item align={matchesSM && 'center'}>
+                        <Typography variant="h4" style={{ marginBottom: 20 }}>
+                          Add a Plant
+                        </Typography>
+                      </Grid>
                       <form>
                         <Grid item>
                           <TextField
@@ -273,10 +278,10 @@ export default function TransitionsModal(props) {
                       </Hidden>
                     </Grid>
                   </Grid>
-                  <Grid item>
+                  <Grid item align="center">
                     {/* <Typography variant="h5">Image</Typography> */}
                     <Hidden smDown>
-                      <Grid container direction="column">
+                      <Grid item container direction="column">
                         <Grid item align="center">
                           {/* <img
                             // src={require('../assets/images/plant-for-card.jpg')}
