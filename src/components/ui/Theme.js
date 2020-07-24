@@ -79,7 +79,7 @@ export default createMuiTheme({
     plantCardHeader: {
       fontFamily: 'Mulish',
       color: pink,
-      fontSize: 16,
+      fontSize: '1.6rem',
     },
     p: {},
     subtitle1: {},
@@ -88,7 +88,7 @@ export default createMuiTheme({
     body2: {},
     button: {
       color: 'white',
-      fontSize: '1.2em',
+      fontSize: '1.2rem',
       fontFamily: ralewayFont,
       textTransform: 'capitalize',
     },
