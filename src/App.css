@@ -3,3 +3,12 @@ body {
   margin: 0;
   height: 100vh;
 }
+.without-padding input {
+  padding: 5px;
+  height: 30px;
+  text-align: center;
+}
+
+.no-border-radius button {
+  border-radius: 0;
+}

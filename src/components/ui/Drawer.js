@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import { IconButton } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
  *
  * @returns {jsx}
  */
-const Drawer = () => {
+const FooterDrawer = () => {
   const history = useHistory();
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -49,26 +49,27 @@ const Drawer = () => {
   const list = (
     <div
       className={classes.drawerItems}
-      role='presentation'
+      role="presentation"
       onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}>
+      onKeyDown={toggleDrawer(false)}
+    >
       <List>
-        <ListItem button component={Link} to='/'>
+        <ListItem button component={Link} to="/">
           <ListItemText primary={'Home'} />
         </ListItem>
-        <ListItem button component={Link} to='/dashboard'>
+        <ListItem button component={Link} to="/dashboard">
           <ListItemText primary={'Dashboard'} />
         </ListItem>
-        <ListItem button component={Link} to='/about'>
+        <ListItem button component={Link} to="/about">
           <ListItemText primary={'About Us'} />
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem button component={Link} to='/login'>
+        <ListItem button component={Link} to="/login">
           <ListItemText primary={'Login'} />
         </ListItem>
-        <ListItem button component={Link} to='/signup'>
+        <ListItem button component={Link} to="/signup">
           <ListItemText primary={'Sign Up'} />
         </ListItem>
       </List>
@@ -79,22 +80,24 @@ const Drawer = () => {
     <div>
       <>
         <IconButton
-          edge='start'
-          color='inherit'
+          edge="start"
+          color="inherit"
           style={{ color: 'white' }}
-          aria-label='open drawer'
-          onClick={toggleDrawer(true)}>
+          aria-label="open drawer"
+          onClick={toggleDrawer(true)}
+        >
           <MenuIcon style={{ fontSize: '1.5em' }} />
         </IconButton>
-        <SwipeableDrawer
+        <Drawer
           classes={{ paper: classes.drawer }}
           open={drawerOpen}
           onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}>
+          onOpen={toggleDrawer(true)}
+        >
           {list}
-        </SwipeableDrawer>
+        </Drawer>
       </>
     </div>
   );
 };
-export default Drawer;
+export default FooterDrawer;

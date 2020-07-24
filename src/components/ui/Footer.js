@@ -48,7 +48,7 @@ export default function BottomAppBar() {
     <React.Fragment>
       <CssBaseline />
 
-      <AppBar position='fixed' color='primary' className={classes.appBar}>
+      <AppBar position="fixed" color="primary" className={classes.appBar}>
         <Toolbar>
           <Drawer />
         </Toolbar>
