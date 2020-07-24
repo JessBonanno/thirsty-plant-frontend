@@ -25,7 +25,7 @@ export const axiosWithAuth = () => {
     },
 
     // temporary fake url until we get the real one from backend
-    baseURL: process.env.REACT_APP-CLOUDINARY-URL,
+    baseURL: process.env.REACT_APP_CLOUDINARY_URL,
   });
 
 
