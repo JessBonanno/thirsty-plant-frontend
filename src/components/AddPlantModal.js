@@ -253,7 +253,7 @@ export default function TransitionsModal(props) {
                             id="raised-button-file"
                             multiple
                             type="file"
-                            onChange={e => handleUpload(e)}
+                            onChange={handleUpload}
                           />
                           <label htmlFor="raised-button-file">
                             <Button
@@ -276,9 +276,9 @@ export default function TransitionsModal(props) {
                   <Grid item>
                     {/* <Typography variant="h5">Image</Typography> */}
                     <Hidden smDown>
-                      <Grid container direction="column" justify="flex-end">
-                        <Grid item>
-                          <img
+                      <Grid container direction="column">
+                        <Grid item align="center">
+                          {/* <img
                             // src={require('../assets/images/plant-for-card.jpg')}
                             src={
                               imageUrl === ''
@@ -289,12 +289,25 @@ export default function TransitionsModal(props) {
                             alt=""
                             // width="300"
                             // height="350"
-                          />
+                          /> */}
+                          <div
+                            style={{
+                              backgroundImage: `url(${imageUrl})`,
+                              backgroundSize: 'cover',
+                              height: 200,
+                              // width: 150,
+                              margin: 'auto',
+                            }}
+                          ></div>
                         </Grid>
                         <Grid
                           item
+                          align="center"
                           className="uploadButton"
-                          style={{ alignSelf: 'flex-end', marginTop: 2.5 }}
+                          style={{
+                            alignSelf: 'flex-end',
+                            marginTop: 2.5,
+                          }}
                         >
                           <input
                             accept="image/*"
@@ -303,7 +316,7 @@ export default function TransitionsModal(props) {
                             id="raised-button-file"
                             multiple
                             type="file"
-                            onChange={e => handleUpload(e)}
+                            onChange={handleUpload}
                           />
                           <label htmlFor="raised-button-file">
                             <Button
