@@ -7,12 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import theme from '../components/ui/Theme';
-
-const placeholderImage = require('../assets/images/plant-for-card.jpg');
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -22,11 +18,11 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: '50px',
     width: 654,
     height: 500,
+    outline: 'none',
   },
   formField: {
     margin: '1em 0',
