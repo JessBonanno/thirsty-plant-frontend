@@ -58,7 +58,11 @@ export default createMuiTheme({
   },
   typography: {
     h1: {},
-    h2: {},
+    h2: {
+      fontFamily: 'Mulish',
+      color: green,
+      fontWeight: 'bold',
+    },
     h3: {},
     h4: {
       fontFamily: ralewayFont,
@@ -71,6 +75,11 @@ export default createMuiTheme({
     h6: {
       fontFamily: ralewayFont,
       color: green,
+    },
+    plantCardHeader: {
+      fontFamily: 'Mulish',
+      color: pink,
+      fontSize: 16,
     },
     p: {},
     subtitle1: {},
