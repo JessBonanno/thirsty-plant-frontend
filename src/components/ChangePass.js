@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input.js";
 import * as Yup from "yup";
+import { makeStyles } from "@material-ui/core/styles";
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
 	const [formState, setFormState] = useState(defaultState);
+	// eslint-disable-next-line
 	const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
 		current: "",
@@ -52,7 +54,7 @@ function ChangePass() {
 			...formState,
 			[e.target.name]: value,
 		});
-		
+
 		axios
 			.post("https://reqres.in/api/users", formState)
 			.then((res) => {
@@ -63,15 +65,24 @@ function ChangePass() {
 	};
 
 	const changeHandler = (event) => {
-        setFormState(event.target.value);
-        validateChange(event);
+		setFormState(event.target.value);
+		validateChange(event);
 	};
+    const useStyles = makeStyles((theme) => ({
+        form: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+        },
+    }));
+    const classes = useStyles();
 	return (
-		<div className="App">
+		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
 				<label>
-					Current Password:
 					<Input
+						placeholder="Current Password"
 						type="text"
 						onChange={changeHandler}
 						name="current"
@@ -80,8 +91,8 @@ function ChangePass() {
 					/>
 				</label>
 				<label>
-					New Password:
 					<Input
+						placeholder="New Password"
 						type="text"
 						onChange={changeHandler}
 						name="new"
@@ -90,8 +101,8 @@ function ChangePass() {
 					/>
 				</label>
 				<label>
-					Confirm Password:
 					<Input
+						placeholder="Confirm Password"
 						type="text"
 						onChange={changeHandler}
 						name="confirm"
@@ -100,8 +111,8 @@ function ChangePass() {
 					/>
 				</label>
 				<label>
-					Phone Number:
 					<Input
+						placeholder="Phone Number"
 						type="text"
 						onChange={changeHandler}
 						name="phone"
@@ -116,7 +127,7 @@ function ChangePass() {
 					<button>Submit</button>
 				</Link>
 			</form>
-			<pre>{JSON.stringify(post, null, 2)}</pre>
+			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>
 	);
 }

@@ -34,7 +34,7 @@ export default function AlertDialogSlide({
     url: '',
     data: '',
   });
-
+// eslint-disable-next-line
   const { response, isLoading } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,

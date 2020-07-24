@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
+// eslint-disable-next-line
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import theme from '../components/ui/Theme';
@@ -31,7 +32,7 @@ export default function TransitionsModal(props) {
 
   const { setEditModalOpen, editModalOpen } = props;
   const classes = useStyles();
-
+// eslint-disable-next-line
   const handleOpen = () => {
     setEditModalOpen(true);
   };

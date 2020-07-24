@@ -3,21 +3,28 @@ import { Link } from "react-router-dom";
 import Input from "./Input.js";
 import axios from "axios";
 import * as Yup from "yup";
+// eslint-disable-next-line
 import theme from "../components/ui/Theme";
+// eslint-disable-next-line
 import Typography from "@material-ui/core/Typography";
+// eslint-disable-next-line
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+// eslint-disable-next-line
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import signUp from "./signUp.jpeg"
 
 function Login() {
 	const defaultState = { username: "", password: "" };
 	const [formState, setFormState] = useState(defaultState);
+	// eslint-disable-next-line
 	const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
 		username: "",
 		password: "",
 	});
-	console.log(errors);
+
 	const formSchema = Yup.object().shape({
 		username: Yup.string()
 			.min(2, "must include more then 2 characters")
@@ -50,6 +57,7 @@ function Login() {
 			...formState,
 			[e.target.name]: value,
 		});
+
 		axios
 			.post("https://reqres.in/api/users", formState)
 			.then((res) => {
@@ -58,7 +66,6 @@ function Login() {
 			})
 			.catch((err) => console.log(err.response));
 	};
-
 	const changeHandler = (event) => {
 		setFormState(event.target.value);
 		validateChange(event);
@@ -68,25 +75,22 @@ function Login() {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-		},
-		login: {
-			backgroundColor: theme.palette.background.paper,
-			border: "2px solid #000",
-			boxShadow: theme.shadows[5],
-			padding: theme.spacing(2, 4, 3),
+            height: "100vh",
+            backgroundImage: {signUp},
+            position: "fixed",
+            minWidth: "100%",
+            minHeight: "100%",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
 		},
 	}));
 	const classes = useStyles();
-
 	return (
-		<div>
-			<Typography variant="h4">Login</Typography>
-
+		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
 				<label>
-					<Typography variant="h6">username</Typography>
 					<Input
-						className={classes.login}
+						placeholder="Username"
 						type="text"
 						onChange={changeHandler}
 						name="username"
@@ -95,8 +99,8 @@ function Login() {
 					/>
 				</label>
 				<label>
-					Password:
 					<Input
+						placeholder="Password"
 						type="text"
 						onChange={changeHandler}
 						name="password"
@@ -107,12 +111,17 @@ function Login() {
 				<Link to="/">
 					<p>Having trouble logging in?</p>
 				</Link>
-
-				<Link to="/">
-					<button>Sign In</button>
-				</Link>
+				
+					<Button
+						variant="contained"
+						color="secondary"
+						style={{ color: "white" }}
+					>
+						Login
+					</Button>
+				
 			</form>
-			<pre>{JSON.stringify(post, null, 2)}</pre>
+			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>
 	);
 }

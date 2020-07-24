@@ -1,24 +1,26 @@
 import React, { useState } from "react";
-import axios from 'axios'
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Input from "./Input.js";
 import * as Yup from "yup";
+import { makeStyles } from "@material-ui/core/styles";
 
 function AddPlant() {
 	const defaultState = {
 		plantName: "",
 		species: "",
-        every: "",
-        days: "",
+		every: "",
+		days: "",
 		specialInstructions: "",
 	};
-    const [formState, setFormState] = useState(defaultState);
-    const [post, setPost] = useState([]);
+	const [formState, setFormState] = useState(defaultState);
+	// eslint-disable-next-line
+	const [post, setPost] = useState([]);
 	const [errors, setErrors] = useState({
-        plantName: "",
-        species: "",
-        every: "",
-        days: "",
+		plantName: "",
+		species: "",
+		every: "",
+		days: "",
 	});
 
 	const formSchema = Yup.object().shape({
@@ -59,98 +61,119 @@ function AddPlant() {
 			...formState,
 			[e.target.name]: value,
 		});
-        
-        axios
-            .post("https://reqres.in/api/users", formState)
-            .then(res => {
-                setPost(res.data);
-                console.log("success", res);
-            })
-            .catch(err => console.log(err.response));
+
+		axios
+			.post("https://reqres.in/api/users", formState)
+			.then((res) => {
+				setPost(res.data);
+				console.log("success", res);
+			})
+			.catch((err) => console.log(err.response));
 	};
 
 	const changeHandler = (event) => {
-        setFormState(event.target.value);
-        validateChange(event);
+		setFormState(event.target.value);
+		validateChange(event);
 	};
+	const useStyles = makeStyles((theme) => ({
+		form: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			height: "100vh",
+		},
+		select: {
+			width: "100 %",
+			padding: "10px",
+            borderRadius: "10px",
+            margin: "10px 0px 0px 20px",
+        },
+        buttons: {
+            
+        }
+	}));
+	const classes = useStyles();
 	return (
-		<div className="App">
+		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
 				<label>
-					PlantName:
 					<Input
+						placeholder="Plant Name"
 						type="text"
 						onChange={changeHandler}
 						name="plantName"
-                        value={formState.plantName}
-                        errors={errors}
+						value={formState.plantName}
+						errors={errors}
 					/>
 				</label>
 				<label>
-					Species:
 					<Input
+						placeholder="Species"
 						type="text"
-                        onChange={changeHandler}
-                        name="plantName"
-                        value={formState.species}
-                        errors={errors}
+						onChange={changeHandler}
+						name="plantName"
+						value={formState.species}
+						errors={errors}
 					/>
 				</label>
-                Watering Frequency:
+				Watering Frequency:
+				<br />
+				<br />
 				<label>
-					Every:
 					<select
+						className={classes.select}
 						id="everyInput"
 						name="every"
 						value={formState.every}
 						onChange={changeHandler}
-						errors={errors}		
+						errors={errors}
 					>
-						<option value="Select Freq">Select Freq</option>
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
+						<option value="1">every day</option>
+                        <option value="2">every 2 days</option>
+                        <option value="3">every 3 days</option>
+                        <option value="4">every 4 days</option>
+                        <option value="5">every 5 days</option>
+                        <option value="6">every 6 days</option>
+                        <option value="7">every 7 days</option>
 					</select>
 				</label>
-                <label>
-                    Day(s):
-                    <select
-                        id="daysInput"
-                        name="days"
-                        value={formState.days}
-                        onChange={changeHandler}
-                        errors={errors}
-                    >
-                        <option value="Times Per Day">Select times per day</option>
-                        <option value="Small">Once</option>
-                        <option value="Medium">Twice</option>
-                        <option value="Large">Thrice</option>
-                    </select>
-                </label>
+				<label>
+					<select
+						className={classes.select}
+						id="daysInput"
+						name="days"
+						value={formState.days}
+						onChange={changeHandler}
+						errors={errors}
+					>
+						<option value="Times Per Day">Select times per day</option>
+						<option value="Small">Once</option>
+						<option value="Medium">Twice</option>
+						<option value="Large">Thrice</option>
+					</select>
+				</label>
+				<br />
+				<br />
 				<label className="input">
-					Special Instructions
 					<Input
 						name="specialInstructions"
-						type="text"
+						type="textarea"
 						placeholder="Special Instructions"
 						onChange={changeHandler}
-                        value={formState.specialInstructions}
-                        errors = {errors}
+						value={formState.specialInstructions}
+						errors={errors}
 					/>
 				</label>
+                <div className="buttons">
 				<Link to="/">
 					<button>Cancel</button>
 				</Link>
 				<Link to="/">
 					<button>Submit</button>
 				</Link>
+                </div>
 			</form>
-            <pre>{JSON.stringify(post, null, 2)}</pre>
+			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>
 	);
 }

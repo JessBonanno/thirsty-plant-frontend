@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
-
+// eslint-disable-next-line
 import theme from '../ui/Theme';
 import PlantCard from '../PlantCard';
 

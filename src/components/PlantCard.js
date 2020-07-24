@@ -28,10 +28,10 @@ const PlantCard = props => {
   const { id } = props;
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState();
-
+// eslint-disable-next-line
   const [addModalOpen, setAddModalOpen] = React.useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
-
+// eslint-disable-next-line
   const handleAddModalOpen = () => {
     setAddModalOpen(true);
   };

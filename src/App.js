@@ -1,4 +1,5 @@
 import React from "react";
+// eslint-disable-next-line
 import { ThemeProvider, makeStyles } from "@material-ui/core/styles";
 import theme from "./components/ui/Theme";
 import { Route, Link } from "react-router-dom";
@@ -18,7 +19,7 @@ function App() {
 
 
 
-  
+
 	return (
 		<ThemeProvider theme={theme}>
 

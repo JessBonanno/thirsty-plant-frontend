@@ -9,9 +9,11 @@ import { createMuiTheme } from '@material-ui/core/styles';
  */
 
 // * fonts
-
+// eslint-disable-next-line
 const mulishFont = 'Mulish sans-serif';
+// eslint-disable-next-line
 const ralewayFont = 'Raleway, sans-serif';
+// eslint-disable-next-line
 const robotoFont = 'Roboto, sans-serif';
 
 // * colors
