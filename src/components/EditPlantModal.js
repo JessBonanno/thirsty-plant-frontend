@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -65,6 +66,7 @@ export default function TransitionsModal(props) {
     species: '',
     wateringTime: '',
   });
+  const [imageUrl, setImageUrl] = useState('');
 
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
@@ -78,8 +80,32 @@ export default function TransitionsModal(props) {
     setEditModalOpen(true);
   };
 
+  const handleOpen = () => {
+    setEditModalOpen(true);
+  };
+
   const handleClose = () => {
     setEditModalOpen(false);
+  };
+
+  let image;
+  const handleUpload = async e => {
+    image = e.target.files[0];
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', 'wpnbbzl6');
+    data.append('api_key', '925249979199193');
+    console.log({ data });
+    console.log(image);
+
+    const res = await axios.post(
+      `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
+      data
+    );
+
+    const file = await res;
+    console.log(file);
+    setImageUrl(res.data.url);
   };
 
   const handleChange = e => {
@@ -116,15 +142,20 @@ export default function TransitionsModal(props) {
               {' '}
               {/* --- Main container */}
               <Grid item>
-                <Typography variant="h4" style={{ marginBottom: 20 }}>
-                  Edit a Plant
-                </Typography>
-              </Grid>
-              <Grid item>
                 {/* --- Form and upload image container */}
-                <Grid container direction="row">
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-around"
+                  alignItems="center"
+                >
                   <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
                     <Grid container direction="column">
+                      <Grid item align={matchesSM && 'center'}>
+                        <Typography variant="h4" style={{ marginBottom: 20 }}>
+                          Edit Plant
+                        </Typography>
+                      </Grid>
                       <form>
                         <Grid item>
                           <TextField
@@ -241,6 +272,7 @@ export default function TransitionsModal(props) {
                             id="raised-button-file"
                             multiple
                             type="file"
+                            onChange={handleUpload}
                           />
                           <label htmlFor="raised-button-file">
                             <Button
@@ -260,23 +292,29 @@ export default function TransitionsModal(props) {
                       </Hidden>
                     </Grid>
                   </Grid>
-                  <Grid item>
+                  <Grid item align="center">
                     {/* <Typography variant="h5">Image</Typography> */}
                     <Hidden smDown>
-                      <Grid container direction="column" justify="flex-end">
-                        <Grid item>
-                          <img
-                            // src={require('../assets/images/plant-for-card.jpg')}
-                            src={`https://res.cloudinary.com/watermyplants/image/upload/v1595611616/plant_card_image_a0wvvj.jpg`}
-                            alt=""
-                            width="300"
-                            height="350"
-                          />
+                      <Grid item container direction="column">
+                        <Grid item align="center">
+                          <div
+                            style={{
+                              backgroundImage: `url(${imageUrl})`,
+                              backgroundSize: 'cover',
+                              height: 200,
+                              // width: 150,
+                              margin: 'auto',
+                            }}
+                          ></div>
                         </Grid>
                         <Grid
                           item
+                          align="center"
                           className="uploadButton"
-                          style={{ alignSelf: 'flex-end', marginTop: 2.5 }}
+                          style={{
+                            alignSelf: 'flex-end',
+                            marginTop: 2.5,
+                          }}
                         >
                           <input
                             accept="image/*"
@@ -285,6 +323,7 @@ export default function TransitionsModal(props) {
                             id="raised-button-file"
                             multiple
                             type="file"
+                            onChange={handleUpload}
                           />
                           <label htmlFor="raised-button-file">
                             <Button
