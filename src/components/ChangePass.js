@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Paper from '@material-ui/core/Paper';
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
@@ -17,20 +19,19 @@ function ChangePass() {
 		new: "",
 		confirm: "",
 		phoneNumber: "",
-	});
+    });
+    const phoneRegex = RegExp(
+        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+    );
 	const formSchema = Yup.object().shape({
-		current: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		new: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		confirm: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		phone: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
+        password: Yup.string()
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+            ),
+        new: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+		confirm: Yup.string().oneOf([Yup.ref("new"), null], "Passwords must match"),
+        phone: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required")
 	});
 	const validateChange = (e) => {
 		e.persist();
@@ -90,12 +91,27 @@ function ChangePass() {
 			justifyContent: "center",
 			justifyItems: "space-between",
 			marginLeft: "25px",
-		},
+        },
+        paper: {
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[5],
+            padding: '70px',
+            width: 654,
+            height: 500,
+            outline: 'none',
+            [theme.breakpoints.down('sm')]: {
+                height: 550,
+                width: 400,
+                padding: 20,
+            },
+        },
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.form}>
+            <Paper>
 			<form onSubmit={formSubmit}>
+				<Typography variant="h2">Change Your Password</Typography>
 				<label>
 					<Input
 						placeholder="Current Password"
@@ -140,7 +156,7 @@ function ChangePass() {
 					<Button
 						variant="contained"
 						color="secondary"
-                        style={{ color: "white", margin: "20px", }}
+						style={{ color: "white", margin: "20px" }}
 						onClick={formSubmit}
 					>
 						Submit
@@ -156,6 +172,7 @@ function ChangePass() {
 				</div>
 			</form>
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
+            </Paper>
 		</div>
 	);
 }

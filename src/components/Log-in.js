@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import signUp from "./signUp.jpeg";
+import Paper from '@material-ui/core/Paper';
 
 function Login() {
 	const defaultState = { username: "", password: "" };
@@ -26,12 +27,14 @@ function Login() {
 	});
 
 	const formSchema = Yup.object().shape({
-		username: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		password: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
+        username: Yup.string()
+            .min(5, "must include more then 5 characters")
+            .required("must include at least 5 characters"),
+        password: Yup.string()
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+            ),
 	});
 	const validateChange = (e) => {
 		e.persist();
@@ -90,12 +93,28 @@ function Login() {
 			justifyContent: "center",
 			justifyItems: "space-between",
 			marginLeft: "35px",
-		},
+        },
+        paper: {
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[5],
+            padding: '70px',
+            width: 654,
+            height: 500,
+            outline: 'none',
+            [theme.breakpoints.down('sm')]: {
+                height: 550,
+                width: 400,
+                padding: 20,
+            },
+        },
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.form}>
-			<form onSubmit={formSubmit}>
+            <Paper>
+            <form onSubmit={formSubmit}>
+                
+                <Typography variant="h2">Log In</Typography>
 				<label>
 					<Input
 						placeholder="Username"
@@ -125,7 +144,9 @@ function Login() {
 						Login
 					</Button>
 				</div>
+
 			</form>
+            </Paper>
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
 		</div>
 	);

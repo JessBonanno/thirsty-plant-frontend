@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
+import Typography from '@material-ui/core/Typography';
 
 function AddPlant() {
 	const defaultState = {
@@ -103,12 +104,16 @@ function AddPlant() {
             justifyContent: "center",
             justifyItems: "space-between",
             marginLeft: "20px",
-		},
+        },
+        title: {
+            
+        }
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.form}>
 			<form onSubmit={formSubmit}>
+                <Typography variant="h2" className={classes.title}>Add a Plant</Typography>
 				<label>
 					<Input
 						placeholder="Plant Name"

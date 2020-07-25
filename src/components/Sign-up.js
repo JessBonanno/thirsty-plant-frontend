@@ -6,42 +6,51 @@ import Input from "./Input.js";
 import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 function Signup() {
 	const defaultState = {
 		email: "",
 		username: "",
 		password: "",
-		confirm: "",
+        confirm: "",
+        phonenumber: "",
 		terms: false,
 	};
 	const [formState, setFormState] = useState(defaultState);
-	// eslint-disable-next-line
+    
+    console.log(setFormState)
+    // eslint-disable-next-line
 	const [postState, setPost] = useState([]);
 	const [errors, setErrors] = useState({
 		email: "",
 		username: "",
 		password: "",
-		confirm: "",
+        confirm: "",
+        phonenumber: "",
 		terms: false,
-	});
+    });
+    const phoneRegex = RegExp(
+        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+    );
 	const formSchema = Yup.object().shape({
 		email: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
+            .email("Must be a valid email address.")
+			.required("email is required"),
 		username: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
+			.min(5, "must include more then 5 characters")
+			.required("must include at least 5 characters"),
 		password: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		confirm: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		terms: Yup.boolean().oneOf(
-			[true],
-			"Please agree to the terms and conditions"
-		),
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+            ),
+        confirm: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+        terms: Yup
+            .boolean()
+            .oneOf([true], 'Must Accept Terms and Conditions'),
+        phone: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required"),
 	});
 	const validateChange = (e) => {
 		e.persist();
@@ -104,12 +113,28 @@ function Signup() {
 			justifyContent: "center",
 			justifyItems: "space-between",
 			marginLeft: "20px",
-		},
+        },
+        paper: {
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[5],
+            padding: '70px',
+            width: 654,
+            height: 500,
+            outline: 'none',
+            [theme.breakpoints.down('sm')]: {
+                height: 550,
+                width: 400,
+                padding: 20,
+            },
+        },
 	}));
 	const classes = useStyles();
 	return (
+        
 		<div className={classes.form}>
+            <Paper>
 			<form onSubmit={formSubmit}>
+                <Typography variant="h2">Sign Up</Typography>
 				<label>
 					<Input
 						placeholder="Email"
@@ -150,6 +175,14 @@ function Signup() {
 						errors={errors}
 					/>
 				</label>
+                    <Input
+                        placeholder="Phone Number"
+                        type="text"
+                        onChange={changeHandler}
+                        name="phone"
+                        value={formState.phoneNumber}
+                        errors={errors}
+                    />
 				<label htmlFor="terms">
 					<input
 						name="terms"
@@ -171,6 +204,7 @@ function Signup() {
 					</Button>
 				</div>
 			</form>
+            </Paper>
 			{/* <pre>{JSON.stringify(postState, null, 2)}</pre> */}
 		</div>
 	);
