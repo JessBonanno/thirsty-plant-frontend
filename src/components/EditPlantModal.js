@@ -80,10 +80,6 @@ export default function TransitionsModal(props) {
     setEditModalOpen(true);
   };
 
-  const handleOpen = () => {
-    setEditModalOpen(true);
-  };
-
   const handleClose = () => {
     setEditModalOpen(false);
   };
