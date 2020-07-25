@@ -14,7 +14,8 @@ function Signup() {
 		email: "",
 		username: "",
 		password: "",
-		confirm: "",
+        confirm: "",
+        phonenumber: "",
 		terms: false,
 	};
 	const [formState, setFormState] = useState(defaultState);
@@ -26,9 +27,13 @@ function Signup() {
 		email: "",
 		username: "",
 		password: "",
-		confirm: "",
+        confirm: "",
+        phonenumber: "",
 		terms: false,
-	});
+    });
+    const phoneRegex = RegExp(
+        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+    );
 	const formSchema = Yup.object().shape({
 		email: Yup.string()
             .email("Must be a valid email address.")
@@ -45,6 +50,7 @@ function Signup() {
         terms: Yup
             .boolean()
             .oneOf([true], 'Must Accept Terms and Conditions'),
+        phone: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required"),
 	});
 	const validateChange = (e) => {
 		e.persist();
