@@ -91,8 +91,6 @@ export default function TransitionsModal(props) {
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
     data.append('api_key', '925249979199193');
-    console.log({ data });
-    console.log(image);
 
     const res = await axios.post(
       `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
@@ -100,19 +98,15 @@ export default function TransitionsModal(props) {
     );
 
     const file = await res;
-    console.log(file);
     setImageUrl(res.data.url);
   };
 
   const handleChange = e => {
-    console.log(e.target.value);
     setPlantData({
       ...plantData,
       [e.target.name]: e.target.value,
     });
   };
-
-  console.log(editModalOpen);
 
   return (
     <div>

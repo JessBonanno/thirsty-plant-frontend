@@ -26,38 +26,43 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
-        <Toolbar variant='dense'>
-          <Grid container justify='space-between'>
+      <AppBar position="static">
+        <Toolbar variant="dense">
+          <Grid container justify="space-between">
             <Grid item>
-              <Typography variant='h6' color='inherit'>
+              <Typography variant="h6" color="inherit">
                 Water My Plants
               </Typography>
             </Grid>
             <Grid item>
               <Grid container>
                 <Grid item>
-                  <Button component={Link} to='/' color='inherit'>
-                    Home
+                  <Button color="inherit">
+                    <a
+                      style={{ textDecoration: 'none', color: 'white' }}
+                      href="https://infallible-curie-a39dce.netlify.app/"
+                    >
+                      Home
+                    </a>
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/dashboard' color='inherit'>
+                  <Button component={Link} to="/dashboard" color="inherit">
                     Dashboard
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/about' color='inherit'>
+                  <Button component={Link} to="/about" color="inherit">
                     About Us
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/login' color='inherit'>
+                  <Button component={Link} to="/login" color="inherit">
                     Login
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button component={Link} to='/signup' color='inherit'>
+                  <Button component={Link} to="/signup" color="inherit">
                     Sign Up
                   </Button>
                 </Grid>

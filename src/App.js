@@ -15,6 +15,7 @@ import Dashboard from './components/containers/Dashboard';
 import ChangePass from './components/ChangePass.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
+import PrivateRoute from './utils/PrivateRoute';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
       </Hidden>
       <flexbox flexDirection="column">
         <div className="App">
-          <Link to="/">
+          {/* <Link to="/">
             <Button variant="outlined" color="primary" href="#outlined-buttons">
               Home
             </Button>
@@ -43,14 +44,14 @@ function App() {
             <Button variant="outlined" color="primary" href="#outlined-buttons">
               Add Plant
             </Button>
-          </Link>
+          </Link> */}
           <Route path="/login" component={Login} />
           <Route path="/Signup" component={Signup} />
-          <Route path="/ChangePass" component={ChangePass} />
+          <PrivateRoute path="/ChangePass" component={ChangePass} />
           <Route path="/AddPlant" component={AddPlant} />
-          <Route path="/dashboard">
+          <PrivateRoute path="/dashboard">
             <Dashboard />
-          </Route>
+          </PrivateRoute>
         </div>
       </flexbox>
       <Hidden mdUp>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 /**
  * Custom hook to handle crud operations
  *
@@ -20,14 +21,12 @@ export default function useFetch({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        api[method](url, data, config)
-          .then(res => {
-            setResponse(res.data);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        api[method](url, data, config).then(res => {
+          setResponse(res.data);
+          // setIsLoading(false);
+        });
       } catch (err) {
+        console.log(err);
         setError(err);
       }
     };
