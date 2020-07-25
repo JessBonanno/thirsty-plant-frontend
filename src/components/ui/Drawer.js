@@ -54,8 +54,13 @@ const FooterDrawer = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem button component={Link} to="/">
-          <ListItemText primary={'Home'} />
+        <ListItem button>
+          <a
+            style={{ textDecoration: 'none', color: 'white' }}
+            href="https://infallible-curie-a39dce.netlify.app/"
+          >
+            <ListItemText primary={'Home'} />
+          </a>
         </ListItem>
         <ListItem button component={Link} to="/dashboard">
           <ListItemText primary={'Dashboard'} />

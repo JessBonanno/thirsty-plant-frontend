@@ -45,7 +45,7 @@ function App() {
               Add Plant
             </Button>
           </Link>
-          <Route exact path="/" component={Login} />
+          <Route path="/login" component={Login} />
           <Route path="/Signup" component={Signup} />
           <PrivateRoute path="/ChangePass" component={ChangePass} />
           <Route path="/AddPlant" component={AddPlant} />
