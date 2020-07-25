@@ -34,14 +34,13 @@ export default function AlertDialogSlide({
     url: '',
     data: '',
   });
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const { response, isLoading } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,
     url: fetchParams.url,
     data: fetchParams.data,
   });
-  console.log(response);
 
   const handleClose = () => {
     setDialogOpen(false);

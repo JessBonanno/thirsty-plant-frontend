@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Input from './Input.js';
 import axios from 'axios';
 import * as Yup from 'yup';
-// eslint-disable-next-line
-import theme from '../components/ui/Theme';
-// eslint-disable-next-line
-import Typography from '@material-ui/core/Typography';
-// eslint-disable-next-line
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-// eslint-disable-next-line
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import signUp from './signUp.jpeg';
-import useFetch from '../hooks/useFetch';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
 import { CircularProgress } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -37,7 +28,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     justifyItems: 'space-between',
-    marginLeft: '35px',
+  },
+  button: {
+    borderRadius: 0,
+    width: '100%',
   },
 }));
 
@@ -51,13 +45,6 @@ function Login() {
     username: '',
     password: '',
   });
-
-  const [fetchParams, setFetchParams] = useState({
-    method: '',
-    url: '',
-    data: '',
-  });
-  // eslint-disable-next-line
 
   const [loading, setLoading] = useState(false);
 
@@ -142,8 +129,13 @@ function Login() {
               color="secondary"
               style={{ color: 'white' }}
               onClick={formSubmit}
+              className={classes.button}
             >
-              {loading ? <CircularProgress color="primary" /> : 'Login'}
+              {loading ? (
+                <CircularProgress style={{ color: 'white' }} />
+              ) : (
+                <Typography variant="button">Login</Typography>
+              )}
             </Button>
           </div>
         </form>

@@ -15,6 +15,7 @@ import Dashboard from './components/containers/Dashboard';
 import ChangePass from './components/ChangePass.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
+import PrivateRoute from './utils/PrivateRoute';
 
 function App() {
   return (
@@ -46,11 +47,11 @@ function App() {
           </Link>
           <Route exact path="/" component={Login} />
           <Route path="/Signup" component={Signup} />
-          <Route path="/ChangePass" component={ChangePass} />
+          <PrivateRoute path="/ChangePass" component={ChangePass} />
           <Route path="/AddPlant" component={AddPlant} />
-          <Route path="/dashboard">
+          <PrivateRoute path="/dashboard">
             <Dashboard />
-          </Route>
+          </PrivateRoute>
         </div>
       </flexbox>
       <Hidden mdUp>
