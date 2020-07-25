@@ -9,7 +9,7 @@ import Slide from '@material-ui/core/Slide';
 
 // api imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import useFetch from '../assets/images/hooks/useFetch';
+import useFetch from '../hooks/useFetch';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
