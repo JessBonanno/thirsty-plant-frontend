@@ -26,12 +26,14 @@ function Login() {
 	});
 
 	const formSchema = Yup.object().shape({
-		username: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
-		password: Yup.string()
-			.min(2, "must include more then 2 characters")
-			.required("must include at least 2 characters"),
+        username: Yup.string()
+            .min(5, "must include more then 5 characters")
+            .required("must include at least 5 characters"),
+        password: Yup.string()
+            .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+            ),
 	});
 	const validateChange = (e) => {
 		e.persist();
