@@ -169,6 +169,14 @@ function Signup() {
 						errors={errors}
 					/>
 				</label>
+                    <Input
+                        placeholder="Phone Number"
+                        type="text"
+                        onChange={changeHandler}
+                        name="phone"
+                        value={formState.phoneNumber}
+                        errors={errors}
+                    />
 				<label htmlFor="terms">
 					<input
 						name="terms"

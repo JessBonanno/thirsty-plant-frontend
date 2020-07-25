@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Paper from '@material-ui/core/Paper';
 
 function ChangePass() {
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
@@ -90,11 +91,25 @@ function ChangePass() {
 			justifyContent: "center",
 			justifyItems: "space-between",
 			marginLeft: "25px",
-		},
+        },
+        paper: {
+            backgroundColor: theme.palette.background.paper,
+            boxShadow: theme.shadows[5],
+            padding: '70px',
+            width: 654,
+            height: 500,
+            outline: 'none',
+            [theme.breakpoints.down('sm')]: {
+                height: 550,
+                width: 400,
+                padding: 20,
+            },
+        },
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.form}>
+            <Paper>
 			<form onSubmit={formSubmit}>
 				<Typography variant="h2">Change Your Password</Typography>
 				<label>
@@ -157,6 +172,7 @@ function ChangePass() {
 				</div>
 			</form>
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
+            </Paper>
 		</div>
 	);
 }
