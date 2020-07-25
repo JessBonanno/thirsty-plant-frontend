@@ -89,7 +89,7 @@ const Dashboard = () => {
       />
       <Grid container direction="column" alignItems="center">
         {/* ----- Page Header ---- */}
-        <Grid item style={{ margin: '1em' }}>
+        <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
           <Typography variant="h2">My Plants</Typography>
         </Grid>
         {/* ---- Plant Bar ----- */}
