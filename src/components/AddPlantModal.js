@@ -283,18 +283,6 @@ export default function TransitionsModal(props) {
                     <Hidden smDown>
                       <Grid item container direction="column">
                         <Grid item align="center">
-                          {/* <img
-                            // src={require('../assets/images/plant-for-card.jpg')}
-                            src={
-                              imageUrl === ''
-                                ? undefined
-                                : // `https://res.cloudinary.com/watermyplants/image/upload/v1595611616/plant_card_image_a0wvvj.jpg`
-                                  imageUrl
-                            }
-                            alt=""
-                            // width="300"
-                            // height="350"
-                          /> */}
                           <div
                             style={{
                               backgroundImage: `url(${imageUrl})`,

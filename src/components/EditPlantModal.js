@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import theme from '../components/ui/Theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import theme from '../components/ui/Theme';
 import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles(theme => ({
@@ -26,11 +26,19 @@ const useStyles = makeStyles(theme => ({
     width: 654,
     height: 500,
     outline: 'none',
+    [theme.breakpoints.down('sm')]: {
+      height: 550,
+      width: 400,
+      padding: 20,
+    },
   },
   formField: {
     margin: '1em 0',
     width: 230,
     borderRadius: 0,
+    [theme.breakpoints.down('sm')]: {
+      margin: '10px 0',
+    },
   },
   button: {
     borderRadius: 0,
@@ -58,13 +66,13 @@ export default function TransitionsModal(props) {
   });
   const [imageUrl, setImageUrl] = useState('');
 
-  const { setEditModalOpen, editModalOpen } = props;
-  const classes = useStyles();
-
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
+
+  const { setEditModalOpen, editModalOpen } = props;
+  const classes = useStyles();
 
   const handleOpen = () => {
     setEditModalOpen(true);
@@ -283,18 +291,6 @@ export default function TransitionsModal(props) {
                     <Hidden smDown>
                       <Grid item container direction="column">
                         <Grid item align="center">
-                          {/* <img
-                            // src={require('../assets/images/plant-for-card.jpg')}
-                            src={
-                              imageUrl === ''
-                                ? undefined
-                                : // `https://res.cloudinary.com/watermyplants/image/upload/v1595611616/plant_card_image_a0wvvj.jpg`
-                                  imageUrl
-                            }
-                            alt=""
-                            // width="300"
-                            // height="350"
-                          /> */}
                           <div
                             style={{
                               backgroundImage: `url(${imageUrl})`,
