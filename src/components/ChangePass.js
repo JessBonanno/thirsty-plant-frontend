@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input.js";
 import * as Yup from "yup";
@@ -112,12 +112,20 @@ function ChangePass() {
                 padding: 20,
             },
         },
+        text: {
+            textAlign: "center",
+        }
 	}));
-	const classes = useStyles();
+    const classes = useStyles();
+  
+
+    const back = () => {
+        window.history.back()
+    }
 	return (
 		<div className={classes.form}>
             <Paper>
-                <Typography variant="h4">Change Your Password</Typography>                
+                <Typography variant="h4" className={classes.text}>Change Your Password</Typography>                
 			<form onSubmit={formSubmit}>
 				<label>
 					<Input
@@ -172,7 +180,7 @@ function ChangePass() {
 						variant="contained"
 						color="secondary"
 						style={{ color: "white" }}
-						onClick={formSubmit}
+                            onClick={back}
 					>
 						Cancel
 					</Button>

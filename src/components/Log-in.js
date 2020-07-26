@@ -104,15 +104,20 @@ function Login() {
 				height: 550,
 				width: 400,
 				padding: 20,
-			},
-		},
+            },
+            
+        },
+        text: {
+            textAlign: "center",
+
+        }
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.form}>
 			<Paper>
 				<form onSubmit={formSubmit}>
-					<Typography variant="h2">Log In</Typography>
+					<Typography variant="h2" className={classes.text}>Log In</Typography>
 					<label>
 						<Input
 							placeholder="Username"
@@ -133,6 +138,7 @@ function Login() {
 							errors={errors}
 						/>
 					</label>
+                    <Typography variant="h6">Dont have an account?  <Link to='/login' ><button>SIGN UP</button></Link></Typography>
 					<div className={classes.buttons}>
 						<Button
 							variant="contained"

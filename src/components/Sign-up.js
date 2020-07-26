@@ -88,13 +88,13 @@ function Signup() {
 			.catch((err) => console.log(err.response));
 	};
 	const changeHandler = (e) => {
-        const value =
-            e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        setFormState({
-            ...formState,
-            [e.target.name]: value
-        });
-        validateChange(e);
+		const value =
+			e.target.type === "checkbox" ? e.target.checked : e.target.value;
+		setFormState({
+			...formState,
+			[e.target.name]: value,
+		});
+		validateChange(e);
 	};
 
 	useEffect(() => {
@@ -123,6 +123,7 @@ function Signup() {
 			justifyContent: "center",
 			justifyItems: "space-between",
 			marginLeft: "20px",
+			marginBottom: "20px",
 		},
 		paper: {
 			backgroundColor: theme.palette.background.paper,
@@ -137,13 +138,18 @@ function Signup() {
 				padding: 20,
 			},
 		},
+		text: {
+			textAlign: "center",
+		},
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.form}>
 			<Paper>
 				<form onSubmit={formSubmit}>
-					<Typography variant="h2">Sign Up</Typography>
+					<Typography variant="h2" className={classes.text}>
+						Sign Up
+					</Typography>
 					<label>
 						<Input
 							placeholder="Email"
@@ -192,17 +198,21 @@ function Signup() {
 						value={formState.phoneNumber}
 						errors={errors}
 					/>
+					<br />
 					<label htmlFor="terms">
 						<input
 							name="terms"
-                            type="checkbox"
-                            checked={formState.terms}
+							type="checkbox"
+							checked={formState.terms}
 							onChange={changeHandler}
 							errors={errors}
 						/>
 						Terms & Conditions
 					</label>
-                    <p>Already have an account? <button onclick={Login}>LOGIN</button></p>
+					<br />
+					<br />
+
+					<br />
 					<div className={classes.buttons}>
 						<Button
 							variant="contained"
@@ -214,6 +224,12 @@ function Signup() {
 							Sign Up
 						</Button>
 					</div>
+					<Typography variant="h6">
+						Already have an account?{" "}
+						<Link to="/login">
+							<button>Login</button>
+						</Link>
+					</Typography>
 				</form>
 			</Paper>
 		</div>
