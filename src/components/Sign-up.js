@@ -81,6 +81,7 @@ function Signup() {
 			formState,
 		});
 		console.log(postState);
+		
 		axios
 			.post("https://reqres.in/api/users", formState)
 			.then((res) => {

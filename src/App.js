@@ -23,8 +23,8 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <flexbox flexDirection="column">
-        <div className="App">
+      <flexbox flexDirection='column'>
+        <div className='App'>
           {/* <Link to="/">
             <Button variant="outlined" color="primary" href="#outlined-buttons">
               Home
@@ -45,11 +45,20 @@ function App() {
               Add Plant
             </Button>
           </Link> */}
-          <Route path="/login" component={Login} />
-          <Route path="/Signup" component={Signup} />
-          <PrivateRoute path="/ChangePass" component={ChangePass} />
-          <Route path="/AddPlant" component={AddPlant} />
-          <PrivateRoute path="/dashboard">
+          <Route
+            exact
+            path='/'
+            component={() => {
+              window.location.href =
+                'https://infallible-curie-a39dce.netlify.app/';
+              return null;
+            }}
+          />
+          <Route path='/login' component={Login} />
+          <Route path='/Signup' component={Signup} />
+          <PrivateRoute path='/ChangePass' component={ChangePass} />
+          <Route path='/AddPlant' component={AddPlant} />
+          <PrivateRoute path='/dashboard'>
             <Dashboard />
           </PrivateRoute>
         </div>

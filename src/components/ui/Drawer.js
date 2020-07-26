@@ -49,33 +49,45 @@ const FooterDrawer = () => {
   const list = (
     <div
       className={classes.drawerItems}
-      role="presentation"
+      role='presentation'
       onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
+      onKeyDown={toggleDrawer(false)}>
       <List>
         <ListItem button>
           <a
             style={{ textDecoration: 'none', color: 'white' }}
-            href="https://infallible-curie-a39dce.netlify.app/"
-          >
+            href='https://infallible-curie-a39dce.netlify.app/'>
             <ListItemText primary={'Home'} />
           </a>
         </ListItem>
-        <ListItem button component={Link} to="/dashboard">
+        <ListItem button component={Link} to='/dashboard'>
           <ListItemText primary={'Dashboard'} />
         </ListItem>
-        <ListItem button component={Link} to="/about">
-          <ListItemText primary={'About Us'} />
+        <ListItem button>
+          <a
+            style={{ textDecoration: 'none', color: 'white' }}
+            href='https://infallible-curie-a39dce.netlify.app/about.html'>
+            <ListItemText primary={'About Us'} />
+          </a>
+        </ListItem>
+        <ListItem button>
+          <a
+            style={{ textDecoration: 'none', color: 'white' }}
+            href='https://infallible-curie-a39dce.netlify.app/guide.html'>
+            <ListItemText primary={'Learn'} />
+          </a>
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem button component={Link} to="/login">
+        <ListItem button component={Link} to='/login'>
           <ListItemText primary={'Login'} />
         </ListItem>
-        <ListItem button component={Link} to="/signup">
+        <ListItem button component={Link} to='/signup'>
           <ListItemText primary={'Sign Up'} />
+        </ListItem>
+        <ListItem button component={Link} to='/'>
+          <ListItemText primary={'Logout'} />
         </ListItem>
       </List>
     </div>
@@ -85,20 +97,18 @@ const FooterDrawer = () => {
     <div>
       <>
         <IconButton
-          edge="start"
-          color="inherit"
+          edge='start'
+          color='inherit'
           style={{ color: 'white' }}
-          aria-label="open drawer"
-          onClick={toggleDrawer(true)}
-        >
+          aria-label='open drawer'
+          onClick={toggleDrawer(true)}>
           <MenuIcon style={{ fontSize: '1.5em' }} />
         </IconButton>
         <Drawer
           classes={{ paper: classes.drawer }}
           open={drawerOpen}
           onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}
-        >
+          onOpen={toggleDrawer(true)}>
           {list}
         </Drawer>
       </>
