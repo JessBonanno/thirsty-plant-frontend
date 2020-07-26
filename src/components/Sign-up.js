@@ -82,7 +82,7 @@ function Signup() {
 		console.log(postState);
 		
 		axios
-			.post("https://reqres.in/api/users", formState)
+			.post("https://bw-water-my-plants.herokuapp.com/api/users", formState)
 			.then((res) => {
 				setPost(res.data);
 				console.log("success", res);

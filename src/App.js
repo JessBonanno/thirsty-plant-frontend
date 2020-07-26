@@ -47,11 +47,11 @@ function App() {
           <Route
             exact
             path='/'
-            component={() => {
-              window.location.href =
-                'https://infallible-curie-a39dce.netlify.app/';
-              return null;
-            }}
+            // component={() => {
+            //   window.location.href =
+            //     'https://infallible-curie-a39dce.netlify.app/';
+            //   return null;
+            // }}
           />
           <Route path='/login' component={Login} />
           <Route path='/Signup' component={Signup} />
