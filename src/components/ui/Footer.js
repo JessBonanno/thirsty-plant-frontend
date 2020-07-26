@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Toolbar, AppBar } from '@material-ui/core/';
@@ -43,12 +44,20 @@ const useStyles = makeStyles(theme => ({
  */
 export default function BottomAppBar() {
   const classes = useStyles();
+  const { pathname } = useLocation();
 
   return (
     <React.Fragment>
       <CssBaseline />
 
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
+      <AppBar
+        style={{
+          backgroundColor:
+            (pathname === '/login' || pathname === '/signup') && 'white',
+        }}
+        position='fixed'
+        color='primary'
+        className={classes.appBar}>
         <Toolbar>
           <Drawer />
         </Toolbar>
