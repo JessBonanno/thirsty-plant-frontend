@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,13 +6,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+// context
+import { PlantContext } from '../contexts/PlantContext';
 
 // api imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useFetch from '../hooks/useFetch';
 
+// transition function from material ui
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 /**
@@ -24,27 +27,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @returns {jsx}
  */
 
-export default function AlertDialogSlide({
-  plantId,
-  dialogOpen,
-  setDialogOpen,
-}) {
-  const [fetchParams, setFetchParams] = useState({
-    method: '',
-    url: '',
-    data: '',
-  });
-  // eslint-disable-next-line
+export default function DeleteDialog({ plantId }) {
+  const {
+    fetchParams,
+    setFetchParams,
+    dialogOpen,
+    setDialogOpen,
+    handleDialogClose,
+  } = useContext(PlantContext);
+  // useFetch hook for api calls
   const { response, isLoading } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,
     url: fetchParams.url,
     data: fetchParams.data,
   });
-
-  const handleClose = () => {
-    setDialogOpen(false);
-  };
 
   const handleDeletePlant = e => {
     e.preventDefault();
@@ -56,27 +53,27 @@ export default function AlertDialogSlide({
     });
     setDialogOpen(false);
   };
-
+  console.log(dialogOpen);
   return (
     <Dialog
       open={dialogOpen}
+      BackdropProps={{ style: { opacity: '0.5' } }}
       TransitionComponent={Transition}
       keepMounted
-      onClose={handleClose}
-      aria-labelledby="delete-plant-dialog"
-      aria-describedby="delete-plant-dialog"
-    >
-      <DialogTitle id="dialog-title">{"Don't kale my vibe!"}</DialogTitle>
+      onClose={handleDialogClose}
+      aria-labelledby='delete-plant-dialog'
+      aria-describedby='delete-plant-dialog'>
+      <DialogTitle id='dialog-title'>{"Don't kale my vibe!"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="dialog-description">
+        <DialogContentText id='dialog-description'>
           Are you sure you want to delete this plant?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleDialogClose} color='primary'>
           Cancel
         </Button>
-        <Button onClick={handleDeletePlant} color="primary">
+        <Button onClick={handleDeletePlant} color='primary'>
           Delete
         </Button>
       </DialogActions>

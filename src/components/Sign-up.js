@@ -88,7 +88,7 @@ function Signup() {
     username: '',
     password: '',
     confirm: '',
-    phonenumber: '',
+    phoneNumber: '',
     terms: false,
   });
   const phoneRegex = RegExp(
@@ -163,16 +163,18 @@ function Signup() {
   }, []);
 
   useEffect(() => {
-    axios
-      .post(
-        'https://bw-water-my-plants.herokuapp.com/api/users/login',
-        formState
-      )
-      .then(res => {
-        localStorage.setItem('token', res.data.token);
-        history.push('/dashboard');
-      })
-      .catch(err => console.log(err));
+    if (response !== null) {
+      axios
+        .post(
+          'https://bw-water-my-plants.herokuapp.com/api/users/login',
+          formState
+        )
+        .then(res => {
+          localStorage.setItem('token', res.data.token);
+          history.push('/dashboard');
+        })
+        .catch(err => console.log(err));
+    }
   }, [response]);
 
   const changeHandler = event => {

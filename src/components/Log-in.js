@@ -61,6 +61,7 @@ function Login() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const formSchema = Yup.object().shape({
     username: Yup.string()
@@ -91,7 +92,6 @@ function Login() {
 
   const formSubmit = e => {
     e.preventDefault();
-    console.log('test');
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setLoading(true);
@@ -101,15 +101,23 @@ function Login() {
         formState
       )
       .then(res => {
+        console.log('login response:', res);
         localStorage.setItem('token', res.data.token);
         setLoading(false);
         history.push('/dashboard');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        if (err) {
+          setLoginError(true);
+        }
+      });
+
+    setLoading(false);
   };
-  console.log({ loading });
 
   const changeHandler = event => {
+    setLoginError(false);
     setFormState({ ...formState, [event.target.name]: event.target.value });
     validateChange(event);
   };
@@ -120,40 +128,44 @@ function Login() {
       <div className={classes.form}>
         <Paper>
           <form>
-            <Typography variant="h2">Log In</Typography>
+            <Typography variant='h2'>Log In</Typography>
+            {loginError && (
+              <Typography variant='caption' style={{ color: 'red' }}>
+                Username and password not recognized, please try again
+              </Typography>
+            )}
 
             <label>
               <Input
-                placeholder="Username"
-                type="text"
+                placeholder='Username'
+                type='text'
                 onChange={changeHandler}
-                name="username"
+                name='username'
                 value={formState.username}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Password"
-                type="text"
+                placeholder='Password'
+                type='text'
                 onChange={changeHandler}
-                name="password"
+                name='password'
                 value={formState.password}
                 errors={errors}
               />
             </label>
             <div className={classes.buttons}>
               <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 style={{ color: 'white' }}
                 onClick={formSubmit}
-                className={classes.button}
-              >
+                className={classes.button}>
                 {loading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant="button">Login</Typography>
+                  <Typography variant='button'>Login</Typography>
                 )}
               </Button>
             </div>
