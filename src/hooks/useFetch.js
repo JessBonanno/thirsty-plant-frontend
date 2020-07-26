@@ -16,14 +16,15 @@ export default function useFetch({
 }) {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         api[method](url, data, config).then(res => {
           setResponse(res.data);
-          // setIsLoading(false);
+          setIsLoading(false);
         });
       } catch (err) {
         console.log(err);
@@ -35,5 +36,5 @@ export default function useFetch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [method, url, data, config]);
 
-  return { response, error, isLoading };
+  return { response, error, isLoading, setIsLoading };
 }
