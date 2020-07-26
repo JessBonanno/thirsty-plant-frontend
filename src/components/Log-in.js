@@ -9,6 +9,7 @@ import signUp from './signUp.jpeg';
 import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import theme from '../components/ui/Theme';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -61,6 +62,7 @@ function Login() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const formSchema = Yup.object().shape({
     username: Yup.string()
@@ -105,10 +107,18 @@ function Login() {
         setLoading(false);
         history.push('/dashboard');
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.log(err);
+        if (err) {
+          setLoginError(true);
+        }
+      });
+
+    setLoading(false);
   };
 
   const changeHandler = event => {
+    setLoginError(false);
     setFormState({ ...formState, [event.target.name]: event.target.value });
     validateChange(event);
   };
@@ -120,6 +130,11 @@ function Login() {
         <Paper>
           <form>
             <Typography variant='h2'>Log In</Typography>
+            {loginError && (
+              <Typography variant='caption' style={{ color: 'red' }}>
+                Username and password not recognized, please try again
+              </Typography>
+            )}
 
             <label>
               <Input
