@@ -2,6 +2,8 @@ import React, { createContext, useState } from 'react';
 import theme from '../components/ui/Theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
+import useFetch from '../hooks/useFetch';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const PlantContext = createContext({});
 
@@ -21,13 +23,16 @@ export const PlantProvider = ({ children }) => {
   const [plantData, setPlantData] = useState({
     nickname: '',
     species: '',
-    wateringTime: '',
+    h2oFrequency: '',
+    // token: localStorage.getItem('token'),
   });
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = useState();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
   let image;
   const handleUpload = async e => {
@@ -70,6 +75,13 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
+  const { response, isLoading } = useFetch({
+    api: axiosWithAuth(),
+    method: fetchParams.method,
+    url: fetchParams.url,
+    data: fetchParams.data,
+  });
+
   return (
     <PlantContext.Provider
       value={{
@@ -98,7 +110,15 @@ export const PlantProvider = ({ children }) => {
         handleEdiModalClose,
         handleEditModalOpen,
         handleDialogOpen,
-      }}>
+        response,
+        isLoading,
+        useFetch,
+        userId,
+        setUserId,
+        submitted,
+        setSubmitted,
+      }}
+    >
       {children}
     </PlantContext.Provider>
   );

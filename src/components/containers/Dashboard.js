@@ -69,41 +69,64 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
-  const { matchesXS, handleAddModalOpen } = useContext(PlantContext);
+  const {
+    matchesXS,
+    handleAddModalOpen,
+    userId,
+    response,
+    setFetchParams,
+    fetchParams,
+    submitted,
+    setSubmitted,
+  } = useContext(PlantContext);
 
+  useEffect(() => {
+    console.log('test useEffect');
+
+    setFetchParams({
+      ...fetchParams,
+      method: 'get',
+      url: `/users/${userId}/plants`,
+    });
+  }, [submitted]);
+
+  console.log('response for all plants:', { response });
   return (
     <>
       <AddPlantModal className={classes.modal} />
       <Grid
         container
-        direction='column'
-        alignItems='center'
-        className={classes.dashContainer}>
+        direction="column"
+        alignItems="center"
+        className={classes.dashContainer}
+      >
         {/* ----- Page Header ---- */}
         <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
-          <Typography variant='h2'>My Plants</Typography>
+          <Typography variant="h2">My Plants</Typography>
         </Grid>
         {/* ---- Plant Bar ----- */}
         <Grid
           item
           container
           direction={matchesXS ? 'column' : 'row'}
-          justify='space-between'
+          justify="space-between"
           alignItems={matchesXS ? 'center' : undefined}
           className={classes.toolsContainer}
           style={{
             padding: 15,
-          }}>
+          }}
+        >
           <Grid item>
             <Button
-              variant='contained'
-              color='secondary'
+              variant="contained"
+              color="secondary"
               style={{
                 color: 'white',
                 marginBottom: matchesXS ? '1em' : undefined,
                 width: matchesXS && '100%',
               }}
-              onClick={handleAddModalOpen}>
+              onClick={handleAddModalOpen}
+            >
               Add New Plant
             </Button>
           </Grid>
@@ -113,7 +136,7 @@ const Dashboard = () => {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder='Search…'
+                placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -129,12 +152,13 @@ const Dashboard = () => {
         <Grid
           item
           container
-          direction='row'
-          justify='center'
-          className={classes.cardsContainer}>
+          direction="row"
+          justify="center"
+          className={classes.cardsContainer}
+        >
           {array.map(item => (
             // 12 is full width, 6 half width, etc...
-            <Grid item xs={12} sm={6} md={4} lg={3} align='center'>
+            <Grid item xs={12} sm={6} md={4} lg={3} align="center">
               <PlantCard />
             </Grid>
           ))}

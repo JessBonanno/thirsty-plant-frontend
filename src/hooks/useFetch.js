@@ -23,6 +23,7 @@ export default function useFetch({
     const fetchData = async () => {
       try {
         api[method](url, data, config).then(res => {
+          console.log(res.data);
           setResponse(res.data);
           setIsLoading(false);
         });
@@ -33,6 +34,7 @@ export default function useFetch({
     };
 
     fetchData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [method, url, data, config]);
 

@@ -8,6 +8,7 @@ import axios from 'axios';
 export const axiosWithAuth = () => {
   //  get the token from localStorage
   const token = window.localStorage.getItem('token');
+  console.log({ token });
   // create a new instance of axios with the config object
   const cloudinaryAPI = axios.create({
     timeout: 10000,
@@ -20,8 +21,7 @@ export const axiosWithAuth = () => {
       authorization: token,
     },
     // temporary fake url until we get the real one from backend
-    baseURL:
-      'https://bw-water-my-plants.herokuapp.com/api',
+    baseURL: 'https://bw-water-my-plants.herokuapp.com/api',
   });
 
   return backendAPI;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // api imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useFetch from '../hooks/useFetch';
+import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -55,6 +56,8 @@ const useStyles = makeStyles(theme => ({
 
 function Signup() {
   const history = useHistory();
+  const { userId, setUserId } = useContext(PlantContext);
+
   const [fetchParams, setFetchParams] = useState({
     method: '',
     url: '',
@@ -164,6 +167,7 @@ function Signup() {
 
   useEffect(() => {
     if (response !== null) {
+      setUserId(response.id);
       axios
         .post(
           'https://bw-water-my-plants.herokuapp.com/api/users/login',
@@ -171,11 +175,14 @@ function Signup() {
         )
         .then(res => {
           localStorage.setItem('token', res.data.token);
+
           history.push('/dashboard');
         })
         .catch(err => console.log(err));
     }
   }, [response]);
+
+  console.log(userId);
 
   const changeHandler = event => {
     setFormState({ ...formState, [event.target.name]: event.target.value });
