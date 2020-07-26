@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import { IconButton, Typography } from '@material-ui/core';
@@ -39,7 +39,6 @@ const FooterDrawer = () => {
     },
   }));
 
-  const history = useHistory();
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   console.log(pathname);
@@ -88,9 +87,13 @@ const FooterDrawer = () => {
         <Divider />
         <ListItem button>
           <a
-            style={{ textDecoration: 'none', color: pathname === '/login' || pathname === '/signup'
-            ? theme.palette.common.lightGreen
-            : 'white' }}
+            style={{
+              textDecoration: 'none',
+              color:
+                pathname === '/login' || pathname === '/signup'
+                  ? theme.palette.common.lightGreen
+                  : 'white',
+            }}
             href='https://infallible-curie-a39dce.netlify.app/'>
             <ListItemText primary={'Home'} />
           </a>
@@ -100,18 +103,26 @@ const FooterDrawer = () => {
         </ListItem>
         <ListItem button>
           <a
-            style={{ textDecoration: 'none', color: pathname === '/login' || pathname === '/signup'
-            ? theme.palette.common.lightGreen
-            : 'white' }}
+            style={{
+              textDecoration: 'none',
+              color:
+                pathname === '/login' || pathname === '/signup'
+                  ? theme.palette.common.lightGreen
+                  : 'white',
+            }}
             href='https://infallible-curie-a39dce.netlify.app/about.html'>
             <ListItemText primary={'About Us'} />
           </a>
         </ListItem>
         <ListItem button>
           <a
-            style={{ textDecoration: 'none', color: pathname === '/login' || pathname === '/signup'
-            ? theme.palette.common.lightGreen
-            : 'white' }}
+            style={{
+              textDecoration: 'none',
+              color:
+                pathname === '/login' || pathname === '/signup'
+                  ? theme.palette.common.lightGreen
+                  : 'white',
+            }}
             href='https://infallible-curie-a39dce.netlify.app/guide.html'>
             <ListItemText primary={'Learn'} />
           </a>
@@ -138,9 +149,12 @@ const FooterDrawer = () => {
         <IconButton
           edge='start'
           color='inherit'
-          style={{ color: pathname === '/login' || pathname === '/signup'
-          ? theme.palette.common.lightGreen
-          : 'white' }}
+          style={{
+            color:
+              pathname === '/login' || pathname === '/signup'
+                ? theme.palette.common.lightGreen
+                : 'white',
+          }}
           aria-label='open drawer'
           onClick={toggleDrawer(true)}>
           <MenuIcon

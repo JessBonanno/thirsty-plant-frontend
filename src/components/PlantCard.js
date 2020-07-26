@@ -57,28 +57,26 @@ const PlantCard = props => {
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
-              justify="space-between"
-              alignItems="center"
-              style={{ padding: '0 1em' }}
-            >
+              justify='space-between'
+              alignItems='center'
+              className={classes.cardHeaderContainer}
+              style={{ padding: '0 1em' }}>
               <Grid item>
                 <Typography
                   gutterBottom
-                  variant="plantCardHeader"
-                  component="h2"
+                  variant='plantCardHeader'
+                  component='h2'
                   style={{
                     fontFamily: 'Mulish',
                     color: theme.palette.common.pink,
-                  }}
-                >
+                  }}>
                   Plant Name
                 </Typography>
               </Grid>
               <Grid item>
                 <IconButton
                   style={{ marginBottom: '.25em' }}
-                  onClick={handleDialogOpen}
-                >
+                  onClick={handleDialogOpen}>
                   <DeleteTwoToneIcon />
                 </IconButton>
               </Grid>
@@ -86,34 +84,59 @@ const PlantCard = props => {
             <CardMedia
               className={classes.media}
               image={require('../assets/images/plant-for-card.jpg')}
-              title="Contemplative Reptile"
+              title='Contemplative Reptile'
               style={{ marginBottom: '1em', height: 167 }}
             />
-            <Grid item container style={{ padding: '0 1em' }}>
-              <Grid item container style={{ width: '75%' }} direction="column">
-                <Grid item>
+            <Grid
+              item
+              container
+              justify='space-between'
+              style={{ padding: '0 1em' }}
+              className={classes.bottomContainer}>
+              <Grid
+                item
+                container
+                align='left'
+                style={{ width: '70%' }}
+                className={classes.bottomInfo}
+                direction='column'>
+                <Grid item style={{ margin: 0 }}>
                   <Typography
-                    variant="h6"
-                    color="textSecondary"
-                    component="h6"
-                    style={{ marginBottom: '1em' }}
-                  >
+                    variant='h5'
+                    color='textSecondary'
+                    style={{ margin: 0 }}>
                     Species Name
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Typography variant="h6" color="textSecondary" component="h6">
-                    Next watering: Today
+                <Grid item style={{ margin: 0, padding: '1em 0' }}>
+                  <Typography variant='h6' color='textSecondary'>
+                    Next watering:
+                  </Typography>
+                  <Typography variant='body1' color='textSecondary'>
+                    Today
+                  </Typography>
+
+                  <Typography variant='h6' color='textSecondary'>
+                    Last watering:
+                  </Typography>
+                  <Typography variant='body1' color='textSecondary'>
+                    Yesterday
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item style={{ marginLeft: 'auto' }}>
-                <IconButton
-                  style={{ marginBottom: '.25em' }}
-                  onClick={handleEditModalOpen}
-                >
-                  <EditTwoToneIcon />
-                </IconButton>
+              <Grid item style={{ marginLeft: 'auto', marginTop: 'auto' }}>
+                <Grid container direction='row' alignItems='center'>
+                  <Grid item>
+                    <IconButton
+                      style={{ marginBottom: '.25em' }}
+                      onClick={handleEditModalOpen}>
+                      <EditTwoToneIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant='caption'>Edit</Typography>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </CardContent>

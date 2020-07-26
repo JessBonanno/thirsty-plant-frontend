@@ -1,8 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
-import { Route, Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { Route } from 'react-router-dom';
 import Hidden from '@material-ui/core/Hidden';
 import { flexbox } from '@material-ui/system';
 import './App.css';

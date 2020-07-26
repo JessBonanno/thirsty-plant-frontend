@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -66,10 +66,6 @@ export default function TransitionsModal(props) {
   const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const handleOpen = () => {
-    setAddModalOpen(true);
-  };
-
   let image;
   const handleUpload = async e => {
     image = e.target.files[0];
@@ -107,8 +103,8 @@ export default function TransitionsModal(props) {
   return (
     <div>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby='transition-modal-title'
+        aria-describedby='transition-modal-description'
         className={classes.modal}
         open={addModalOpen}
         onClose={handleClose}
@@ -116,221 +112,212 @@ export default function TransitionsModal(props) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}
-      >
+        }}>
         <Fade in={addModalOpen}>
           <div className={classes.paper}>
+            {/* --- Main container */}
             <Grid
+              className={classes.addContainer}
               container
-              direction="column"
-              alignItems={matchesSM && 'center'}
-            >
+              direction='column'
+              alignItems={matchesSM && 'center'}>
               {' '}
-              {/* --- Main container */}
-              <Grid item>
-                {/* --- Form and upload image container */}
-                <Grid
-                  container
-                  direction="row"
-                  justify="space-around"
-                  alignItems="center"
-                >
-                  <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
-                    <Grid container direction="column">
-                      <Grid item align={matchesSM && 'center'}>
-                        <Typography variant="h4" style={{ marginBottom: 20 }}>
-                          Add a Plant
-                        </Typography>
-                      </Grid>
-                      <form>
-                        <Grid item>
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Plant name"
-                          />
-                        </Grid>
-                        <Grid item>
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Species name"
-                          />
-                        </Grid>{' '}
-                      </form>
-
-                      <Grid item align={matchesSM && 'center'}>
-                        <Typography
-                          variant="h5"
-                          style={{
-                            margin: matchesSM ? '20px auto 0' : '20px 0',
-                            textAlign: matchesSM && 'center',
-                            height: matchesSM && 30,
-                          }}
-                        >
-                          Watering Frequency
-                        </Typography>
+              {/* --- Form and upload image container */}
+              <Grid
+                container
+                direction='row'
+                justify='space-around'
+                alignItems='center'>
+                <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
+                  <Grid
+                    container
+                    direction='column'
+                    className={classes.formContainer}>
+                    <Grid item align={matchesSM && 'center'}>
+                      <Typography variant='h4' style={{ marginBottom: 20 }}>
+                        Add a Plant
+                      </Typography>
+                    </Grid>
+                    <form>
+                      <Grid item>
+                        <TextField
+                          className={classes.formField}
+                          variant='outlined'
+                          label='Plant name'
+                        />
                       </Grid>
                       <Grid item>
-                        <Grid
-                          container
-                          direction="row"
-                          justify={matchesSM && 'center'}
-                        >
-                          <FormControl
-                            variant="outlined"
-                            className={classes.formControl}
-                          >
-                            <Grid item>
-                              <Grid
-                                container
-                                direction="row"
-                                alignItems="center"
-                              >
-                                <Grid item>
-                                  <Typography variant="h6">Every </Typography>
-                                </Grid>
-                                <Grid item>
-                                  <TextField
-                                    className={`${classes.formField} without-padding`}
-                                    style={{
-                                      marginLeft: 10,
-                                      marginRight: 10,
-                                      width: 40,
-                                      padding: '4px',
-                                      // height: 20,
-                                    }}
-                                    inputProps={inputProps}
-                                    variant="outlined"
-                                  />
-                                </Grid>
-                                <Grid item>
-                                  <Typography variant="h6">Day(s)</Typography>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </FormControl>
-                        </Grid>
-                      </Grid>
+                        <TextField
+                          className={classes.formField}
+                          variant='outlined'
+                          label='Species name'
+                        />
+                      </Grid>{' '}
+                    </form>
+
+                    <Grid item align={matchesSM && 'center'}>
+                      <Typography
+                        variant='h5'
+                        style={{
+                          margin: matchesSM ? '20px auto 0' : '20px 0',
+                          textAlign: matchesSM && 'center',
+                          height: matchesSM && 30,
+                        }}>
+                        Watering Frequency
+                      </Typography>
+                    </Grid>
+                    <Grid item>
                       <Grid
                         container
-                        direction="row"
-                        justify={matchesSM && 'space-between'}
-                        style={{ marginTop: '2em' }}
-                      >
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: theme.palette.common.lightPink,
-                            }}
-                            className={classes.button}
-                          >
-                            <Typography variant="button">Cancel</Typography>
-                          </Button>
-                        </Grid>
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: theme.palette.common.green,
-                              marginLeft: matchesSM ? 0 : '1em',
-                            }}
-                            className={classes.button}
-                          >
-                            <Typography variant="button">Submit</Typography>
-                          </Button>
-                        </Grid>
+                        direction='row'
+                        justify={matchesSM && 'center'}>
+                        <FormControl
+                          variant='outlined'
+                          className={classes.formControl}>
+                          <Grid item>
+                            <Grid container direction='row' alignItems='center'>
+                              <Grid item>
+                                <Typography variant='h6'>Every </Typography>
+                              </Grid>
+                              <Grid item>
+                                <TextField
+                                  className={`${classes.formField} without-padding`}
+                                  style={{
+                                    marginLeft: 10,
+                                    marginRight: 10,
+                                    width: 40,
+                                    padding: '4px',
+                                    // height: 20,
+                                  }}
+                                  inputProps={inputProps}
+                                  variant='outlined'
+                                />
+                              </Grid>
+                              <Grid item>
+                                <Typography variant='h6'>Day(s)</Typography>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </FormControl>
                       </Grid>
-                      <Hidden mdUp>
-                        <Grid
-                          item
-                          className="uploadButton"
-                          style={{
-                            alignSelf: 'center',
-                            marginTop: '2.5em',
-                          }}
-                        >
-                          <input
-                            accept="image/*"
-                            className={classes.input}
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            multiple
-                            type="file"
-                            onChange={handleUpload}
-                          />
-                          <label htmlFor="raised-button-file">
-                            <Button
-                              variant="contained"
-                              component="span"
-                              className={classes.button}
-                              style={{
-                                backgroundColor: theme.palette.common.yellow,
-                              }}
-                            >
-                              <Typography variant="button">
-                                Upload Image
-                              </Typography>
-                            </Button>
-                          </label>
-                        </Grid>
-                      </Hidden>
                     </Grid>
-                  </Grid>
-                  <Grid item align="center">
-                    {/* <Typography variant="h5">Image</Typography> */}
-                    <Hidden smDown>
-                      <Grid item container direction="column">
-                        <Grid item align="center">
-                          <div
-                            style={{
-                              backgroundImage: `url(${imageUrl})`,
-                              backgroundSize: 'cover',
-                              height: 200,
-                              // width: 150,
-                              margin: 'auto',
-                            }}
-                          ></div>
-                        </Grid>
-                        <Grid
-                          item
-                          align="center"
-                          className="uploadButton"
+                    {/* buttons container */}
+                    <Grid
+                      className={classes.buttonContainer}
+                      container
+                      direction='row'
+                      justify={matchesSM && 'space-between'}
+                      style={{ marginTop: '2em' }}>
+                      <Grid item>
+                        <Button
+                          variant='contained'
                           style={{
-                            alignSelf: 'flex-end',
-                            marginTop: 2.5,
+                            backgroundColor: theme.palette.common.lightPink,
                           }}
-                        >
-                          <input
-                            accept="image/*"
-                            className={classes.input}
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            multiple
-                            type="file"
-                            onChange={handleUpload}
-                          />
-                          <label htmlFor="raised-button-file">
-                            <Button
-                              variant="contained"
-                              component="span"
-                              className={classes.button}
-                              style={{
-                                backgroundColor: theme.palette.common.yellow,
-                              }}
-                            >
-                              <Typography variant="button">
-                                Upload Image
-                              </Typography>
-                            </Button>
-                          </label>
-                        </Grid>
+                          className={classes.button}
+                          onClick={() => setAddModalOpen(false)}>
+                          <Typography variant='button'>Cancel</Typography>
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          variant='contained'
+                          style={{
+                            backgroundColor: theme.palette.common.green,
+                            marginLeft: matchesSM ? 0 : '1em',
+                          }}
+                          className={classes.button}>
+                          <Typography variant='button'>Submit</Typography>
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    {/* mobile upload button */}
+                    <Hidden mdUp>
+                      <Grid
+                        item
+                        className='uploadButton'
+                        style={{
+                          alignSelf: 'center',
+                          marginTop: '2.5em',
+                        }}>
+                        <input
+                          accept='image/*'
+                          className={classes.input}
+                          style={{ display: 'none' }}
+                          id='raised-button-file'
+                          multiple
+                          type='file'
+                          onChange={handleUpload}
+                        />
+                        <label htmlFor='raised-button-file'>
+                          <Button
+                            variant='contained'
+                            component='span'
+                            className={classes.button}
+                            style={{
+                              backgroundColor: theme.palette.common.yellow,
+                            }}>
+                            <Typography variant='button'>
+                              Upload Image
+                            </Typography>
+                          </Button>
+                        </label>
                       </Grid>
                     </Hidden>
                   </Grid>
                 </Grid>
-                {/* --- Watering frequencey, buttons */}
+                {/* desktop upload container */}
+                <Grid item align='center'>
+                  <Hidden smDown>
+                    <Grid
+                      item
+                      container
+                      direction='column'
+                      className={classes.imageUpload}>
+                      <Grid item align='center'>
+                        <div
+                          style={{
+                            backgroundImage: `url(${imageUrl})`,
+                            backgroundSize: 'cover',
+                            height: 200,
+                            // width: 150,
+                            margin: 'auto',
+                          }}></div>
+                      </Grid>
+                      <Grid
+                        item
+                        align='center'
+                        className='uploadButton'
+                        style={{
+                          alignSelf: 'flex-end',
+                          marginTop: 2.5,
+                        }}>
+                        <input
+                          accept='image/*'
+                          className={classes.input}
+                          style={{ display: 'none' }}
+                          id='raised-button-file'
+                          multiple
+                          type='file'
+                          onChange={handleUpload}
+                        />
+                        <label htmlFor='raised-button-file'>
+                          <Button
+                            variant='contained'
+                            component='span'
+                            className={classes.button}
+                            style={{
+                              backgroundColor: theme.palette.common.yellow,
+                            }}>
+                            <Typography variant='button'>
+                              Upload Image
+                            </Typography>
+                          </Button>
+                        </label>
+                      </Grid>
+                    </Grid>
+                  </Hidden>
+                </Grid>
               </Grid>
             </Grid>
           </div>
