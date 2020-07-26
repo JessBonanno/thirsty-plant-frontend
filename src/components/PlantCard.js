@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
@@ -14,6 +14,8 @@ import theme from '../components/ui/Theme';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
+// context
+import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles({
   root: {
@@ -28,30 +30,14 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
+  const { handleEditModalOpen, handleDialogOpen } = useContext(PlantContext);
   const { id } = props;
   const classes = useStyles();
-  const [dialogOpen, setDialogOpen] = useState();
-  const [editModalOpen, setEditModalOpen] = React.useState(false);
-
-  const handleEditModalOpen = () => {
-    setEditModalOpen(true);
-  };
-
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
-  };
 
   return (
     <>
-      <EditPlantModal
-        editModalOpen={editModalOpen}
-        setEditModalOpen={setEditModalOpen}
-      />
-      <DeleteDialog
-        dialogOpen={dialogOpen}
-        setDialogOpen={setDialogOpen}
-        plantId={id}
-      />
+      <EditPlantModal />
+      <DeleteDialog plantId={id} />
       <Card className={classes.root}>
         <CardActionArea>
           <CardContent style={{ padding: 0 }}>

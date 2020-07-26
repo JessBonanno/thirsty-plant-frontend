@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, {  useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -10,8 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Hidden from '@material-ui/core/Hidden';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import theme from '../components/ui/Theme';
+// context
+import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -51,41 +51,17 @@ const inputProps = {
 };
 
 export default function TransitionsModal(props) {
-  const [plantData, setPlantData] = useState({
-    nickname: '',
-    species: '',
-    wateringTime: '',
-  });
-  const [imageUrl, setImageUrl] = useState('');
-
-  const { setAddModalOpen, addModalOpen } = props;
   const classes = useStyles();
-
-  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
-
-  let image;
-  const handleUpload = async e => {
-    image = e.target.files[0];
-    const data = new FormData();
-    data.append('file', image);
-    data.append('upload_preset', 'wpnbbzl6');
-    data.append('api_key', '925249979199193');
-    console.log({ data });
-    console.log(image);
-
-    const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
-      data
-    );
-
-    const file = await res;
-    console.log(file);
-    setImageUrl(res.data.url);
-  };
-
-  const handleClose = () => {
-    setAddModalOpen(false);
-  };
+  const {
+    matchesSM,
+    plantData,
+    setPlantData,
+    imageUrl,
+    handleUpload,
+    addModalOpen,
+    handleClose,
+    setAddModalOpen,
+  } = useContext(PlantContext);
 
   const handleChange = e => {
     console.log(e.target.value);
@@ -94,6 +70,7 @@ export default function TransitionsModal(props) {
       [e.target.name]: e.target.value,
     });
   };
+
 
   return (
     <div>

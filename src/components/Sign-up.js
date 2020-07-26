@@ -14,7 +14,7 @@ function Signup() {
 		username: "",
 		password: "",
         confirm: "",
-        phonenumber: "",
+        phoneNumber: "",
 		terms: false,
 	};
 	const [formState, setFormState] = useState(defaultState);
@@ -27,7 +27,7 @@ function Signup() {
 		username: "",
 		password: "",
         confirm: "",
-        phonenumber: "",
+        phoneNumber: "",
 		terms: false,
     });
     const phoneRegex = RegExp(

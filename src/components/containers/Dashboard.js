@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import useMediaquery from '@material-ui/core/useMediaQuery';
-import theme from '../ui/Theme';
 // local components
 import PlantCard from '../PlantCard';
 import AddPlantModal from '../AddPlantModal';
+// context
+import { PlantContext } from '../../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -69,22 +69,11 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
-  const [addModalOpen, setAddModalOpen] = useState(false);
-
-  const matchesXS = useMediaquery(theme.breakpoints.down('xs'));
-
-  const handleAddModalOpen = () => {
-    console.log('open modal');
-    setAddModalOpen(true);
-  };
+  const { matchesXS, handleAddModalOpen } = useContext(PlantContext);
 
   return (
     <>
-      <AddPlantModal
-        addModalOpen={addModalOpen}
-        setAddModalOpen={setAddModalOpen}
-        className={classes.modal}
-      />
+      <AddPlantModal className={classes.modal} />
       <Grid
         container
         direction='column'

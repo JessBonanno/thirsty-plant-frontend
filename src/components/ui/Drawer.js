@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -9,6 +9,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import theme from '../ui/Theme';
+// context
+import { PlantContext } from '../../contexts/PlantContext';
 
 /**
  * Drawer component containing navigation links for footer
@@ -40,7 +42,7 @@ const FooterDrawer = () => {
   }));
 
   const classes = useStyles();
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const { drawerOpen, setDrawerOpen } = useContext(PlantContext);
   const toggleDrawer = open => event => {
     if (
       event &&

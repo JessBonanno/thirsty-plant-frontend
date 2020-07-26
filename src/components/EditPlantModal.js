@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-// eslint-disable-next-line
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import theme from '../components/ui/Theme';
 import Hidden from '@material-ui/core/Hidden';
+// context
+import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -60,43 +57,18 @@ const inputProps = {
  * @param {function} setEditModalOpen changes open state of modal
  * @returns {jsx}
  */
-export default function TransitionsModal(props) {
-  const [plantData, setPlantData] = useState({
-    nickname: '',
-    species: '',
-    wateringTime: '',
-  });
-  const [imageUrl, setImageUrl] = useState('');
-
-  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const { setEditModalOpen, editModalOpen } = props;
+export default function TransitionsModal() {
   const classes = useStyles();
-  // eslint-disable-next-line
-  const handleOpen = () => {
-    setEditModalOpen(true);
-  };
-
-  const handleClose = () => {
-    setEditModalOpen(false);
-  };
-
-  let image;
-  const handleUpload = async e => {
-    image = e.target.files[0];
-    const data = new FormData();
-    data.append('file', image);
-    data.append('upload_preset', 'wpnbbzl6');
-    data.append('api_key', '925249979199193');
-
-    const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
-      data
-    );
-
-    const file = await res;
-    setImageUrl(res.data.url);
-  };
+  const {
+    matchesSM,
+    plantData,
+    setPlantData,
+    setEditModalOpen,
+    editModalOpen,
+    imageUrl,
+    handleEdiModalClose,
+    handleUpload,
+  } = useContext(PlantContext);
 
   const handleChange = e => {
     setPlantData({
@@ -112,12 +84,9 @@ export default function TransitionsModal(props) {
         aria-describedby='transition-modal-description'
         className={classes.modal}
         open={editModalOpen}
-        onClose={handleClose}
+        onClose={handleEdiModalClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}>
+        BackdropProps={{ style: { opacity: '0.3' } }}>
         <Fade in={editModalOpen}>
           <div className={classes.paper}>
             {/* --- Main container */}

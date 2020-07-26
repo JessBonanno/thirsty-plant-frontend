@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { PlantProvider } from './contexts/PlantContext';
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <PlantProvider>
+    <Router>
+      <App />
+    </Router>
+  </PlantProvider>,
   document.getElementById('root')
 );
 

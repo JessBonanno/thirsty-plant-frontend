@@ -9,7 +9,6 @@ import signUp from './signUp.jpeg';
 import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import theme from '../components/ui/Theme';
 
 const useStyles = makeStyles(theme => ({
   form: {
