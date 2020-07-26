@@ -72,9 +72,6 @@ const Dashboard = () => {
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   const matchesXS = useMediaquery(theme.breakpoints.down('xs'));
-  const matchesSM = useMediaquery(theme.breakpoints.down('sm'));
-  const matchesMD = useMediaquery(theme.breakpoints.down('md'));
-  const matchesLG = useMediaquery(theme.breakpoints.down('lg'));
 
   const handleAddModalOpen = () => {
     console.log('open modal');

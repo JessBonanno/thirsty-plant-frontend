@@ -41,7 +41,6 @@ const FooterDrawer = () => {
 
   const classes = useStyles();
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  console.log(pathname);
   const toggleDrawer = open => event => {
     if (
       event &&

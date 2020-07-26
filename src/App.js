@@ -55,7 +55,7 @@ function App() {
           />
           <Route path='/login' component={Login} />
           <Route path='/Signup' component={Signup} />
-          <PrivateRoute path='/ChangePass' component={ChangePass} />
+          <Route path='/ChangePass' component={ChangePass} />
           <Route path='/AddPlant' component={AddPlant} />
           <PrivateRoute path='/dashboard'>
             <Dashboard />

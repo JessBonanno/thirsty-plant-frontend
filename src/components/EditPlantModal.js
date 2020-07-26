@@ -69,9 +69,6 @@ export default function TransitionsModal(props) {
   const [imageUrl, setImageUrl] = useState('');
 
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
-  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
-  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
-  const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
 
   const { setEditModalOpen, editModalOpen } = props;
   const classes = useStyles();

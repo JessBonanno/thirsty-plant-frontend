@@ -62,9 +62,6 @@ export default function TransitionsModal(props) {
   const classes = useStyles();
 
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
-  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
-  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
-  const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
 
   let image;
   const handleUpload = async e => {
@@ -97,8 +94,6 @@ export default function TransitionsModal(props) {
       [e.target.name]: e.target.value,
     });
   };
-
-  console.log(addModalOpen);
 
   return (
     <div>
