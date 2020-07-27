@@ -20,12 +20,6 @@ export const PlantProvider = ({ children }) => {
     data: '',
   });
 
-  const [plantData, setPlantData] = useState({
-    nickname: '',
-    species: '',
-    h2oFrequency: '',
-    // token: localStorage.getItem('token'),
-  });
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
@@ -41,8 +35,6 @@ export const PlantProvider = ({ children }) => {
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
     data.append('api_key', '925249979199193');
-    console.log({ data });
-    console.log(image);
 
     const res = await axios.post(
       `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
@@ -50,7 +42,6 @@ export const PlantProvider = ({ children }) => {
     );
 
     const file = await res;
-    console.log(file);
     setImageUrl(res.data.url);
   };
   const handleAddModalClose = () => {
@@ -75,7 +66,7 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
-  const { response, isLoading } = useFetch({
+  const { response, isLoading, setIsLoading } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,
     url: fetchParams.url,
@@ -93,8 +84,6 @@ export const PlantProvider = ({ children }) => {
         setFetchParams,
         drawerOpen,
         setDrawerOpen,
-        plantData,
-        setPlantData,
         imageUrl,
         setImageUrl,
         handleUpload,
@@ -112,6 +101,7 @@ export const PlantProvider = ({ children }) => {
         handleDialogOpen,
         response,
         isLoading,
+        setIsLoading,
         useFetch,
         userId,
         setUserId,
