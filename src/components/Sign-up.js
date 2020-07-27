@@ -21,7 +21,7 @@ function Signup() {
 	};
 	const [formState, setFormState] = useState(defaultState);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
-	console.log(setFormState);
+
 	// eslint-disable-next-line
 	const [postState, setPost] = useState([]);
 	const [errors, setErrors] = useState({
@@ -46,15 +46,16 @@ function Signup() {
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
 			"Must include one lowercase, one uppercase, one number & be at least 8 characters in length"
 		),
-		confirm: Yup.string().oneOf([Yup.ref("password")], "Passwords must match"),
-		terms: Yup.boolean().oneOf(
+		confirm: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+        terms: Yup.boolean().oneOf(
 			[true],
 			"You must accept the terms and conditions"
 		),
 		phone: Yup.string()
 			.matches(phoneRegex, "Invalid phone")
 			.required("Phone is required"),
-	});
+    });
+    console.log(Yup.ref("password"))
 	const validateChange = (e) => {
 		e.persist();
 		Yup.reach(formSchema, e.target.name)
@@ -104,17 +105,20 @@ function Signup() {
 	}, [formState]);
 
 	const useStyles = makeStyles((theme) => ({
-		form: {
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			height: "100vh",
+		signUpContainer: {
 			backgroundImage: `url(${signUp})`,
 			position: "fixed",
 			minWidth: "100%",
-			minHeight: "100%",
+			height: "100vh",
+			// minHeight: "100%",
 			backgroundSize: "cover",
-			backgroundPosition: "center",
+            backgroundPosition: "center",
+
+		},
+		form: {
+			marginTop: "3em",
+			display: "flex",
+			justifyContent: "center",
 		},
 		buttons: {
 			width: "100%",
@@ -127,10 +131,9 @@ function Signup() {
 		},
 		paper: {
 			backgroundColor: theme.palette.background.paper,
+			padding: "25px",
 			boxShadow: theme.shadows[5],
-			padding: "70px",
 			width: 654,
-			height: 500,
 			outline: "none",
 			[theme.breakpoints.down("sm")]: {
 				height: 550,
@@ -139,99 +142,103 @@ function Signup() {
 			},
 		},
 		text: {
-			textAlign: "center",
+            textAlign: "center",
+            border: "2px solid black",
 		},
 	}));
 	const classes = useStyles();
 	return (
-		<div className={classes.form}>
-			<Paper>
-				<form onSubmit={formSubmit}>
-					<Typography variant="h2" className={classes.text}>
-						Sign Up
-					</Typography>
-					<label>
-						<Input
-							placeholder="Email"
-							type="text"
-							onChange={changeHandler}
-							name="email"
-							value={formState.email}
-							errors={errors}
-						/>
-					</label>
-					<label>
-						<Input
-							placeholder="Username"
-							type="text"
-							onChange={changeHandler}
-							name="username"
-							value={formState.username}
-							errors={errors}
-						/>
-					</label>
-					<label>
-						<Input
-							placeholder="Password"
-							type="text"
-							onChange={changeHandler}
-							value={formState.password}
-							name="password"
-							errors={errors}
-						/>
-					</label>
-					<label>
-						<Input
-							placeholder="Confirm Password"
-							type="text"
-							onChange={changeHandler}
-							value={formState.confirm}
-							name="confirm"
-							errors={errors}
-						/>
-					</label>
-					<Input
-						placeholder="Phone Number"
-						type="text"
-						onChange={changeHandler}
-						name="phone"
-						value={formState.phoneNumber}
-						errors={errors}
-					/>
-					<br />
-					<label htmlFor="terms">
-						<input
-							name="terms"
-							type="checkbox"
-							checked={formState.terms}
-							onChange={changeHandler}
-							errors={errors}
-						/>
-						Terms & Conditions
-					</label>
-					<br />
-					<br />
-
-					<br />
-					<div className={classes.buttons}>
-						<Button
-							variant="contained"
-							color="secondary"
-							style={{ color: "white" }}
-							onClick={formSubmit}
-							disabled={buttonDisabled}
-						>
+		<div className={classes.signUpContainer}>
+			<div className={classes.form}>
+				<Paper className={classes.paper}>
+					<form onSubmit={formSubmit}>
+						<Typography variant="h2" className={classes.text}>
 							Sign Up
-						</Button>
-					</div>
-					<Typography variant="h6">
-						Already have an account?{" "}
-						<Link to="/login">
-							<button>Login</button>
-						</Link>
-					</Typography>
-				</form>
-			</Paper>
+						</Typography>
+						<label>
+							<Input
+								placeholder="Email"
+								type="text"
+								onChange={changeHandler}
+								name="email"
+								value={formState.email}
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="Username"
+								type="text"
+								onChange={changeHandler}
+								name="username"
+								value={formState.username}
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="Password"
+								type="text"
+								onChange={changeHandler}
+								value={formState.password}
+								name="password"
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="Confirm Password"
+								type="text"
+								onChange={changeHandler}
+								value={formState.confirm}
+								name="confirm"
+								errors={errors}
+							/>
+						</label>
+						<Input
+							placeholder="Phone Number"
+							type="text"
+							onChange={changeHandler}
+							name="phone"
+							value={formState.phoneNumber}
+							errors={errors}
+						/>
+						<br />
+						<label htmlFor="terms">
+							<input
+								name="terms"
+								type="checkbox"
+								checked={formState.terms}
+								onChange={changeHandler}
+                                errors={errors}
+                                className={classes.text}
+							/>
+							Terms & Conditions
+						</label>
+						<br />
+						<br />
+
+						<br />
+						<div className={classes.buttons}>
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white" }}
+								onClick={formSubmit}
+								disabled={buttonDisabled}
+							>
+								Sign Up
+							</Button>
+						</div>
+                        <Typography variant="h6" className={classes.text}>
+							Already have an account? {" "}
+							<Link to="/login">
+								<button>Login</button>
+							</Link>
+						</Typography>
+					</form>
+				</Paper>
+			</div>
 		</div>
 	);
 }

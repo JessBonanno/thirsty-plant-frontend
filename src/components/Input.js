@@ -15,7 +15,8 @@ function Input(props) {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			boxSizing: "border-box",
+            boxSizing: "border-box",
+
 		},
 		text: {
 			margin: "10px 0",
