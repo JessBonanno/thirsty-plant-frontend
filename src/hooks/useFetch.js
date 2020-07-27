@@ -7,6 +7,7 @@ import axios from 'axios';
  * @param {*} { api, method, url, data = null, config = null }
  * @return {*} { response, error, isLoading }
  */
+
 export default function useFetch({
   api,
   method,
@@ -17,13 +18,11 @@ export default function useFetch({
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
         api[method](url, data, config).then(res => {
-          console.log(res.data);
           setResponse(res.data);
           setIsLoading(false);
         });
