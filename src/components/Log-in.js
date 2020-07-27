@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Input from './Input.js';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import signUp from './signUp.jpeg';
 import { CircularProgress } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -50,6 +51,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Login() {
+  const { setUserId } = useContext(PlantContext);
+
   const history = useHistory();
   const defaultState = { username: '', password: '' };
   const [formState, setFormState] = useState(defaultState);
@@ -103,6 +106,8 @@ function Login() {
       .then(res => {
         console.log('login response:', res);
         localStorage.setItem('token', res.data.token);
+        setUserId(res.data.user.id);
+        localStorage.setItem('userId', res.data.user.id);
         setLoading(false);
         history.push('/dashboard');
       })
@@ -128,44 +133,45 @@ function Login() {
       <div className={classes.form}>
         <Paper>
           <form>
-            <Typography variant='h2'>Log In</Typography>
+            <Typography variant="h2">Log In</Typography>
             {loginError && (
-              <Typography variant='caption' style={{ color: 'red' }}>
+              <Typography variant="caption" style={{ color: 'red' }}>
                 Username and password not recognized, please try again
               </Typography>
             )}
 
             <label>
               <Input
-                placeholder='Username'
-                type='text'
+                placeholder="Username"
+                type="text"
                 onChange={changeHandler}
-                name='username'
+                name="username"
                 value={formState.username}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder='Password'
-                type='text'
+                placeholder="Password"
+                type="text"
                 onChange={changeHandler}
-                name='password'
+                name="password"
                 value={formState.password}
                 errors={errors}
               />
             </label>
             <div className={classes.buttons}>
               <Button
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 style={{ color: 'white' }}
                 onClick={formSubmit}
-                className={classes.button}>
+                className={classes.button}
+              >
                 {loading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant='button'>Login</Typography>
+                  <Typography variant="button">Login</Typography>
                 )}
               </Button>
             </div>
