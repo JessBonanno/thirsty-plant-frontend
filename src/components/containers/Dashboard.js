@@ -1,10 +1,12 @@
 import React, { useEffect, useContext } from 'react';
+import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
+
 // local components
 import PlantCard from '../PlantCard';
 import AddPlantModal from '../AddPlantModal';
@@ -80,17 +82,6 @@ const Dashboard = () => {
     setSubmitted,
   } = useContext(PlantContext);
 
-  useEffect(() => {
-    console.log('test useEffect');
-
-    setFetchParams({
-      ...fetchParams,
-      method: 'get',
-      url: `/users/${userId}/plants`,
-    });
-  }, [submitted]);
-
-  console.log('response for all plants:', { response });
   return (
     <>
       <AddPlantModal className={classes.modal} />
