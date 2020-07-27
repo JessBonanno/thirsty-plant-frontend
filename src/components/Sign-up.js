@@ -9,6 +9,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
+
+// local components
+import Terms from './Terms';
 
 // api imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
@@ -188,77 +192,82 @@ function Signup() {
       <div className={classes.form}>
         <Paper>
           <form onSubmit={formSubmit}>
-            <Typography variant="h2">Sign Up</Typography>
+            <Typography variant='h2'>Sign Up</Typography>
             <label>
               <Input
-                placeholder="Email"
-                type="text"
+                placeholder='Email'
+                type='text'
                 onChange={changeHandler}
-                name="email"
+                name='email'
                 value={formState.email}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Username"
-                type="text"
+                placeholder='Username'
+                type='text'
                 onChange={changeHandler}
-                name="username"
+                name='username'
                 value={formState.username}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Password"
-                type="text"
+                placeholder='Password'
+                type='text'
                 onChange={changeHandler}
                 value={formState.password}
-                name="password"
+                name='password'
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Confirm Password"
-                type="text"
+                placeholder='Confirm Password'
+                type='text'
                 onChange={changeHandler}
                 value={formState.confirm}
-                name="confirm"
+                name='confirm'
                 errors={errors}
               />
             </label>
             <Input
-              placeholder="Phone Number"
-              type="text"
+              placeholder='Phone Number'
+              type='text'
               onChange={changeHandler}
-              name="phoneNumber"
+              name='phoneNumber'
               value={formState.phoneNumber}
               errors={errors}
             />
-            <label htmlFor="terms">
-              <input
-                name="terms"
-                type="checkbox"
-                onChange={changeHandler}
-                errors={errors}
-              />
-              Terms & Conditions
+            <label htmlFor='terms'>
+              <Grid container alignItems='center'>
+                <Grid item>
+                  <input
+                    name='terms'
+                    type='checkbox'
+                    onChange={changeHandler}
+                    errors={errors}
+                  />
+                </Grid>
+                <Grid item>
+                  <Terms />
+                </Grid>
+              </Grid>
             </label>
             <p>Already have an account?</p>
             <div className={classes.buttons}>
               <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 style={{ color: 'white' }}
                 onClick={formSubmit}
-                className={classes.button}
-              >
+                className={classes.button}>
                 {isLoading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant="button">Sign Up</Typography>
+                  <Typography variant='button'>Sign Up</Typography>
                 )}
               </Button>
             </div>

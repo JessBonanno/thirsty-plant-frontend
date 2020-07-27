@@ -15,6 +15,7 @@ import ChangePass from './components/ChangePass.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
 import PrivateRoute from './utils/PrivateRoute';
+import Terms from './components/Terms'
 
 function App() {
   return (
