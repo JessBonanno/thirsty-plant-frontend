@@ -9,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
+import InvertColorsTwoToneIcon from '@material-ui/icons/InvertColorsTwoTone';
 import theme from '../components/ui/Theme';
 
 // Local Imports
@@ -38,89 +39,126 @@ const PlantCard = props => {
     <>
       <EditPlantModal />
       <DeleteDialog plantId={id} />
-      <Card className={classes.root}>
+      <Card className={classes.root} disableRipple>
         <CardActionArea>
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
-              justify='space-between'
-              alignItems='center'
+              justify="space-between"
+              alignItems="center"
               className={classes.cardHeaderContainer}
-              style={{ padding: '0 1em' }}>
+              style={{ padding: '0 1em' }}
+            >
               <Grid item>
                 <Typography
                   gutterBottom
-                  variant='plantCardHeader'
-                  component='h2'
+                  variant="plantCardHeader"
+                  component="h2"
                   style={{
                     fontFamily: 'Mulish',
                     color: theme.palette.common.pink,
-                  }}>
+                  }}
+                >
                   Plant Name
                 </Typography>
               </Grid>
               <Grid item>
                 <IconButton
                   style={{ marginBottom: '.25em' }}
-                  onClick={handleDialogOpen}>
-                  <DeleteTwoToneIcon />
+                  onClick={handleDialogOpen}
+                >
+                  <DeleteTwoToneIcon style={{ color: 'red' }} />
                 </IconButton>
               </Grid>
             </Grid>
             <CardMedia
               className={classes.media}
               image={require('../assets/images/plant-for-card.jpg')}
-              title='Contemplative Reptile'
+              title="Contemplative Reptile"
               style={{ marginBottom: '1em', height: 167 }}
             />
             <Grid
               item
               container
-              justify='space-between'
+              justify="space-between"
               style={{ padding: '0 1em' }}
-              className={classes.bottomContainer}>
+              className={classes.bottomContainer}
+            >
               <Grid
                 item
                 container
-                align='left'
-                style={{ width: '70%' }}
+                align="left"
                 className={classes.bottomInfo}
-                direction='column'>
-                <Grid item style={{ margin: 0 }}>
-                  <Typography
-                    variant='h5'
-                    color='textSecondary'
-                    style={{ margin: 0 }}>
-                    Species Name
-                  </Typography>
+                direction="column"
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
+                >
+                  <Grid item style={{ margin: 0, maxWidth: '70%' }}>
+                    <Typography
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
+                      Species Name
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    style={{
+                      marginLeft: 'auto',
+                      marginTop: 'auto',
+                      maxWidth: '25%',
+                    }}
+                  >
+                    <Grid container direction="row" alignItems="center">
+                      <Grid item>
+                        <IconButton
+                          style={{ marginBottom: '.25em' }}
+                          onClick={handleEditModalOpen}
+                        >
+                          <EditTwoToneIcon />
+                        </IconButton>
+                      </Grid>
+                      <Grid item>
+                        <Typography variant="caption">Edit</Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item style={{ margin: 0, padding: '1em 0' }}>
-                  <Typography variant='h6' color='textSecondary'>
+                  <Typography variant="h6" color="textSecondary">
                     Next watering:
                   </Typography>
-                  <Typography variant='body1' color='textSecondary'>
+                  <Typography variant="body1" color="textSecondary">
                     Today
                   </Typography>
-
-                  <Typography variant='h6' color='textSecondary'>
-                    Last watering:
-                  </Typography>
-                  <Typography variant='body1' color='textSecondary'>
-                    Yesterday
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid item style={{ marginLeft: 'auto', marginTop: 'auto' }}>
-                <Grid container direction='row' alignItems='center'>
-                  <Grid item>
-                    <IconButton
-                      style={{ marginBottom: '.25em' }}
-                      onClick={handleEditModalOpen}>
-                      <EditTwoToneIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant='caption'>Edit</Typography>
+                  <Grid container justify="space-between" alignItems="center">
+                    <Grid item style={{ width: '70%' }}>
+                      <Typography variant="h6" color="textSecondary">
+                        Last watering:
+                      </Typography>
+                      <Typography variant="body1" color="textSecondary">
+                        Yesterday
+                      </Typography>
+                    </Grid>
+                    <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
+                      <Grid container direction="column" alignItems="center">
+                        <Grid item>
+                          <IconButton style={{ padding: 5 }}>
+                            <InvertColorsTwoToneIcon
+                              style={{ color: theme.palette.common.blue }}
+                            />
+                          </IconButton>
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="caption">Water Now</Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
