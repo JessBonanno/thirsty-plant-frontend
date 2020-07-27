@@ -52,10 +52,16 @@ const inputProps = {
 
 export default function TransitionsModal(props) {
   const classes = useStyles();
+
+  const [plantData, setPlantData] = useState({
+    nickname: '',
+    species: '',
+    h2oFrequency: '',
+    // token: localStorage.getItem('token'),
+  });
+
   const {
     matchesSM,
-    plantData,
-    setPlantData,
     imageUrl,
     handleUpload,
     addModalOpen,
@@ -66,25 +72,35 @@ export default function TransitionsModal(props) {
     fetchParams,
     setFetchParams,
     submitted,
+    // userId,
     setSubmitted,
   } = useContext(PlantContext);
 
   const handleChange = e => {
+    e.persist();
     setPlantData({
       ...plantData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = e => {
-    setFetchParams({
+  const handleSubmit = async e => {
+    const userId = localStorage.getItem('userId');
+    await setFetchParams({
       ...fetchParams,
       method: 'post',
       url: '/plants',
       data: { ...plantData, token: localStorage.getItem('token') },
     });
+
     setAddModalOpen(false);
-    setSubmitted(!submitted);
+
+    // Get the updated list of plants to populate the plants list
+    await setFetchParams({
+      ...fetchParams,
+      method: 'get',
+      url: `/users/${userId}/plants`,
+    });
   };
 
   return (
