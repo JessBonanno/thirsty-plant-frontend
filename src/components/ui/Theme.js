@@ -85,7 +85,11 @@ export default createMuiTheme({
       color: pink,
       fontSize: '1.6rem',
     },
-    p: {},
+    p: {
+      fontFamily: ralewayFont,
+      // color: 'white',
+      fontSize: '1.4rem',
+    },
     subtitle1: {},
     subtitle2: {},
     body1: {},
