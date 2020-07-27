@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Input from "./Input.js";
 import axios from "axios";
@@ -17,8 +17,10 @@ import signUp from "./signUp.jpeg";
 import Paper from "@material-ui/core/Paper";
 import ChangePass from './ChangePass.js';
 import Signup from './Sign-up.js';
+import { TweenMax, Power3 } from "gsap";
 
 function Login() {
+    let gsapAnimationLogin = useRef(null);
 	const defaultState = { username: "", password: "" };
 	const [formState, setFormState] = useState(defaultState);
 	// eslint-disable-next-line
@@ -73,7 +75,15 @@ function Login() {
 			[e.target.name]: value,
 		});
 		validateChange(e);
-	};
+    };
+    
+useEffect(() => {
+	TweenMax.to(gsapAnimationLogin, 5, {
+		opacity: 1,
+		ease: Power3.easeOut,
+	});
+}, []);
+
 	const useStyles = makeStyles((theme) => ({
 		signUpContainer: {
 			backgroundImage: `url(${signUp})`,
@@ -81,33 +91,35 @@ function Login() {
 			minWidth: "100%",
 			height: "100vh",
 			backgroundSize: "cover",
-            backgroundPosition: "center",
-            display: "flex",
-            justifyContent: "center",
+			backgroundPosition: "center",
+			display: "flex",
+			justifyContent: "center",
 		},
 		form: {
 			marginTop: "3em",
-			
-        },
-        form2: {
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-border: "2px solid black",
-paddingBottom: '25px',
-        },
+			display: "flex",
+			justifyContent: "center",
+			opacity: "0",
+		},
+		form2: {
+			display: "flex",
+			flexDirection: "column",
+			justifyContent: "center",
+			border: "2px solid black",
+			paddingBottom: "25px",
+		},
 		buttons: {
 			width: "100%",
 			display: "flex",
 			justifyContent: "center",
 			marginTop: "20px",
-        },
-        buttons2: {
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-        },
+		},
+		buttons2: {
+			width: "100%",
+			display: "flex",
+			justifyContent: "center",
+			marginTop: "20px",
+		},
 		paper: {
 			backgroundColor: theme.palette.background.paper,
 			boxShadow: theme.shadows[5],
@@ -129,7 +141,12 @@ paddingBottom: '25px',
 	const classes = useStyles();
 	return (
 		<div className={classes.signUpContainer}>
-			<div className={classes.form}>
+			<div
+				className={classes.form}
+				ref={(el) => {
+					gsapAnimationLogin = el;
+				}}
+			>
 				<Paper className={classes.paper}>
 					<form onSubmit={formSubmit} className={classes.form2}>
 						<Typography variant="h2" className={classes.text}>
@@ -155,37 +172,39 @@ paddingBottom: '25px',
 								errors={errors}
 							/>
 						</label>
-                        <div className={classes.buttons}>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                style={{ color: "white" }}
-                            >
-                                Login
+						<div className={classes.buttons}>
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white" }}
+							>
+								Login
 							</Button>
-                        </div>
+						</div>
 						<Typography variant="h6" className={classes.text}>
 							Dont have an account?{" "}
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                style={{ color: "white" }}
-                                href={Signup}
-                            >Sign Up</Button>
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white" }}
+								href={Signup}
+							>
+								Sign Up
+							</Button>
 						</Typography>
-                        <Typography variant="h6" className={classes.text}>
-                            Having trouble logging in?{" "}
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    style={{ color: "white" }}
-                                    href={ChangePass}
-                                >Change Password</Button>            
-                        </Typography>
-
+						<Typography variant="h6" className={classes.text}>
+							Having trouble logging in?{" "}
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white" }}
+								href={ChangePass}
+							>
+								Change Password
+							</Button>
+						</Typography>
 					</form>
 				</Paper>
-			
 			</div>
 		</div>
 	);

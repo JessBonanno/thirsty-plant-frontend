@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
@@ -9,9 +9,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Login from "./Log-in";
-import ChangePass from './ChangePass.js';
+import { TweenMax, Power3 } from "gsap";
 
 function Signup() {
+	let gsapAnimationForm = useRef(null);
 	const defaultState = {
 		email: "",
 		username: "",
@@ -47,15 +48,18 @@ function Signup() {
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
 			"Must include one lowercase, one uppercase, one number & be at least 8 characters in length"
 		),
-		confirm: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
-        terms: Yup.boolean().oneOf(
+		confirm: Yup.string().oneOf(
+			[Yup.ref("password"), null],
+			"Passwords must match"
+		),
+		terms: Yup.boolean().oneOf(
 			[true],
 			"You must accept the terms and conditions"
 		),
 		phone: Yup.string()
 			.matches(phoneRegex, "Invalid phone")
 			.required("Phone is required"),
-    });
+	});
 
 	const validateChange = (e) => {
 		e.persist();
@@ -105,6 +109,13 @@ function Signup() {
 		});
 	}, [formState]);
 
+	useEffect(() => {
+		TweenMax.to(gsapAnimationForm, 5, {
+			opacity: 1,
+			ease: Power3.easeOut,
+		});
+	}, []);
+
 	const useStyles = makeStyles((theme) => ({
 		signUpContainer: {
 			backgroundImage: `url(${signUp})`,
@@ -113,13 +124,13 @@ function Signup() {
 			height: "100vh",
 			// minHeight: "100%",
 			backgroundSize: "cover",
-            backgroundPosition: "center",
-
+			backgroundPosition: "center",
 		},
 		form: {
 			marginTop: "3em",
 			display: "flex",
-			justifyContent: "center",
+            justifyContent: "center",
+            opacity: "0",
 		},
 		buttons: {
 			width: "100%",
@@ -143,13 +154,18 @@ function Signup() {
 			},
 		},
 		text: {
-            textAlign: "center",
+			textAlign: "center",
 		},
 	}));
 	const classes = useStyles();
 	return (
 		<div className={classes.signUpContainer}>
-			<div className={classes.form}>
+			<div
+				className={classes.form}
+				ref={(el) => {
+					gsapAnimationForm = el;
+				}}
+			>
 				<Paper className={classes.paper}>
 					<form onSubmit={formSubmit}>
 						<Typography variant="h2" className={classes.text}>
@@ -210,8 +226,8 @@ function Signup() {
 								type="checkbox"
 								checked={formState.terms}
 								onChange={changeHandler}
-                                errors={errors}
-                                className={classes.text}
+								errors={errors}
+								className={classes.text}
 							/>
 							Terms & Conditions
 						</label>
@@ -230,14 +246,16 @@ function Signup() {
 								Sign Up
 							</Button>
 						</div>
-                        <Typography variant="h6" className={classes.text}>
-							Already have an account? {" "}
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    style={{ color: "white" }}
-                                    href={Login}
-                                >Login</Button>
+						<Typography variant="h6" className={classes.text}>
+							Already have an account?{" "}
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white" }}
+								href={Login}
+							>
+								Login
+							</Button>
 						</Typography>
 					</form>
 				</Paper>
