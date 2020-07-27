@@ -24,26 +24,6 @@ function App() {
       </Hidden>
       <flexbox flexDirection="column">
         <div className="App">
-          <Link to="/">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Home
-            </Button>
-          </Link>
-          <Link to="/Signup">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Sign-up
-            </Button>
-          </Link>
-          <Link to="/ChangePass">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Change Password
-            </Button>
-          </Link>
-          <Link to="/AddPlant">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Add Plant
-            </Button>
-          </Link>
           <Route path="/login" component={Login} />
           <Route path="/Signup" component={Signup} />
           <Route path="/ChangePass" component={ChangePass} />

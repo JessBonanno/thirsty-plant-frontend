@@ -15,6 +15,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import signUp from "./signUp.jpeg";
 import Paper from "@material-ui/core/Paper";
+import ChangePass from './ChangePass.js';
+import Signup from './Sign-up.js';
 
 function Login() {
 	const defaultState = { username: "", password: "" };
@@ -64,35 +66,48 @@ function Login() {
 			.catch((err) => console.log(err.response));
 	};
 	const changeHandler = (e) => {
-        const value =
-            e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        setFormState({
-            ...formState,
-            [e.target.name]: value
-        });
-        validateChange(e);
+		const value =
+			e.target.type === "checkbox" ? e.target.checked : e.target.value;
+		setFormState({
+			...formState,
+			[e.target.name]: value,
+		});
+		validateChange(e);
 	};
 	const useStyles = makeStyles((theme) => ({
-		form: {
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			height: "100vh",
+		signUpContainer: {
 			backgroundImage: `url(${signUp})`,
 			position: "fixed",
 			minWidth: "100%",
-			minHeight: "100%",
+			height: "100vh",
 			backgroundSize: "cover",
-			backgroundPosition: "center",
+            backgroundPosition: "center",
+            display: "flex",
+            justifyContent: "center",
 		},
+		form: {
+			marginTop: "3em",
+			
+        },
+        form2: {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+border: "2px solid black",
+paddingBottom: '25px',
+        },
 		buttons: {
 			width: "100%",
 			display: "flex",
-			alignItems: "center",
 			justifyContent: "center",
-			justifyItems: "space-between",
-			marginLeft: "35px",
-		},
+			marginTop: "20px",
+        },
+        buttons2: {
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+        },
 		paper: {
 			backgroundColor: theme.palette.background.paper,
 			boxShadow: theme.shadows[5],
@@ -104,53 +119,74 @@ function Login() {
 				height: 550,
 				width: 400,
 				padding: 20,
-            },
-            
-        },
-        text: {
-            textAlign: "center",
-
-        }
+			},
+		},
+		text: {
+			textAlign: "center",
+			marginTop: "25px",
+		},
 	}));
 	const classes = useStyles();
 	return (
-		<div className={classes.form}>
-			<Paper>
-				<form onSubmit={formSubmit}>
-					<Typography variant="h2" className={classes.text}>Log In</Typography>
-					<label>
-						<Input
-							placeholder="Username"
-							type="text"
-							onChange={changeHandler}
-							name="username"
-							value={formState.username}
-							errors={errors}
-						/>
-					</label>
-					<label>
-						<Input
-							placeholder="Password"
-							type="text"
-							onChange={changeHandler}
-							name="password"
-							value={formState.password}
-							errors={errors}
-						/>
-					</label>
-                    <Typography variant="h6">Dont have an account?  <Link to='/login' ><button>SIGN UP</button></Link></Typography>
-					<div className={classes.buttons}>
-						<Button
-							variant="contained"
-							color="secondary"
-							style={{ color: "white" }}
-						>
-							Login
-						</Button>
-					</div>
-				</form>
-			</Paper>
-			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
+		<div className={classes.signUpContainer}>
+			<div className={classes.form}>
+				<Paper className={classes.paper}>
+					<form onSubmit={formSubmit} className={classes.form2}>
+						<Typography variant="h2" className={classes.text}>
+							Log In
+						</Typography>
+						<label>
+							<Input
+								placeholder="Username"
+								type="text"
+								onChange={changeHandler}
+								name="username"
+								value={formState.username}
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="Password"
+								type="text"
+								onChange={changeHandler}
+								name="password"
+								value={formState.password}
+								errors={errors}
+							/>
+						</label>
+                        <div className={classes.buttons}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                style={{ color: "white" }}
+                            >
+                                Login
+							</Button>
+                        </div>
+						<Typography variant="h6" className={classes.text}>
+							Dont have an account?{" "}
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                style={{ color: "white" }}
+                                href={Signup}
+                            >Sign Up</Button>
+						</Typography>
+                        <Typography variant="h6" className={classes.text}>
+                            Having trouble logging in?{" "}
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ color: "white" }}
+                                    href={ChangePass}
+                                >Change Password</Button>            
+                        </Typography>
+
+					</form>
+				</Paper>
+			
+			</div>
 		</div>
 	);
 }

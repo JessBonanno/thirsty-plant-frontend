@@ -15,8 +15,6 @@ function Input(props) {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-            boxSizing: "border-box",
-
 		},
 		text: {
 			margin: "10px 0",
@@ -26,7 +24,6 @@ function Input(props) {
 			width: "100%",
 			padding: theme.spacing(2, 4, 3),
 		},
-
 		errors: {
 			fontSize: "0.8rem",
 			color: "red",

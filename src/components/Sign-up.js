@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Login from "./Log-in";
+import ChangePass from './ChangePass.js';
 
 function Signup() {
 	const defaultState = {
@@ -21,7 +22,7 @@ function Signup() {
 	};
 	const [formState, setFormState] = useState(defaultState);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
-
+	console.log(setFormState);
 	// eslint-disable-next-line
 	const [postState, setPost] = useState([]);
 	const [errors, setErrors] = useState({
@@ -55,7 +56,7 @@ function Signup() {
 			.matches(phoneRegex, "Invalid phone")
 			.required("Phone is required"),
     });
-    console.log(Yup.ref("password"))
+
 	const validateChange = (e) => {
 		e.persist();
 		Yup.reach(formSchema, e.target.name)
@@ -126,7 +127,7 @@ function Signup() {
 			alignItems: "center",
 			justifyContent: "center",
 			justifyItems: "space-between",
-			marginLeft: "20px",
+			marginLeft: "0px",
 			marginBottom: "20px",
 		},
 		paper: {
@@ -136,14 +137,13 @@ function Signup() {
 			width: 654,
 			outline: "none",
 			[theme.breakpoints.down("sm")]: {
-				height: 550,
+				height: 800,
 				width: 400,
 				padding: 20,
 			},
 		},
 		text: {
             textAlign: "center",
-            border: "2px solid black",
 		},
 	}));
 	const classes = useStyles();
@@ -232,9 +232,12 @@ function Signup() {
 						</div>
                         <Typography variant="h6" className={classes.text}>
 							Already have an account? {" "}
-							<Link to="/login">
-								<button>Login</button>
-							</Link>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ color: "white" }}
+                                    href={Login}
+                                >Login</Button>
 						</Typography>
 					</form>
 				</Paper>

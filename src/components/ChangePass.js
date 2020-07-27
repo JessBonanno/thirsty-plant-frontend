@@ -78,19 +78,22 @@ function ChangePass() {
         });
         validateChange(e);
 	};
-	const useStyles = makeStyles((theme) => ({
-		form: {
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			height: "100vh",
-			backgroundImage: `url(${signUp})`,
-			position: "fixed",
-			minWidth: "100%",
-			minHeight: "100%",
-			backgroundSize: "cover",
-			backgroundPosition: "center",
-		},
+    const useStyles = makeStyles((theme) => ({
+        signUpContainer: {
+            backgroundImage: `url(${signUp})`,
+            position: "fixed",
+            minWidth: "100%",
+            height: "100vh",
+            // minHeight: "100%",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+
+        },
+        form: {
+            marginTop: "3em",
+            display: "flex",
+            justifyContent: "center",
+        },
 		buttons: {
 			width: "100%",
 			display: "flex",
@@ -123,8 +126,9 @@ function ChangePass() {
         window.history.back()
     }
 	return (
+        <div className={classes.signUpContainer}>
 		<div className={classes.form}>
-            <Paper>
+                <Paper className={classes.paper}>
                 <Typography variant="h4" className={classes.text}>Change Your Password</Typography>                
 			<form onSubmit={formSubmit}>
 				<label>
@@ -189,6 +193,7 @@ function ChangePass() {
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
             </Paper>
 		</div>
+        </div>
 	);
 }
 
