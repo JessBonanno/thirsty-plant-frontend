@@ -11,7 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // api imports
-import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useFetch from '../hooks/useFetch';
 import { PlantContext } from '../contexts/PlantContext';
 
@@ -56,21 +55,15 @@ const useStyles = makeStyles(theme => ({
 
 function Signup() {
   const history = useHistory();
-  const { userId, setUserId } = useContext(PlantContext);
-
-  const [fetchParams, setFetchParams] = useState({
-    method: '',
-    url: '',
-    data: '',
-  });
-
-  // eslint-disable-next-line
-  const { response, isLoading, setIsLoading } = useFetch({
-    api: axiosWithAuth(),
-    method: fetchParams.method,
-    url: fetchParams.url,
-    data: fetchParams.data,
-  });
+  const {
+    userId,
+    setUserId,
+    fetchParams,
+    setFetchParams,
+    response,
+    isLoading,
+    setIsLoading,
+  } = useContext(PlantContext);
 
   const defaultState = {
     email: '',
@@ -83,7 +76,6 @@ function Signup() {
 
   const [formState, setFormState] = useState(defaultState);
 
-  console.log(formState);
   // eslint-disable-next-line
   const [postState, setPost] = useState([]);
   const [errors, setErrors] = useState({
@@ -145,11 +137,10 @@ function Signup() {
         ...formState,
         [e.target.name]: value,
       });
-      const post = setPost({
-        ...postState,
-        formState,
-      });
-      console.log(postState);
+      // const post = setPost({
+      //   ...postState,
+      //   formState,
+      // });
       setFetchParams({
         ...fetchParams,
         method: 'post',
