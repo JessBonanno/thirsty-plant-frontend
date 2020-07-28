@@ -108,6 +108,11 @@ export default createMuiTheme({
       fontFamily: ralewayFont,
       textTransform: 'capitalize',
     },
-    caption: {},
+    caption: {
+      fontFamily: ralewayFont,
+      fontSize: '1.3rem',
+      color: 'darkred',
+      fontStyle: 'none',
+    },
   },
 });
