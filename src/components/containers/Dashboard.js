@@ -1,10 +1,12 @@
 import React, { useEffect, useContext } from 'react';
+import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
+
 // local components
 import PlantCard from '../PlantCard';
 import AddPlantModal from '../AddPlantModal';
@@ -69,41 +71,53 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
-  const { matchesXS, handleAddModalOpen } = useContext(PlantContext);
+  const {
+    matchesXS,
+    handleAddModalOpen,
+    userId,
+    response,
+    setFetchParams,
+    fetchParams,
+    submitted,
+    setSubmitted,
+  } = useContext(PlantContext);
 
   return (
     <>
       <AddPlantModal className={classes.modal} />
       <Grid
         container
-        direction='column'
-        alignItems='center'
-        className={classes.dashContainer}>
+        direction="column"
+        alignItems="center"
+        className={classes.dashContainer}
+      >
         {/* ----- Page Header ---- */}
         <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
-          <Typography variant='h2'>My Plants</Typography>
+          <Typography variant="h2">My Plants</Typography>
         </Grid>
         {/* ---- Plant Bar ----- */}
         <Grid
           item
           container
           direction={matchesXS ? 'column' : 'row'}
-          justify='space-between'
+          justify="space-between"
           alignItems={matchesXS ? 'center' : undefined}
           className={classes.toolsContainer}
           style={{
             padding: 15,
-          }}>
+          }}
+        >
           <Grid item>
             <Button
-              variant='contained'
-              color='secondary'
+              variant="contained"
+              color="secondary"
               style={{
                 color: 'white',
                 marginBottom: matchesXS ? '1em' : undefined,
                 width: matchesXS && '100%',
               }}
-              onClick={handleAddModalOpen}>
+              onClick={handleAddModalOpen}
+            >
               Add New Plant
             </Button>
           </Grid>
@@ -113,7 +127,7 @@ const Dashboard = () => {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder='Search…'
+                placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -129,12 +143,13 @@ const Dashboard = () => {
         <Grid
           item
           container
-          direction='row'
-          justify='center'
-          className={classes.cardsContainer}>
+          direction="row"
+          justify="center"
+          className={classes.cardsContainer}
+        >
           {array.map(item => (
             // 12 is full width, 6 half width, etc...
-            <Grid item xs={12} sm={6} md={4} lg={3} align='center'>
+            <Grid item xs={12} sm={6} md={4} lg={3} align="center">
               <PlantCard />
             </Grid>
           ))}

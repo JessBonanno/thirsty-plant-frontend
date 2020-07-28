@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -10,9 +10,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import { TweenMax, Power3 } from 'gsap';
 
+// api imports
+import { PlantContext } from '../contexts/PlantContext';
 // local imports
-import { axiosWithAuth } from '../utils/axiosWithAuth';
-import useFetch from '../hooks/useFetch';
 import Terms from './Terms';
 import signUp from './signUp.jpeg';
 import Input from './Input.js';
@@ -62,18 +62,15 @@ const useStyles = makeStyles(theme => ({
 function Signup() {
   let gsapAnimationForm = useRef(null);
   const history = useHistory();
-  const [fetchParams, setFetchParams] = useState({
-    method: '',
-    url: '',
-    data: '',
-  });
+  const {
+    setUserId,
+    fetchParams,
+    setFetchParams,
+    response,
+    isLoading,
+    setIsLoading,
+  } = useContext(PlantContext);
 
-  const { response, isLoading, setIsLoading } = useFetch({
-    api: axiosWithAuth(),
-    method: fetchParams.method,
-    url: fetchParams.url,
-    data: fetchParams.data,
-  });
   const defaultState = {
     email: '',
     username: '',
@@ -83,6 +80,7 @@ function Signup() {
     terms: false,
   };
   const [formState, setFormState] = useState(defaultState);
+
   const [buttonDisabled, setButtonDisabled] = useState(false);
   console.log(setFormState);
   // eslint-disable-next-line
@@ -150,11 +148,10 @@ function Signup() {
         ...formState,
         [e.target.name]: value,
       });
-      const post = setPost({
-        ...postState,
-        formState,
-      });
-      console.log(postState);
+      // const post = setPost({
+      //   ...postState,
+      //   formState,
+      // });
       setFetchParams({
         ...fetchParams,
         method: 'post',
@@ -179,6 +176,7 @@ function Signup() {
 
   useEffect(() => {
     if (response !== null) {
+      setUserId(response.id);
       axios
         .post(
           'https://bw-water-my-plants.herokuapp.com/api/users/login',
@@ -186,6 +184,7 @@ function Signup() {
         )
         .then(res => {
           localStorage.setItem('token', res.data.token);
+
           history.push('/dashboard');
         })
         .catch(err => console.log(err));

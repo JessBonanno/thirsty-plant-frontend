@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Input from './Input.js';
 import axios from 'axios';
@@ -15,10 +15,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import signUp from './signUp.jpeg';
 import Paper from '@material-ui/core/Paper';
+import { PlantContext } from '../contexts/PlantContext';
 import { CircularProgress } from '@material-ui/core';
-
-import ChangePass from './ChangePass.js';
-import Signup from './Sign-up.js';
 import { TweenMax, Power3 } from 'gsap';
 
 const useStyles = makeStyles(theme => ({
@@ -77,6 +75,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Login() {
+  const { setUserId } = useContext(PlantContext);
+
   const history = useHistory();
   const classes = useStyles();
   let gsapAnimationLogin = useRef(null);
@@ -117,8 +117,6 @@ function Login() {
 
   const formSubmit = e => {
     e.preventDefault();
-    const value =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setLoading(true);
     axios
       .post(
@@ -128,6 +126,8 @@ function Login() {
       .then(res => {
         console.log('login response:', res);
         localStorage.setItem('token', res.data.token);
+        setUserId(res.data.user.id);
+        localStorage.setItem('userId', res.data.user.id);
         setLoading(false);
         history.push('/dashboard');
       })

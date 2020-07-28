@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -52,31 +52,62 @@ const inputProps = {
 
 export default function TransitionsModal(props) {
   const classes = useStyles();
+
+  const [plantData, setPlantData] = useState({
+    nickname: '',
+    species: '',
+    h2oFrequency: '',
+    // token: localStorage.getItem('token'),
+  });
+
   const {
     matchesSM,
-    plantData,
-    setPlantData,
     imageUrl,
     handleUpload,
     addModalOpen,
     handleClose,
     setAddModalOpen,
+    response,
+    isLoading,
+    fetchParams,
+    setFetchParams,
+    submitted,
+    // userId,
+    setSubmitted,
   } = useContext(PlantContext);
 
   const handleChange = e => {
-    console.log(e.target.value);
+    e.persist();
     setPlantData({
       ...plantData,
       [e.target.name]: e.target.value,
     });
   };
 
+  const handleSubmit = async e => {
+    const userId = localStorage.getItem('userId');
+    await setFetchParams({
+      ...fetchParams,
+      method: 'post',
+      url: '/plants',
+      data: { ...plantData, token: localStorage.getItem('token') },
+    });
+
+    setAddModalOpen(false);
+
+    // Get the updated list of plants to populate the plants list
+    await setFetchParams({
+      ...fetchParams,
+      method: 'get',
+      url: `/users/${userId}/plants`,
+    });
+  };
 
   return (
     <div>
       <Modal
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         className={classes.modal}
         open={addModalOpen}
         onClose={handleClose}
@@ -84,29 +115,33 @@ export default function TransitionsModal(props) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}>
+        }}
+      >
         <Fade in={addModalOpen}>
           <div className={classes.paper}>
             {/* --- Main container */}
             <Grid
               className={classes.addContainer}
               container
-              direction='column'
-              alignItems={matchesSM && 'center'}>
+              direction="column"
+              alignItems={matchesSM && 'center'}
+            >
               {' '}
               {/* --- Form and upload image container */}
               <Grid
                 container
-                direction='row'
-                justify='space-around'
-                alignItems='center'>
+                direction="row"
+                justify="space-around"
+                alignItems="center"
+              >
                 <Grid item style={{ width: matchesSM ? '100%' : '50%' }}>
                   <Grid
                     container
-                    direction='column'
-                    className={classes.formContainer}>
+                    direction="column"
+                    className={classes.formContainer}
+                  >
                     <Grid item align={matchesSM && 'center'}>
-                      <Typography variant='h4' style={{ marginBottom: 20 }}>
+                      <Typography variant="h4" style={{ marginBottom: 20 }}>
                         Add a Plant
                       </Typography>
                     </Grid>
@@ -114,42 +149,49 @@ export default function TransitionsModal(props) {
                       <Grid item>
                         <TextField
                           className={classes.formField}
-                          variant='outlined'
-                          label='Plant name'
+                          variant="outlined"
+                          label="Plant name"
+                          name="nickname"
+                          onChange={handleChange}
                         />
                       </Grid>
                       <Grid item>
                         <TextField
                           className={classes.formField}
-                          variant='outlined'
-                          label='Species name'
+                          variant="outlined"
+                          label="Species name"
+                          name="species"
+                          onChange={handleChange}
                         />
                       </Grid>{' '}
                     </form>
 
                     <Grid item align={matchesSM && 'center'}>
                       <Typography
-                        variant='h5'
+                        variant="h5"
                         style={{
                           margin: matchesSM ? '20px auto 0' : '20px 0',
                           textAlign: matchesSM && 'center',
                           height: matchesSM && 30,
-                        }}>
+                        }}
+                      >
                         Watering Frequency
                       </Typography>
                     </Grid>
                     <Grid item>
                       <Grid
                         container
-                        direction='row'
-                        justify={matchesSM && 'center'}>
+                        direction="row"
+                        justify={matchesSM && 'center'}
+                      >
                         <FormControl
-                          variant='outlined'
-                          className={classes.formControl}>
+                          variant="outlined"
+                          className={classes.formControl}
+                        >
                           <Grid item>
-                            <Grid container direction='row' alignItems='center'>
+                            <Grid container direction="row" alignItems="center">
                               <Grid item>
-                                <Typography variant='h6'>Every </Typography>
+                                <Typography variant="h6">Every </Typography>
                               </Grid>
                               <Grid item>
                                 <TextField
@@ -162,11 +204,13 @@ export default function TransitionsModal(props) {
                                     // height: 20,
                                   }}
                                   inputProps={inputProps}
-                                  variant='outlined'
+                                  variant="outlined"
+                                  name="h2oFrequency"
+                                  onChange={handleChange}
                                 />
                               </Grid>
                               <Grid item>
-                                <Typography variant='h6'>Day(s)</Typography>
+                                <Typography variant="h6">Day(s)</Typography>
                               </Grid>
                             </Grid>
                           </Grid>
@@ -177,29 +221,34 @@ export default function TransitionsModal(props) {
                     <Grid
                       className={classes.buttonContainer}
                       container
-                      direction='row'
+                      direction="row"
                       justify={matchesSM && 'space-between'}
-                      style={{ marginTop: '2em' }}>
+                      style={{ marginTop: '2em' }}
+                    >
                       <Grid item>
                         <Button
-                          variant='contained'
+                          variant="contained"
                           style={{
                             backgroundColor: theme.palette.common.lightPink,
                           }}
                           className={classes.button}
-                          onClick={() => setAddModalOpen(false)}>
-                          <Typography variant='button'>Cancel</Typography>
+                          onClick={() => setAddModalOpen(false)}
+                        >
+                          <Typography variant="button">Cancel</Typography>
                         </Button>
                       </Grid>
                       <Grid item>
                         <Button
-                          variant='contained'
+                          variant="contained"
                           style={{
                             backgroundColor: theme.palette.common.green,
                             marginLeft: matchesSM ? 0 : '1em',
                           }}
-                          className={classes.button}>
-                          <Typography variant='button'>Submit</Typography>
+                          className={classes.button}
+                        >
+                          <Typography variant="button" onClick={handleSubmit}>
+                            Submit
+                          </Typography>
                         </Button>
                       </Grid>
                     </Grid>
@@ -207,29 +256,31 @@ export default function TransitionsModal(props) {
                     <Hidden mdUp>
                       <Grid
                         item
-                        className='uploadButton'
+                        className="uploadButton"
                         style={{
                           alignSelf: 'center',
                           marginTop: '2.5em',
-                        }}>
+                        }}
+                      >
                         <input
-                          accept='image/*'
+                          accept="image/*"
                           className={classes.input}
                           style={{ display: 'none' }}
-                          id='raised-button-file'
+                          id="raised-button-file"
                           multiple
-                          type='file'
+                          type="file"
                           onChange={handleUpload}
                         />
-                        <label htmlFor='raised-button-file'>
+                        <label htmlFor="raised-button-file">
                           <Button
-                            variant='contained'
-                            component='span'
+                            variant="contained"
+                            component="span"
                             className={classes.button}
                             style={{
                               backgroundColor: theme.palette.common.yellow,
-                            }}>
-                            <Typography variant='button'>
+                            }}
+                          >
+                            <Typography variant="button">
                               Upload Image
                             </Typography>
                           </Button>
@@ -239,14 +290,15 @@ export default function TransitionsModal(props) {
                   </Grid>
                 </Grid>
                 {/* desktop upload container */}
-                <Grid item align='center'>
+                <Grid item align="center">
                   <Hidden smDown>
                     <Grid
                       item
                       container
-                      direction='column'
-                      className={classes.imageUpload}>
-                      <Grid item align='center'>
+                      direction="column"
+                      className={classes.imageUpload}
+                    >
+                      <Grid item align="center">
                         <div
                           style={{
                             backgroundImage: `url(${imageUrl})`,
@@ -254,34 +306,37 @@ export default function TransitionsModal(props) {
                             height: 200,
                             // width: 150,
                             margin: 'auto',
-                          }}></div>
+                          }}
+                        ></div>
                       </Grid>
                       <Grid
                         item
-                        align='center'
-                        className='uploadButton'
+                        align="center"
+                        className="uploadButton"
                         style={{
                           alignSelf: 'flex-end',
                           marginTop: 2.5,
-                        }}>
+                        }}
+                      >
                         <input
-                          accept='image/*'
+                          accept="image/*"
                           className={classes.input}
                           style={{ display: 'none' }}
-                          id='raised-button-file'
+                          id="raised-button-file"
                           multiple
-                          type='file'
+                          type="file"
                           onChange={handleUpload}
                         />
-                        <label htmlFor='raised-button-file'>
+                        <label htmlFor="raised-button-file">
                           <Button
-                            variant='contained'
-                            component='span'
+                            variant="contained"
+                            component="span"
                             className={classes.button}
                             style={{
                               backgroundColor: theme.palette.common.yellow,
-                            }}>
-                            <Typography variant='button'>
+                            }}
+                          >
+                            <Typography variant="button">
                               Upload Image
                             </Typography>
                           </Button>

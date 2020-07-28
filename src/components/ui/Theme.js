@@ -22,6 +22,7 @@ const green = '#66724C';
 const yellow = '#FDBD17';
 const pink = '#E86895';
 const lightPink = '#FAD6F6';
+const blue = 'lightblue';
 
 export default createMuiTheme({
   palette: {
@@ -31,6 +32,7 @@ export default createMuiTheme({
       yellow: yellow,
       pink: pink,
       lightPink: lightPink,
+      blue: blue,
     },
     action: {
       //       active:
@@ -83,7 +85,11 @@ export default createMuiTheme({
       color: pink,
       fontSize: '1.6rem',
     },
-    p: {},
+    p: {
+      fontFamily: ralewayFont,
+      // color: 'white',
+      fontSize: '1.4rem',
+    },
     subtitle1: {},
     subtitle2: {},
     body1: {},

@@ -2,6 +2,8 @@ import React, { createContext, useState } from 'react';
 import theme from '../components/ui/Theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
+import useFetch from '../hooks/useFetch';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const PlantContext = createContext({});
 
@@ -18,16 +20,13 @@ export const PlantProvider = ({ children }) => {
     data: '',
   });
 
-  const [plantData, setPlantData] = useState({
-    nickname: '',
-    species: '',
-    wateringTime: '',
-  });
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = useState();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
 
   let image;
   const handleUpload = async e => {
@@ -36,8 +35,6 @@ export const PlantProvider = ({ children }) => {
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
     data.append('api_key', '925249979199193');
-    console.log({ data });
-    console.log(image);
 
     const res = await axios.post(
       `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
@@ -45,7 +42,6 @@ export const PlantProvider = ({ children }) => {
     );
 
     const file = await res;
-    console.log(file);
     setImageUrl(res.data.url);
   };
   const handleAddModalClose = () => {
@@ -70,6 +66,13 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
+  const { response, isLoading, setIsLoading } = useFetch({
+    api: axiosWithAuth(),
+    method: fetchParams.method,
+    url: fetchParams.url,
+    data: fetchParams.data,
+  });
+
   return (
     <PlantContext.Provider
       value={{
@@ -81,8 +84,6 @@ export const PlantProvider = ({ children }) => {
         setFetchParams,
         drawerOpen,
         setDrawerOpen,
-        plantData,
-        setPlantData,
         imageUrl,
         setImageUrl,
         handleUpload,
@@ -98,7 +99,16 @@ export const PlantProvider = ({ children }) => {
         handleEdiModalClose,
         handleEditModalOpen,
         handleDialogOpen,
-      }}>
+        response,
+        isLoading,
+        setIsLoading,
+        useFetch,
+        userId,
+        setUserId,
+        submitted,
+        setSubmitted,
+      }}
+    >
       {children}
     </PlantContext.Provider>
   );

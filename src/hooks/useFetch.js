@@ -7,6 +7,7 @@ import axios from 'axios';
  * @param {*} { api, method, url, data = null, config = null }
  * @return {*} { response, error, isLoading }
  */
+
 export default function useFetch({
   api,
   method,
@@ -17,7 +18,6 @@ export default function useFetch({
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
@@ -33,6 +33,7 @@ export default function useFetch({
     };
 
     fetchData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [method, url, data, config]);
 
