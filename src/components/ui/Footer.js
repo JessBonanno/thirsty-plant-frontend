@@ -1,7 +1,9 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Toolbar, AppBar } from '@material-ui/core/';
+import { Toolbar, AppBar, Grid, Typography } from '@material-ui/core/';
+import theme from '../ui/Theme';
 
 // local components
 import Drawer from './Drawer';
@@ -43,14 +45,36 @@ const useStyles = makeStyles(theme => ({
  */
 export default function BottomAppBar() {
   const classes = useStyles();
+  const { pathname } = useLocation();
 
   return (
     <React.Fragment>
       <CssBaseline />
 
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
+      <AppBar
+        style={{
+          backgroundColor:
+            (pathname === '/login' || pathname === '/signup') && 'white',
+        }}
+        position='fixed'
+        color='primary'
+        className={classes.appBar}>
         <Toolbar>
           <Drawer />
+          <Grid container justify='center'>
+            <Grid item align='bottom'>
+              <Typography
+                variant='caption'
+                style={{
+                  color:
+                    pathname === '/login' || pathname === '/signup'
+                      ? theme.palette.common.lightGreen
+                      : 'white',
+                }}>
+                &copy; Copyright 2020, Lambda Track Team
+              </Typography>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </React.Fragment>
