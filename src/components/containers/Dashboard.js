@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -82,6 +82,25 @@ const Dashboard = () => {
     setSubmitted,
   } = useContext(PlantContext);
 
+  const [plants, setPlants] = useState([]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+
+    setFetchParams({
+      method: 'get',
+      url: `/users/${userId}/plants`,
+    });
+    console.log({ response });
+    // setPlants(response.data.plants);
+  }, []);
+
+  useEffect(() => {
+    if (response !== null) {
+      setPlants(response.plants);
+      console.log({ response });
+    }
+  }, [response]);
   return (
     <>
       <AddPlantModal className={classes.modal} />
@@ -147,10 +166,16 @@ const Dashboard = () => {
           justify="center"
           className={classes.cardsContainer}
         >
-          {array.map(item => (
+          {plants.map(item => (
             // 12 is full width, 6 half width, etc...
             <Grid item xs={12} sm={6} md={4} lg={3} align="center">
-              <PlantCard />
+              <PlantCard
+                nickname={item.nickname}
+                species={item.species}
+                imageUrl={item.image_url}
+                lastWatering={item.h2oTime}
+                h2oFrequency={item.h2oFrequency}
+              />
             </Grid>
           ))}
         </Grid>
