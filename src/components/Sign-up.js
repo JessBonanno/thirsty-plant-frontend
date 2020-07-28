@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
-import Input from './Input.js';
 import { makeStyles } from '@material-ui/core/styles';
-import signUp from './signUp.jpeg';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Login from './Log-in';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
+import { TweenMax, Power3 } from 'gsap';
+
+// local imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useFetch from '../hooks/useFetch';
-
-// local components
 import Terms from './Terms';
+import signUp from './signUp.jpeg';
+import Input from './Input.js';
 
 const useStyles = makeStyles(theme => ({
   signUpContainer: {
@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: '3em',
     display: 'flex',
     justifyContent: 'center',
+    opacity: '0',
   },
   buttons: {
     width: '100%',
@@ -59,6 +60,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Signup() {
+  let gsapAnimationForm = useRef(null);
   const history = useHistory();
   const [fetchParams, setFetchParams] = useState({
     method: '',
@@ -169,6 +171,13 @@ function Signup() {
   }, []);
 
   useEffect(() => {
+    TweenMax.to(gsapAnimationForm, 5, {
+      opacity: 1,
+      ease: Power3.easeOut,
+    });
+  }, []);
+
+  useEffect(() => {
     if (response !== null) {
       axios
         .post(
@@ -202,7 +211,12 @@ function Signup() {
   const classes = useStyles();
   return (
     <div className={classes.signUpContainer}>
-      <div className={classes.form}>
+      <div
+        className={classes.form}
+        ref={el => {
+          gsapAnimationForm = el;
+        }}
+      >
         <Paper className={classes.paper}>
           <form onSubmit={formSubmit}>
             <Typography variant="h2" className={classes.text}>
@@ -297,7 +311,8 @@ function Signup() {
                 variant="contained"
                 color="secondary"
                 style={{ color: 'white' }}
-                href={Login}
+                component={Link}
+                to="/login"
               >
                 Login
               </Button>

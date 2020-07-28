@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Input from './Input.js';
 import axios from 'axios';
@@ -19,6 +19,7 @@ import { CircularProgress } from '@material-ui/core';
 
 import ChangePass from './ChangePass.js';
 import Signup from './Sign-up.js';
+import { TweenMax, Power3 } from 'gsap';
 
 const useStyles = makeStyles(theme => ({
   signUpContainer: {
@@ -33,6 +34,9 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     marginTop: '3em',
+    display: 'flex',
+    justifyContent: 'center',
+    opacity: '0',
   },
   form2: {
     display: 'flex',
@@ -75,6 +79,7 @@ const useStyles = makeStyles(theme => ({
 function Login() {
   const history = useHistory();
   const classes = useStyles();
+  let gsapAnimationLogin = useRef(null);
 
   const defaultState = { username: '', password: '' };
   const [formState, setFormState] = useState(defaultState);
@@ -148,9 +153,21 @@ function Login() {
     validateChange(e);
   };
 
+  useEffect(() => {
+    TweenMax.to(gsapAnimationLogin, 5, {
+      opacity: 1,
+      ease: Power3.easeOut,
+    });
+  }, []);
+
   return (
     <div className={classes.signUpContainer}>
-      <div className={classes.form}>
+      <div
+        className={classes.form}
+        ref={el => {
+          gsapAnimationLogin = el;
+        }}
+      >
         <Paper className={classes.paper}>
           <form onSubmit={formSubmit} className={classes.form2}>
             <Typography variant="h2" className={classes.text}>
@@ -202,8 +219,8 @@ function Login() {
                 variant="contained"
                 color="secondary"
                 style={{ color: 'white' }}
-                href={Signup}
-                onClick={history.push('/signup')}
+                component={Link}
+                to="/signup"
               >
                 Sign Up
               </Button>

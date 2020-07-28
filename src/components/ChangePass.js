@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input.js";
@@ -8,8 +8,11 @@ import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from '@material-ui/core/Paper';
+import { TweenMax, Power3 } from "gsap";
+
 
 function ChangePass() {
+    let gsapAnimationChangePass = useRef(null);
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
 	const [formState, setFormState] = useState(defaultState);
 	// eslint-disable-next-line
@@ -77,7 +80,14 @@ function ChangePass() {
             [e.target.name]: value
         });
         validateChange(e);
-	};
+    };
+    
+    useEffect(() => {
+			TweenMax.to(gsapAnimationChangePass, 5, {
+				opacity: 1,
+				ease: Power3.easeOut,
+			});
+		}, []);
     const useStyles = makeStyles((theme) => ({
         signUpContainer: {
             backgroundImage: `url(${signUp})`,
@@ -93,6 +103,7 @@ function ChangePass() {
             marginTop: "3em",
             display: "flex",
             justifyContent: "center",
+            opacity: "0",
         },
 		buttons: {
 			width: "100%",
@@ -126,74 +137,81 @@ function ChangePass() {
         window.history.back()
     }
 	return (
-        <div className={classes.signUpContainer}>
-		<div className={classes.form}>
-                <Paper className={classes.paper}>
-                <Typography variant="h4" className={classes.text}>Change Your Password</Typography>                
-			<form onSubmit={formSubmit}>
-				<label>
-					<Input
-						placeholder="Current Password"
-						type="text"
-						onChange={changeHandler}
-						name="current"
-						value={formState.current}
-						errors={errors}
-					/>
-				</label>
-				<label>
-					<Input
-						placeholder="New Password"
-						type="text"
-						onChange={changeHandler}
-						name="new"
-						value={formState.new}
-						errors={errors}
-					/>
-				</label>
-				<label>
-					<Input
-						placeholder="Confirm Password"
-						type="text"
-						onChange={changeHandler}
-						name="confirm"
-						value={formState.confirm}
-						errors={errors}
-					/>
-				</label>
-				<label>
-					<Input
-						placeholder="Phone Number"
-						type="text"
-						onChange={changeHandler}
-						name="phone"
-						value={formState.phoneNumber}
-						errors={errors}
-					/>
-				</label>
-				<div className={classes.buttons}>
-					<Button
-						variant="contained"
-						color="secondary"
-						style={{ color: "white", margin: "20px" }}
-						onClick={formSubmit}
-					>
-						Submit
-					</Button>
-					<Button
-						variant="contained"
-						color="secondary"
-						style={{ color: "white" }}
-                            onClick={back}
-					>
-						Cancel
-					</Button>
-				</div>
-			</form>
-			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
-            </Paper>
+		<div className={classes.signUpContainer}>
+			<div
+				className={classes.form}
+				ref={(el) => {
+					gsapAnimationChangePass = el;
+				}}
+			>
+				<Paper className={classes.paper}>
+					<Typography variant="h4" className={classes.text}>
+						Change Your Password
+					</Typography>
+					<form onSubmit={formSubmit}>
+						<label>
+							<Input
+								placeholder="Current Password"
+								type="text"
+								onChange={changeHandler}
+								name="current"
+								value={formState.current}
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="New Password"
+								type="text"
+								onChange={changeHandler}
+								name="new"
+								value={formState.new}
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="Confirm Password"
+								type="text"
+								onChange={changeHandler}
+								name="confirm"
+								value={formState.confirm}
+								errors={errors}
+							/>
+						</label>
+						<label>
+							<Input
+								placeholder="Phone Number"
+								type="text"
+								onChange={changeHandler}
+								name="phone"
+								value={formState.phoneNumber}
+								errors={errors}
+							/>
+						</label>
+						<div className={classes.buttons}>
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white", margin: "20px" }}
+								onClick={formSubmit}
+							>
+								Submit
+							</Button>
+							<Button
+								variant="contained"
+								color="secondary"
+								style={{ color: "white" }}
+								onClick={back}
+							>
+								Cancel
+							</Button>
+						</div>
+					</form>
+					{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
+				</Paper>
+			</div>
 		</div>
-        </div>
 	);
 }
 
