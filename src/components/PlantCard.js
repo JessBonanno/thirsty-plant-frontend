@@ -52,14 +52,7 @@ const PlantCard = props => {
               style={{ padding: '0 1em' }}
             >
               <Grid item>
-                <Typography
-                  gutterBottom
-                  component="h2"
-                  style={{
-                    fontFamily: 'Mulish',
-                    color: theme.palette.common.pink,
-                  }}
-                >
+                <Typography gutterBottom variant="h4">
                   {nickname}
                 </Typography>
               </Grid>
