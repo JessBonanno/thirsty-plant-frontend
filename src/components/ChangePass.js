@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import Input from "./Input.js";
 import * as Yup from "yup";
@@ -24,12 +24,15 @@ function ChangePass() {
         /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
     );
 	const formSchema = Yup.object().shape({
-        password: Yup.string()
-            .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-                'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+        current: Yup.string()
+            .required(
+                'Please enter your current password'
             ),
-        new: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
+            new: Yup.string()
+                .matches(
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                    'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+                ),
 		confirm: Yup.string().oneOf([Yup.ref("new"), null], "Passwords must match"),
         phone: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required")
 	});
@@ -57,7 +60,6 @@ function ChangePass() {
 			...formState,
 			[e.target.name]: value,
 		});
-
 		axios
 			.post("https://reqres.in/api/users", formState)
 			.then((res) => {
@@ -67,23 +69,31 @@ function ChangePass() {
 			.catch((err) => console.log(err.response));
 	};
 
-	const changeHandler = (event) => {
-		setFormState(event.target.value);
-		validateChange(event);
+	const changeHandler = (e) => {
+        const value =
+            e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setFormState({
+            ...formState,
+            [e.target.name]: value
+        });
+        validateChange(e);
 	};
-	const useStyles = makeStyles((theme) => ({
-		form: {
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center",
-			height: "100vh",
-			backgroundImage: `url(${signUp})`,
-			position: "fixed",
-			minWidth: "100%",
-			minHeight: "100%",
-			backgroundSize: "cover",
-			backgroundPosition: "center",
-		},
+    const useStyles = makeStyles((theme) => ({
+        signUpContainer: {
+            backgroundImage: `url(${signUp})`,
+            position: "fixed",
+            minWidth: "100%",
+            height: "100vh",
+            // minHeight: "100%",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+
+        },
+        form: {
+            marginTop: "3em",
+            display: "flex",
+            justifyContent: "center",
+        },
 		buttons: {
 			width: "100%",
 			display: "flex",
@@ -105,13 +115,22 @@ function ChangePass() {
                 padding: 20,
             },
         },
+        text: {
+            textAlign: "center",
+        }
 	}));
-	const classes = useStyles();
+    const classes = useStyles();
+  
+
+    const back = () => {
+        window.history.back()
+    }
 	return (
+        <div className={classes.signUpContainer}>
 		<div className={classes.form}>
-            <Paper>
+                <Paper className={classes.paper}>
+                <Typography variant="h4" className={classes.text}>Change Your Password</Typography>                
 			<form onSubmit={formSubmit}>
-				<Typography variant="h2">Change Your Password</Typography>
 				<label>
 					<Input
 						placeholder="Current Password"
@@ -165,7 +184,7 @@ function ChangePass() {
 						variant="contained"
 						color="secondary"
 						style={{ color: "white" }}
-						onClick={formSubmit}
+                            onClick={back}
 					>
 						Cancel
 					</Button>
@@ -174,6 +193,7 @@ function ChangePass() {
 			{/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
             </Paper>
 		</div>
+        </div>
 	);
 }
 

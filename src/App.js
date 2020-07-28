@@ -15,7 +15,7 @@ import ChangePass from './components/ChangePass.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
 import PrivateRoute from './utils/PrivateRoute';
-import Terms from './components/Terms'
+import Terms from './components/Terms';
 
 function App() {
   return (
@@ -23,44 +23,13 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <flexbox flexDirection='column'>
-        <div className='App'>
-          {/* <Link to="/">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Home
-            </Button>
-          </Link>
-          <Link to="/Signup">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Sign-up
-            </Button>
-          </Link>
-          <Link to="/ChangePass">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Change Password
-            </Button>
-          </Link>
-          <Link to="/AddPlant">
-            <Button variant="outlined" color="primary" href="#outlined-buttons">
-              Add Plant
-            </Button>
-          </Link> */}
-          <Route
-            exact
-            path='/'
-            // component={() => {
-            //   window.location.href =
-            //     'https://infallible-curie-a39dce.netlify.app/';
-            //   return null;
-            // }}
-          />
-          <Route path='/login' component={Login} />
-          <Route path='/Signup' component={Signup} />
-          <Route path='/ChangePass' component={ChangePass} />
-          <Route path='/AddPlant' component={AddPlant} />
-          <PrivateRoute path='/dashboard'>
-            <Dashboard />
-          </PrivateRoute>
+      <flexbox flexDirection="column">
+        <div className="App">
+          <Route path="/login" component={Login} />
+          <Route path="/Signup" component={Signup} />
+          <Route path="/ChangePass" component={ChangePass} />
+          <Route path="/AddPlant" component={AddPlant} />
+          <Route path="/dashboard" component={Dashboard} />
         </div>
       </flexbox>
       <Hidden mdUp>
