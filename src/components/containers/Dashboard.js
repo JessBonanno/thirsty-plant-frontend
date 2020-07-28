@@ -80,33 +80,26 @@ const Dashboard = () => {
   } = useContext(PlantContext);
 
   const [plants, setPlants] = useState([]);
+  const [isReloading, setIsReloading] = useState(false);
 
   useEffect(() => {
+    setIsReloading(true);
     const userId = localStorage.getItem('userId');
     setFetchParams({
       method: 'get',
       url: `/users/${userId}/plants`,
     });
-
-    // axios
-    //   .get(
-    //     `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`,
-    //     {
-    //       Headers: {
-    //         authorization: localStorage.getItem('token'),
-    //         token: localStorage.getItem('token'),
-    //       },
-    //     }
-    //   )
-    //   .then(res => setPlants(res.plants))
-    //   .catch(err => console.log(err));
-  }, []);
+  }, [response]);
 
   useEffect(() => {
     if (response !== null) {
       setPlants(response.plants);
+      setIsReloading(false);
     }
   }, [response]);
+
+  console.log(plants);
+
   return (
     <>
       <AddPlantModal className={classes.modal} />
@@ -165,35 +158,40 @@ const Dashboard = () => {
             </div>
           </Grid>
         </Grid>
-        <Grid
-          item
-          container
-          direction="row"
-          justify="center"
-          className={classes.cardsContainer}
-        >
-          {plants &&
-            plants.map(item => (
-              // 12 is full width, 6 half width, etc...
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                align="center"
-                key={item.id}
-              >
-                <PlantCard
-                  nickname={item.nickname}
-                  species={item.species}
-                  imageUrl={item.image_url}
-                  lastWatering={item.h2oTime}
-                  h2oFrequency={item.h2oFrequency}
-                />
-              </Grid>
-            ))}
-        </Grid>
+        {!isReloading ? (
+          <Typography variant="h3">Fetching plant data...</Typography>
+        ) : (
+          <Grid
+            item
+            container
+            direction="row"
+            justify="center"
+            className={classes.cardsContainer}
+          >
+            {plants &&
+              plants.map(item => (
+                // 12 is full width, 6 half width, etc...
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  align="center"
+                  key={item.id}
+                >
+                  <PlantCard
+                    nickname={item.nickname}
+                    species={item.species}
+                    imageUrl={item.image_url}
+                    lastWatering={item.h2oTime}
+                    h2oFrequency={item.h2oFrequency}
+                    id={item.id}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        )}
       </Grid>
     </>
   );

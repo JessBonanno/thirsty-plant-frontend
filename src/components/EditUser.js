@@ -9,8 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import theme from './ui/Theme';
-import { TweenMax, Power3 } from 'gsap';
-
+import { CircularProgress } from '@material-ui/core';
 // Local imports
 import { PlantContext } from '../contexts/PlantContext';
 
@@ -37,6 +36,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function EditUser() {
+  const [phoneSaveLoading, setPhoneSaveLoading] = useState(false);
+  const [passwordSaveLoading, setPasswordSaveLoading] = useState(false);
   const history = useHistory();
   const {
     fetchParams,
@@ -114,8 +115,10 @@ function EditUser() {
       );
   };
 
-  const formSubmit = e => {
+  const phoneSubmit = e => {
     e.preventDefault();
+    setPhoneSaveLoading(true);
+
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormState({
@@ -131,11 +134,30 @@ function EditUser() {
       url: `/users/${userId}`,
       data: {
         phoneNumber: phoneNumber,
+      },
+    });
+    setPhoneSaveLoading(false);
+  };
+
+  const passwordSubmit = e => {
+    e.preventDefault();
+    setPasswordSaveLoading(true);
+    const value =
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormState({
+      ...formState,
+      [e.target.name]: value,
+    });
+
+    setFetchParams({
+      method: 'put',
+      url: `/users/${userId}`,
+      data: {
         newPassword: formState.newPassword,
         password: formState.password,
       },
     });
-    history.push('/dashboard');
+    setPasswordSaveLoading(false);
   };
 
   const changeHandler = e => {
@@ -177,8 +199,13 @@ function EditUser() {
                     backgroundColor: theme.palette.common.yellow,
                   }}
                   className={classes.button}
+                  onClick={phoneSubmit}
                 >
-                  <Typography variant="button">Save</Typography>
+                  {phoneSaveLoading ? (
+                    <CircularProgress style={{ color: 'white' }} />
+                  ) : (
+                    <Typography variant="button">Save</Typography>
+                  )}
                 </Button>
               </Grid>
             </Grid>
@@ -229,8 +256,13 @@ function EditUser() {
                         backgroundColor: theme.palette.common.yellow,
                       }}
                       className={classes.button}
+                      onClick={passwordSubmit}
                     >
-                      <Typography variant="button">Save</Typography>
+                      {passwordSaveLoading ? (
+                        <CircularProgress style={{ color: 'white' }} />
+                      ) : (
+                        <Typography variant="button">Save</Typography>
+                      )}
                     </Button>
                   </Grid>
                 </Grid>
