@@ -82,7 +82,6 @@ function Signup() {
   const [formState, setFormState] = useState(defaultState);
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  console.log(setFormState);
   // eslint-disable-next-line
   const [postState, setPost] = useState([]);
   const [errors, setErrors] = useState({
@@ -161,6 +160,7 @@ function Signup() {
     } catch (err) {
       console.log(err);
     }
+    console.log({ response });
   };
 
   useEffect(() => {
@@ -183,7 +183,9 @@ function Signup() {
           formState
         )
         .then(res => {
+          console.log(res);
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('userId', res.data.user.id);
 
           history.push('/dashboard');
         })
@@ -265,7 +267,7 @@ function Signup() {
               placeholder="Phone Number"
               type="text"
               onChange={changeHandler}
-              name="phone"
+              name="phoneNumber"
               value={formState.phoneNumber}
               errors={errors}
             />
