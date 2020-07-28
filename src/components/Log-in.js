@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     padding: '2em',
     margin: '7em auto',
     width: 250,
-    height: 370,
+    height: 440,
     outline: 'none',
     [theme.breakpoints.down('sm')]: {
       height: 400,
@@ -291,7 +291,18 @@ function Login() {
                   </Grid>
                 </form>
               </Grid>
-              <Grid item></Grid>
+              <Grid item>
+                <Typography variant="subtitle2">
+                  Need to{' '}
+                  <Link
+                    to="/signup"
+                    style={{ color: '#109fff', textDecoration: 'none' }}
+                  >
+                    Signup
+                  </Link>
+                  ?
+                </Typography>
+              </Grid>
             </Grid>
           </Paper>
         </div>
