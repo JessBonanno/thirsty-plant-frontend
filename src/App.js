@@ -11,7 +11,7 @@ import Login from './components/Log-in.js';
 import Signup from './components/Sign-up.js';
 import AddPlant from './components/AddPlant.js';
 import Dashboard from './components/containers/Dashboard';
-import ChangePass from './components/ChangePass.js';
+import EditUser from './components/EditUser.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
 import PrivateRoute from './utils/PrivateRoute';
@@ -23,15 +23,12 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <flexbox flexDirection="column">
-        <div className="App">
-          <Route path="/login" component={Login} />
-          <Route path="/Signup" component={Signup} />
-          <Route path="/ChangePass" component={ChangePass} />
-          <Route path="/AddPlant" component={AddPlant} />
-          <Route path="/dashboard" component={Dashboard} />
-        </div>
-      </flexbox>
+      <div className="App">
+        <Route path="/login" component={Login} />
+        <Route path="/Signup" component={Signup} />
+        <PrivateRoute path="/settings" component={EditUser} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
+      </div>
       <Hidden mdUp>
         <Footer />
       </Hidden>

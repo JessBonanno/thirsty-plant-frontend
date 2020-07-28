@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const array = [1, 2, 3, 4, 5, 6];
+// const array = [1, 2, 3, 4, 5, 6];
 /**
  * Dashboard component displays users plants and allows editing, deleting, searching and adding plants
  *
@@ -70,18 +70,43 @@ const Dashboard = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const classes = useStyles();
   const {
     matchesXS,
     handleAddModalOpen,
-    userId,
     response,
     setFetchParams,
-    fetchParams,
-    submitted,
-    setSubmitted,
   } = useContext(PlantContext);
 
+  const [plants, setPlants] = useState([]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    setFetchParams({
+      method: 'get',
+      url: `/users/${userId}/plants`,
+    });
+
+    // axios
+    //   .get(
+    //     `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`,
+    //     {
+    //       Headers: {
+    //         authorization: localStorage.getItem('token'),
+    //         token: localStorage.getItem('token'),
+    //       },
+    //     }
+    //   )
+    //   .then(res => setPlants(res.plants))
+    //   .catch(err => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (response !== null) {
+      setPlants(response.plants);
+    }
+  }, [response]);
   return (
     <>
       <AddPlantModal className={classes.modal} />
@@ -147,12 +172,27 @@ const Dashboard = () => {
           justify="center"
           className={classes.cardsContainer}
         >
-          {array.map(item => (
-            // 12 is full width, 6 half width, etc...
-            <Grid item xs={12} sm={6} md={4} lg={3} align="center">
-              <PlantCard />
-            </Grid>
-          ))}
+          {plants &&
+            plants.map(item => (
+              // 12 is full width, 6 half width, etc...
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                align="center"
+                key={item.id}
+              >
+                <PlantCard
+                  nickname={item.nickname}
+                  species={item.species}
+                  imageUrl={item.image_url}
+                  lastWatering={item.h2oTime}
+                  h2oFrequency={item.h2oFrequency}
+                />
+              </Grid>
+            ))}
         </Grid>
       </Grid>
     </>

@@ -8,9 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
-import Grid from '@material-ui/core/Grid';
 import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
-import Popover from '@material-ui/core/Popover';
 import theme from '../ui/Theme';
 // context
 import { PlantContext } from '../../contexts/PlantContext';

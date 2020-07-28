@@ -5,7 +5,7 @@ import { Route, Redirect } from 'react-router-dom';
  * Component to handle authorized routing
  *
  * @param {*} { component: Component, ...rest }
- * @returns {jsx} 
+ * @returns {jsx}
  */
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const token = window.localStorage.getItem('token');
@@ -17,7 +17,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         if (token) {
           return <Component {...props} />;
         } else {
-          return <Redirect to='./login' />;
+          return <Redirect to="/login" />;
         }
       }}
     />

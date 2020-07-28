@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
@@ -32,7 +33,7 @@ const useStyles = makeStyles({
 
 const PlantCard = props => {
   const { handleEditModalOpen, handleDialogOpen } = useContext(PlantContext);
-  const { id } = props;
+  const { id, nickname, species, imageUrl, lastWatering, h2oFrequency } = props;
   const classes = useStyles();
 
   return (
@@ -52,14 +53,13 @@ const PlantCard = props => {
               <Grid item>
                 <Typography
                   gutterBottom
-                  variant="plantCardHeader"
                   component="h2"
                   style={{
                     fontFamily: 'Mulish',
                     color: theme.palette.common.pink,
                   }}
                 >
-                  Plant Name
+                  {nickname}
                 </Typography>
               </Grid>
               <Grid item>
@@ -103,7 +103,7 @@ const PlantCard = props => {
                       color="textSecondary"
                       style={{ margin: 0 }}
                     >
-                      Species Name
+                      {species}
                     </Typography>
                   </Grid>
                   <Grid
@@ -134,7 +134,9 @@ const PlantCard = props => {
                     Next watering:
                   </Typography>
                   <Typography variant="body1" color="textSecondary">
-                    Today
+                    {moment()
+                      .add(h2oFrequency + lastWatering, 'days')
+                      .calendar()}
                   </Typography>
                   <Grid container justify="space-between" alignItems="center">
                     <Grid item style={{ width: '70%' }}>
@@ -142,7 +144,7 @@ const PlantCard = props => {
                         Last watering:
                       </Typography>
                       <Typography variant="body1" color="textSecondary">
-                        Yesterday
+                        {lastWatering}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>

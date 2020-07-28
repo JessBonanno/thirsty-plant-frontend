@@ -16,7 +16,7 @@ export const PlantProvider = ({ children }) => {
   //   useFetch param state
   const [fetchParams, setFetchParams] = useState({
     method: '',
-    url: '',
+    url: ' ',
     data: '',
   });
 

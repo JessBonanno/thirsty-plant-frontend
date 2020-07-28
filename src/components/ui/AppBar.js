@@ -217,14 +217,15 @@ export default function DenseAppBar() {
                         width: 150,
                       }}
                     >
-                      <ListItem>
+                      <ListItem component={Link} to="/settings">
                         <ListItemText>
                           <Typography
                             variant="p"
-                            primary="Settings"
                             style={{
                               fontFamily: 'Raleway',
                               fontSize: '1.2rem',
+                              color: 'white',
+                              textDecoration: 'none',
                             }}
                           >
                             Settings
@@ -232,14 +233,15 @@ export default function DenseAppBar() {
                         </ListItemText>
                       </ListItem>
                       <Divider />
-                      <ListItem>
+                      <ListItem component={Link} to="/">
                         <ListItemText>
                           <Typography
                             variant="p"
-                            primary="Settings"
                             style={{
                               fontFamily: 'Raleway',
                               fontSize: '1.2rem',
+                              color: 'white',
+                              textDecoration: 'none',
                             }}
                           >
                             Logout
