@@ -76,14 +76,19 @@ const useStyles = makeStyles(theme => ({
     width: 250,
     height: 440,
     outline: 'none',
+    [theme.breakpoints.down('md')]: {
+      height: 500,
+      width: 350,
+      // padding: 20,
+    },
     [theme.breakpoints.down('sm')]: {
-      height: 400,
-      // width: 400,
+      height: 500,
+      width: '70 %',
       // padding: 20,
     },
     [theme.breakpoints.down('xs')]: {
-      height: 400,
-      width: '95%',
+      height: 500,
+      width: 355,
       // padding: 20,
     },
   },
