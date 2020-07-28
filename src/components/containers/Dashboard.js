@@ -158,7 +158,7 @@ const Dashboard = () => {
             </div>
           </Grid>
         </Grid>
-        {!isReloading ? (
+        {isReloading ? (
           <Typography variant="h3">Fetching plant data...</Typography>
         ) : (
           <Grid
