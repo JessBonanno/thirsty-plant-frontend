@@ -73,9 +73,14 @@ function AddPlant() {
 			.catch((err) => console.log(err.response));
 	};
 
-	const changeHandler = (event) => {
-		setFormState(event.target.value);
-		validateChange(event);
+	const changeHandler = (e) => {
+        const value =
+            e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setFormState({
+            ...formState,
+            [e.target.name]: value
+        });
+        validateChange(e);
 	};
 	const useStyles = makeStyles((theme) => ({
 		form: {
