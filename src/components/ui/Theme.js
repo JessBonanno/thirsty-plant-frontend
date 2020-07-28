@@ -90,7 +90,11 @@ export default createMuiTheme({
       // color: 'white',
       fontSize: '1.4rem',
     },
-    subtitle1: {},
+    subtitle1: {
+      fontFamily: ralewayFont,
+      color: green,
+      fontSize: '1.5rem',
+    },
     subtitle2: {},
     body1: {},
     body2: {},
