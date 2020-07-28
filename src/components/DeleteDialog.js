@@ -20,12 +20,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * Component for handling user plant deletion
  *
  * @export
- * @param {number} plantId the id of the plant to be deleted
+ * @param {number} id the id of the plant to be deleted
  * @param {boolean} dialogOpen the state of the delete dialog
  * @returns {jsx}
  */
 
-export default function DeleteDialog({ plantId }) {
+export default function DeleteDialog({ id }) {
+  console.log('id: ', id);
   const {
     fetchParams,
     setFetchParams,
@@ -39,7 +40,7 @@ export default function DeleteDialog({ plantId }) {
     setFetchParams({
       ...fetchParams,
       // temporary fake url until we get the endpoint from backend
-      url: `/api/plants/${plantId}`,
+      url: `/plants/${id}`,
       method: 'delete',
     });
     setDialogOpen(false);

@@ -67,10 +67,14 @@ export default createMuiTheme({
       color: green,
       fontWeight: 'bold',
     },
-    h3: {},
-    h4: {
+    h3: {
       fontFamily: ralewayFont,
       color: green,
+      fontSize: '3.5em',
+    },
+    h4: {
+      fontFamily: 'Mulish',
+      color: pink,
     },
     h5: {
       fontFamily: ralewayFont,
@@ -90,7 +94,11 @@ export default createMuiTheme({
       // color: 'white',
       fontSize: '1.4rem',
     },
-    subtitle1: {},
+    subtitle1: {
+      fontFamily: ralewayFont,
+      color: green,
+      fontSize: '1.5rem',
+    },
     subtitle2: {},
     body1: {},
     body2: {},

@@ -35,11 +35,12 @@ const PlantCard = props => {
   const { handleEditModalOpen, handleDialogOpen } = useContext(PlantContext);
   const { id, nickname, species, imageUrl, lastWatering, h2oFrequency } = props;
   const classes = useStyles();
+  console.log('id: ', id);
 
   return (
     <>
       <EditPlantModal />
-      <DeleteDialog plantId={id} />
+      <DeleteDialog id={id} />
       <Card className={classes.root} disableRipple>
         <CardActionArea>
           <CardContent style={{ padding: 0 }}>
@@ -51,14 +52,7 @@ const PlantCard = props => {
               style={{ padding: '0 1em' }}
             >
               <Grid item>
-                <Typography
-                  gutterBottom
-                  component="h2"
-                  style={{
-                    fontFamily: 'Mulish',
-                    color: theme.palette.common.pink,
-                  }}
-                >
+                <Typography gutterBottom variant="h4">
                   {nickname}
                 </Typography>
               </Grid>
