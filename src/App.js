@@ -23,14 +23,12 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <flexbox flexDirection="column">
-        <div className="App">
-          <Route path="/login" component={Login} />
-          <Route path="/Signup" component={Signup} />
-          <PrivateRoute path="/settings" component={EditUser} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
-        </div>
-      </flexbox>
+      <div className="App">
+        <Route path="/login" component={Login} />
+        <Route path="/Signup" component={Signup} />
+        <PrivateRoute path="/settings" component={EditUser} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
+      </div>
       <Hidden mdUp>
         <Footer />
       </Hidden>

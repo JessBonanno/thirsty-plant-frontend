@@ -116,6 +116,7 @@ function Login() {
   };
 
   const formSubmit = e => {
+    console.log('clicked formSubmit');
     e.preventDefault();
     setLoading(true);
     axios
@@ -169,7 +170,7 @@ function Login() {
         }}
       >
         <Paper className={classes.paper}>
-          <form onSubmit={formSubmit} className={classes.form2}>
+          <form className={classes.form2}>
             <Typography variant="h2" className={classes.text}>
               Log In
             </Typography>
@@ -209,7 +210,9 @@ function Login() {
                 {loading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant="button">Login</Typography>
+                  <Typography variant="button" onClick={formSubmit}>
+                    Login
+                  </Typography>
                 )}
               </Button>
             </div>

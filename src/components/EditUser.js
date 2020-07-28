@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
 import Input from './Input.js';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import signUp from './signUp.jpeg';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -57,9 +54,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function EditUser() {
-  const { fetchParams, setFetchParams, response, isLoading } = useContext(
-    PlantContext
-  );
+  const {
+    fetchParams,
+    setFetchParams,
+    response,
+    setResponse,
+    isLoading,
+  } = useContext(PlantContext);
   const classes = useStyles();
   let gsapAnimationChangePass = useRef(null);
   const defaultState = {
@@ -67,15 +68,34 @@ function EditUser() {
     password: '',
     newPassword: '',
   };
+  const [params, setParams] = useState(false);
   const [formState, setFormState] = useState(defaultState);
-  // eslint-disable-next-line
-  const [post, setPost] = useState([]);
   const [errors, setErrors] = useState({
     current: '',
     new: '',
     confirm: '',
     phoneNumber: '',
   });
+  const userId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    console.log(response);
+    setFetchParams({
+      method: 'get',
+      url: `/users/${userId}`,
+    });
+    setParams(!params);
+  }, []);
+
+  useEffect(() => {
+    console.log({ response });
+    if (response !== null) {
+      setFormState({
+        ...formState,
+        phoneNumber: response.user.phoneNumber,
+      });
+    }
+  }, [params]);
 
   useEffect(() => {
     TweenMax.to(gsapAnimationChangePass, 1, {
@@ -84,25 +104,10 @@ function EditUser() {
     });
   }, []);
 
-  useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    setFetchParams({
-      method: 'get',
-      url: `/users/${userId}`,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (response !== null) {
-      setFormState({ phoneNumber: response.user.phoneNumber });
-    }
-  }, [response]);
-
-  console.log({ formState });
-
   const phoneRegex = RegExp(
     /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
   );
+
   const formSchema = Yup.object().shape({
     password: Yup.string().required('Please enter your current password'),
     newPassword: Yup.string().matches(
@@ -117,6 +122,7 @@ function EditUser() {
       .matches(phoneRegex, 'Invalid phone')
       .required('Phone is required'),
   });
+
   const validateChange = e => {
     e.persist();
     Yup.reach(formSchema, e.target.name)
@@ -134,6 +140,7 @@ function EditUser() {
         })
       );
   };
+
   const formSubmit = e => {
     e.preventDefault();
     const value =
@@ -142,7 +149,6 @@ function EditUser() {
       ...formState,
       [e.target.name]: value,
     });
-    const userId = localStorage.getItem('userId');
     const phoneNumber = formState.phoneNumber.replace(
       /(\d{3})(\d{3})(\d{4})/,
       '($1)-$2-$3'
@@ -172,88 +178,90 @@ function EditUser() {
     window.history.back();
   };
   return (
-    <div className={classes.signUpContainer}>
-      <div
-        className={classes.form}
-        ref={el => {
-          gsapAnimationChangePass = el;
-        }}
-      >
-        <Paper className={classes.paper}>
-          <Typography variant="h4" className={classes.text}>
-            Account Settings
-          </Typography>
-          <form>
-            <label>
-              <Typography variant="caption">Phone Number</Typography>
-              <Input
-                placeholder={formState.phoneNumber}
-                type="text"
-                onChange={changeHandler}
-                name="phoneNumber"
-                value={formState.phoneNumber}
-                errors={errors}
-              />
-            </label>
-            <label>
-              <Typography variant="caption">New Password</Typography>
-              <Input
-                placeholder="New Password"
-                type="text"
-                onChange={changeHandler}
-                name="newPassword"
-                value={formState.newPassword}
-                errors={errors}
-              />
-            </label>
-            <label>
-              <Typography variant="caption">Current Password</Typography>
-              <Input
-                placeholder="Password"
-                type="text"
-                onChange={changeHandler}
-                name="password"
-                value={formState.password}
-                errors={errors}
-              />
-            </label>
-            <label>
-              <Typography variant="caption">
-                Confirm Current Password
-              </Typography>
-              <Input
-                placeholder="Confirm password"
-                type="text"
-                onChange={changeHandler}
-                name="confirmCurrentPassword"
-                value={formState.confirmedPassword}
-                errors={errors}
-              />
-            </label>
+    <>
+      <div className={classes.signUpContainer}>
+        <div
+          className={classes.form}
+          ref={el => {
+            gsapAnimationChangePass = el;
+          }}
+        >
+          <Paper className={classes.paper}>
+            <Typography variant="h4" className={classes.text}>
+              Account Settings
+            </Typography>
+            <form>
+              <label>
+                <Typography variant="caption">Phone Number</Typography>
+                <Input
+                  placeholder={formState.phoneNumber}
+                  type="text"
+                  onChange={changeHandler}
+                  name="phoneNumber"
+                  value={formState.phoneNumber}
+                  errors={errors}
+                />
+              </label>
+              <label>
+                <Typography variant="caption">New Password</Typography>
+                <Input
+                  placeholder="New Password"
+                  type="text"
+                  onChange={changeHandler}
+                  name="newPassword"
+                  value={formState.newPassword}
+                  errors={errors}
+                />
+              </label>
+              <label>
+                <Typography variant="caption">Current Password</Typography>
+                <Input
+                  placeholder="Password"
+                  type="text"
+                  onChange={changeHandler}
+                  name="password"
+                  value={formState.password}
+                  errors={errors}
+                />
+              </label>
+              <label>
+                <Typography variant="caption">
+                  Confirm Current Password
+                </Typography>
+                <Input
+                  placeholder="Confirm password"
+                  type="text"
+                  onChange={changeHandler}
+                  name="confirmCurrentPassword"
+                  value={formState.confirmedPassword}
+                  errors={errors}
+                />
+              </label>
 
-            <div className={classes.buttons}>
-              <Button
-                variant="contained"
-                color="secondary"
-                style={{ color: 'white', margin: '20px' }}
-                onClick={formSubmit}
-              >
-                Submit
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                style={{ color: 'white' }}
-                onClick={back}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-          {/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
-        </Paper>
+              <div className={classes.buttons}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ color: 'white', margin: '20px' }}
+                  onClick={formSubmit}
+                >
+                  Submit
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{ color: 'white' }}
+                  onClick={back}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+            {/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
+          </Paper>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -74,25 +74,32 @@ const Dashboard = () => {
   const {
     matchesXS,
     handleAddModalOpen,
-    userId,
     response,
     setFetchParams,
-    fetchParams,
-    submitted,
-    setSubmitted,
   } = useContext(PlantContext);
 
   const [plants, setPlants] = useState([]);
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
-
+    console.log('first useEffect');
     setFetchParams({
       method: 'get',
       url: `/users/${userId}/plants`,
     });
-    console.log({ response });
-    // setPlants(response.data.plants);
+
+    // axios
+    //   .get(
+    //     `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`,
+    //     {
+    //       Headers: {
+    //         authorization: localStorage.getItem('token'),
+    //         token: localStorage.getItem('token'),
+    //       },
+    //     }
+    //   )
+    //   .then(res => setPlants(res.plants))
+    //   .catch(err => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -166,18 +173,27 @@ const Dashboard = () => {
           justify="center"
           className={classes.cardsContainer}
         >
-          {plants.map(item => (
-            // 12 is full width, 6 half width, etc...
-            <Grid item xs={12} sm={6} md={4} lg={3} align="center">
-              <PlantCard
-                nickname={item.nickname}
-                species={item.species}
-                imageUrl={item.image_url}
-                lastWatering={item.h2oTime}
-                h2oFrequency={item.h2oFrequency}
-              />
-            </Grid>
-          ))}
+          {plants &&
+            plants.map(item => (
+              // 12 is full width, 6 half width, etc...
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                align="center"
+                key={item.id}
+              >
+                <PlantCard
+                  nickname={item.nickname}
+                  species={item.species}
+                  imageUrl={item.image_url}
+                  lastWatering={item.h2oTime}
+                  h2oFrequency={item.h2oFrequency}
+                />
+              </Grid>
+            ))}
         </Grid>
       </Grid>
     </>

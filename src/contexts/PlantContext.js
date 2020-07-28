@@ -23,7 +23,7 @@ export const PlantProvider = ({ children }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
-  const [dialogOpen, setDialogOpen] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userId, setUserId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -66,7 +66,7 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
-  const { response, isLoading, setIsLoading } = useFetch({
+  const { response, setResponse, isLoading, setIsLoading } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,
     url: fetchParams.url,
@@ -100,6 +100,7 @@ export const PlantProvider = ({ children }) => {
         handleEditModalOpen,
         handleDialogOpen,
         response,
+        setResponse,
         isLoading,
         setIsLoading,
         useFetch,

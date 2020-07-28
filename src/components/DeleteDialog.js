@@ -32,8 +32,6 @@ export default function DeleteDialog({ plantId }) {
     dialogOpen,
     setDialogOpen,
     handleDialogClose,
-    response,
-    isLoading,
   } = useContext(PlantContext);
   // useFetch hook for api calls
 

@@ -54,7 +54,6 @@ const PlantCard = props => {
               <Grid item>
                 <Typography
                   gutterBottom
-                  variant="plantCardHeader"
                   component="h2"
                   style={{
                     fontFamily: 'Mulish',
