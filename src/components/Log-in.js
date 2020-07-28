@@ -116,7 +116,6 @@ function Login() {
   };
 
   const formSubmit = e => {
-    console.log('clicked formSubmit');
     e.preventDefault();
     setLoading(true);
     axios
@@ -134,12 +133,11 @@ function Login() {
       })
       .catch(err => {
         console.log(err);
+        setLoading(false);
         if (err) {
           setLoginError(true);
         }
       });
-
-    setLoading(false);
   };
 
   const changeHandler = e => {
@@ -160,71 +158,67 @@ function Login() {
       ease: Power3.easeOut,
     });
   }, []);
-
   return (
     <div className={classes.signUpContainer}>
       <div
         className={classes.form}
         ref={el => {
           gsapAnimationLogin = el;
-        }}
-      >
+        }}>
         <Paper className={classes.paper}>
           <form className={classes.form2}>
-            <Typography variant="h2" className={classes.text}>
+            <Typography variant='h2' className={classes.text}>
               Log In
             </Typography>
             {loginError && (
-              <Typography variant="caption" style={{ color: 'red' }}>
+              <Typography variant='caption' style={{ color: 'red' }}>
                 Username and password not recognized, please try again
               </Typography>
             )}
             <label>
               <Input
-                placeholder="Username"
-                type="text"
+                placeholder='Username'
+                type='text'
                 onChange={changeHandler}
-                name="username"
+                name='username'
                 value={formState.username}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Password"
-                type="text"
+                placeholder='Password'
+                type='text'
                 onChange={changeHandler}
-                name="password"
+                name='password'
                 value={formState.password}
                 errors={errors}
               />
             </label>
             <div className={classes.buttons}>
               <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 style={{ color: 'white' }}
                 onClick={formSubmit}
-                className={classes.button}
-              >
+                className={classes.button}>
                 {loading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant="button" onClick={formSubmit}>
+                  <Typography variant='button' onClick={formSubmit}>
                     Login
                   </Typography>
                 )}
               </Button>
             </div>
-            <Typography variant="h6" className={classes.text}>
+            <Typography variant='h6' className={classes.text}>
               Dont have an account?{' '}
               <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 style={{ color: 'white' }}
                 component={Link}
-                to="/signup"
-              >
+                to='/signup'>
                 Sign Up
               </Button>
             </Typography>

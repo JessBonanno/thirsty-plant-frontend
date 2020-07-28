@@ -49,27 +49,24 @@ const useStyles = makeStyles(theme => ({
     width: 654,
     outline: 'none',
     [theme.breakpoints.down('sm')]: {
-      height: 800,
+      height: 625,
       width: 400,
       padding: 20,
     },
   },
   text: {
     textAlign: 'center',
+    marginBottom: '.25em',
   },
 }));
 
 function Signup() {
   let gsapAnimationForm = useRef(null);
   const history = useHistory();
-  const {
-    setUserId,
-    fetchParams,
-    setFetchParams,
-    response,
-    isLoading,
-    setIsLoading,
-  } = useContext(PlantContext);
+  const { setUserId, fetchParams, setFetchParams, response } = useContext(
+    PlantContext
+  );
+  const [signUpLoading, setSignUpLoading] = useState(false);
 
   const defaultState = {
     email: '',
@@ -139,6 +136,7 @@ function Signup() {
 
   const formSubmit = async e => {
     e.preventDefault();
+    setSignUpLoading(true);
 
     try {
       const value =
@@ -157,15 +155,16 @@ function Signup() {
         url: '/users',
         data: formState,
       });
+      setSignUpLoading(false);
     } catch (err) {
       console.log(err);
+      setSignUpLoading(false);
     }
-    console.log({ response });
   };
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   setSignUpLoading(false);
+  // }, []);
 
   useEffect(() => {
     TweenMax.to(gsapAnimationForm, 5, {
@@ -216,68 +215,67 @@ function Signup() {
         className={classes.form}
         ref={el => {
           gsapAnimationForm = el;
-        }}
-      >
+        }}>
         <Paper className={classes.paper}>
           <form onSubmit={formSubmit}>
-            <Typography variant="h2" className={classes.text}>
+            <Typography variant='h2' className={classes.text}>
               Sign Up
             </Typography>
             <label>
               <Input
-                placeholder="Email"
-                type="text"
+                placeholder='Email'
+                type='text'
                 onChange={changeHandler}
-                name="email"
+                name='email'
                 value={formState.email}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Username"
-                type="text"
+                placeholder='Username'
+                type='text'
                 onChange={changeHandler}
-                name="username"
+                name='username'
                 value={formState.username}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Password"
-                type="text"
+                placeholder='Password'
+                type='text'
                 onChange={changeHandler}
                 value={formState.password}
-                name="password"
+                name='password'
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder="Confirm Password"
-                type="text"
+                placeholder='Confirm Password'
+                type='text'
                 onChange={changeHandler}
                 value={formState.confirm}
-                name="confirm"
+                name='confirm'
                 errors={errors}
               />
             </label>
             <Input
-              placeholder="Phone Number"
-              type="text"
+              placeholder='Phone Number'
+              type='text'
               onChange={changeHandler}
-              name="phoneNumber"
+              name='phoneNumber'
               value={formState.phoneNumber}
               errors={errors}
             />
             <br />
-            <label htmlFor="terms">
-              <Grid container alignItems="center">
+            <label htmlFor='terms'>
+              <Grid container alignItems='center'>
                 <Grid item>
                   <input
-                    name="terms"
-                    type="checkbox"
+                    name='terms'
+                    type='checkbox'
                     onChange={changeHandler}
                     errors={errors}
                   />
@@ -287,34 +285,28 @@ function Signup() {
                 </Grid>
               </Grid>
             </label>
-            <br />
-            <br />
-
-            <br />
             <div className={classes.buttons}>
               <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 style={{ color: 'white' }}
                 onClick={formSubmit}
-                className={classes.button}
-              >
-                {isLoading ? (
+                className={classes.button}>
+                {signUpLoading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant="button">Sign Up</Typography>
+                  <Typography variant='button'>Sign Up</Typography>
                 )}
               </Button>
             </div>
-            <Typography variant="h6" className={classes.text}>
+            <Typography variant='h6' className={classes.text}>
               Already have an account?{' '}
               <Button
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 style={{ color: 'white' }}
                 component={Link}
-                to="/login"
-              >
+                to='/login'>
                 Login
               </Button>
             </Typography>

@@ -33,7 +33,6 @@ export default function DeleteDialog({ plantId }) {
     setDialogOpen,
     handleDialogClose,
   } = useContext(PlantContext);
-  // useFetch hook for api calls
 
   const handleDeletePlant = e => {
     e.preventDefault();

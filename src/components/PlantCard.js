@@ -34,7 +34,6 @@ const useStyles = makeStyles({
 const PlantCard = props => {
   const { handleEditModalOpen, handleDialogOpen } = useContext(PlantContext);
   const { id, nickname, species, imageUrl, lastWatering, h2oFrequency } = props;
-  console.log({ props });
   const classes = useStyles();
 
   return (

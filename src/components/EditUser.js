@@ -68,7 +68,6 @@ function EditUser() {
     password: '',
     newPassword: '',
   };
-  const [params, setParams] = useState(false);
   const [formState, setFormState] = useState(defaultState);
   const [errors, setErrors] = useState({
     current: '',
@@ -79,23 +78,20 @@ function EditUser() {
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    console.log(response);
     setFetchParams({
       method: 'get',
       url: `/users/${userId}`,
     });
-    setParams(!params);
   }, []);
 
   useEffect(() => {
-    console.log({ response });
-    if (response !== null) {
+    if (response !== null && response.user) {
       setFormState({
         ...formState,
         phoneNumber: response.user.phoneNumber,
       });
     }
-  }, [params]);
+  }, [response]);
 
   useEffect(() => {
     TweenMax.to(gsapAnimationChangePass, 1, {
@@ -184,55 +180,54 @@ function EditUser() {
           className={classes.form}
           ref={el => {
             gsapAnimationChangePass = el;
-          }}
-        >
+          }}>
           <Paper className={classes.paper}>
-            <Typography variant="h4" className={classes.text}>
+            <Typography variant='h4' className={classes.text}>
               Account Settings
             </Typography>
             <form>
               <label>
-                <Typography variant="caption">Phone Number</Typography>
+                <Typography variant='caption'>Phone Number</Typography>
                 <Input
                   placeholder={formState.phoneNumber}
-                  type="text"
+                  type='text'
                   onChange={changeHandler}
-                  name="phoneNumber"
+                  name='phoneNumber'
                   value={formState.phoneNumber}
                   errors={errors}
                 />
               </label>
               <label>
-                <Typography variant="caption">New Password</Typography>
+                <Typography variant='caption'>New Password</Typography>
                 <Input
-                  placeholder="New Password"
-                  type="text"
+                  placeholder='New Password'
+                  type='text'
                   onChange={changeHandler}
-                  name="newPassword"
+                  name='newPassword'
                   value={formState.newPassword}
                   errors={errors}
                 />
               </label>
               <label>
-                <Typography variant="caption">Current Password</Typography>
+                <Typography variant='caption'>Current Password</Typography>
                 <Input
-                  placeholder="Password"
-                  type="text"
+                  placeholder='Password'
+                  type='text'
                   onChange={changeHandler}
-                  name="password"
+                  name='password'
                   value={formState.password}
                   errors={errors}
                 />
               </label>
               <label>
-                <Typography variant="caption">
+                <Typography variant='caption'>
                   Confirm Current Password
                 </Typography>
                 <Input
-                  placeholder="Confirm password"
-                  type="text"
+                  placeholder='Confirm password'
+                  type='text'
                   onChange={changeHandler}
-                  name="confirmCurrentPassword"
+                  name='confirmCurrentPassword'
                   value={formState.confirmedPassword}
                   errors={errors}
                 />
@@ -240,19 +235,17 @@ function EditUser() {
 
               <div className={classes.buttons}>
                 <Button
-                  variant="contained"
-                  color="secondary"
+                  variant='contained'
+                  color='secondary'
                   style={{ color: 'white', margin: '20px' }}
-                  onClick={formSubmit}
-                >
+                  onClick={formSubmit}>
                   Submit
                 </Button>
                 <Button
-                  variant="contained"
-                  color="secondary"
+                  variant='contained'
+                  color='secondary'
                   style={{ color: 'white' }}
-                  onClick={back}
-                >
+                  onClick={back}>
                   Cancel
                 </Button>
               </div>

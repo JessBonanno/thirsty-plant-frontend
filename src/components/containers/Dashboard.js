@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const array = [1, 2, 3, 4, 5, 6];
+// const array = [1, 2, 3, 4, 5, 6];
 /**
  * Dashboard component displays users plants and allows editing, deleting, searching and adding plants
  *
@@ -70,6 +70,7 @@ const Dashboard = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const classes = useStyles();
   const {
     matchesXS,
@@ -82,7 +83,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
-    console.log('first useEffect');
     setFetchParams({
       method: 'get',
       url: `/users/${userId}/plants`,
@@ -105,7 +105,6 @@ const Dashboard = () => {
   useEffect(() => {
     if (response !== null) {
       setPlants(response.plants);
-      console.log({ response });
     }
   }, [response]);
   return (

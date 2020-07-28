@@ -12,13 +12,13 @@ import TextField from "@material-ui/core/TextField";
 function Input(props) {
 	const useStyles = makeStyles((theme) => ({
 		form: {
-			margin: "10px 50px 0px 0px",
+			// margin: "5px 50px 0px 0px",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 		},
 		text: {
-			margin: "10px 50px 0px 0px",
+			// margin: "10px 50px 0px 0px",
 			border: "0",
 			boxShadow: theme.shadows[5],
 			borderRadius: "10px",
