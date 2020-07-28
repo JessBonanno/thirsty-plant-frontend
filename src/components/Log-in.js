@@ -187,12 +187,13 @@ useEffect(() => {
 								variant="contained"
 								color="secondary"
 								style={{ color: "white" }}
-								href={Signup}
+								component={Link}
+								to="/signup"
 							>
 								Sign Up
 							</Button>
 						</Typography>
-						<Typography variant="h6" className={classes.text}>
+						{/* <Typography variant="h6" className={classes.text}>
 							Having trouble logging in?{" "}
 							<Button
 								variant="contained"
@@ -202,7 +203,7 @@ useEffect(() => {
 							>
 								Change Password
 							</Button>
-						</Typography>
+						</Typography> */}
 					</form>
 				</Paper>
 			</div>

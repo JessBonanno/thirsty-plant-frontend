@@ -12,7 +12,6 @@ import Login from "./Log-in";
 import { TweenMax, Power3 } from "gsap";
 
 function Signup() {
-	let gsapAnimationForm = useRef(null);
 	const defaultState = {
 		email: "",
 		username: "",
@@ -252,7 +251,8 @@ function Signup() {
 								variant="contained"
 								color="secondary"
 								style={{ color: "white" }}
-								href={Login}
+								component={Link}
+								to="/login"
 							>
 								Login
 							</Button>
