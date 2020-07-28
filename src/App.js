@@ -1,8 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
-import { Route, Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+import { Route } from 'react-router-dom';
 import Hidden from '@material-ui/core/Hidden';
 import { flexbox } from '@material-ui/system';
 import './App.css';
@@ -15,6 +14,8 @@ import Dashboard from './components/containers/Dashboard';
 import ChangePass from './components/ChangePass.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
+import PrivateRoute from './utils/PrivateRoute';
+import Terms from './components/Terms';
 
 function App() {
   return (
@@ -28,9 +29,7 @@ function App() {
           <Route path="/Signup" component={Signup} />
           <Route path="/ChangePass" component={ChangePass} />
           <Route path="/AddPlant" component={AddPlant} />
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
+          <Route path="/dashboard" component={Dashboard} />
         </div>
       </flexbox>
       <Hidden mdUp>

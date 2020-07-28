@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 /**
  * Custom hook to handle crud operations
  *
@@ -15,19 +16,18 @@ export default function useFetch({
 }) {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
-        api[method](url, data, config)
-          .then(res => {
-            setResponse(res.data);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        api[method](url, data, config).then(res => {
+          setResponse(res.data);
+          setIsLoading(false);
+        });
       } catch (err) {
+        console.log(err);
         setError(err);
       }
     };
@@ -36,5 +36,5 @@ export default function useFetch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [method, url, data, config]);
 
-  return { response, error, isLoading };
+  return { response, error, isLoading, setIsLoading };
 }
