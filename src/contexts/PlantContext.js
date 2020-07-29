@@ -68,7 +68,7 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
-  const { response, isLoading, setIsLoading } = useFetch({
+  const { response, isLoading, setIsLoading, error } = useFetch({
     api: axiosWithAuth(),
     method: fetchParams.method,
     url: fetchParams.url,
@@ -102,6 +102,7 @@ export const PlantProvider = ({ children }) => {
         handleEditModalOpen,
         handleDialogOpen,
         response,
+        error,
         isLoading,
         setIsLoading,
         useFetch,

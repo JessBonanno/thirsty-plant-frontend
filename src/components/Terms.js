@@ -37,7 +37,8 @@ export default function TransitionsModal() {
         maxWidth: 600,
         maxHeight: '80vh',
         overflow: 'scroll',
-      }}>
+      }}
+    >
       <h2>Welcome to Water my plants</h2>
       <p>
         These terms of service outline the rules and regulations for the use of
@@ -84,19 +85,19 @@ export default function TransitionsModal() {
         Unless otherwise stated, Water my plants and/or it's licensors own the
         intellectual property rights for all material on Water my plants. All
         intellectual property rights are reserved. You may view and/or print
-        pages from nostalgic-hermann-44f9c1.netlify.app/ for your own personal
-        use subject to restrictions set in these terms of service.
+        pages from watermyplantsjuly2020.netlify.app/ for your own personal use
+        subject to restrictions set in these terms of service.
       </p>
       <p>You must not:</p>
       <ol>
-        <li>Republish material from nostalgic-hermann-44f9c1.netlify.app/</li>
+        <li>Republish material from watermyplantsjuly2020.netlify.app/</li>
         <li>
           Sell, rent or sub-license material from
-          nostalgic-hermann-44f9c1.netlify.app/
+          watermyplantsjuly2020.netlify.app/
         </li>
         <li>
           Reproduce, duplicate or copy material from
-          nostalgic-hermann-44f9c1.netlify.app/
+          watermyplantsjuly2020.netlify.app/
         </li>
       </ol>
       <p>
@@ -125,7 +126,7 @@ export default function TransitionsModal() {
           </ol>
         </li>
       </ol>
-      <ol start='2'>
+      <ol start="2">
         <li>
           These organizations may link to our home page, to publications or to
           other Web site information so long as the link: (a) is not in any way
@@ -182,8 +183,9 @@ export default function TransitionsModal() {
         interested in linking to our website, you must notify us by sending an
         e-mail to{' '}
         <a
-          href='mailto:watermyplantsbuildweek@gmail.com'
-          title='send an email to watermyplantsbuildweek@gmail.com'>
+          href="mailto:watermyplantsbuildweek@gmail.com"
+          title="send an email to watermyplantsbuildweek@gmail.com"
+        >
           watermyplantsbuildweek@gmail.com
         </a>
         . Please include your name, your organization name, contact information
@@ -292,7 +294,8 @@ export default function TransitionsModal() {
         This Terms of service page was created at{' '}
         <a
           style={{ color: 'inherit', textDecoration: 'none', cursor: 'text' }}
-          href='https://privacyterms.io'>
+          href="https://privacyterms.io"
+        >
           privacyterms.io
         </a>
         . If you have any queries regarding any of our terms, please contact us.
@@ -303,14 +306,15 @@ export default function TransitionsModal() {
   return (
     <div>
       <Button
-        type='button'
+        type="button"
         onClick={handleOpen}
-        style={{ textDecoration: 'underline' }}>
+        style={{ textDecoration: 'underline' }}
+      >
         Terms & Conditions
       </Button>
       <Modal
-        aria-labelledby='transition-modal-title'
-        aria-describedby='transition-modal-description'
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
         className={classes.modal}
         open={open}
         onClose={handleClose}
@@ -318,10 +322,11 @@ export default function TransitionsModal() {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
-        }}>
+        }}
+      >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id='transition-modal-title'>Terms & Conditions</h2>
+            <h2 id="transition-modal-title">Terms & Conditions</h2>
             {tos}
           </div>
         </Fade>

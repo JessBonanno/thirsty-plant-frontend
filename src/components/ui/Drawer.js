@@ -55,6 +55,11 @@ const FooterDrawer = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
@@ -112,7 +117,7 @@ const FooterDrawer = () => {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            href="https://infallible-curie-a39dce.netlify.app/"
+            href="https://watermyplantsjuly2020.netlify.app/"
           >
             <ListItemText>
               <Typography
@@ -149,7 +154,7 @@ const FooterDrawer = () => {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            href="https://infallible-curie-a39dce.netlify.app/about.html"
+            href="https://watermyplantsjuly2020.netlify.app/about.html"
           >
             <ListItemText>
               <Typography
@@ -173,7 +178,7 @@ const FooterDrawer = () => {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            href="https://infallible-curie-a39dce.netlify.app/guide.html"
+            href="https://watermyplantsjuly2020.netlify.app/guide.html"
           >
             <ListItemText>
               <Typography
@@ -243,7 +248,7 @@ const FooterDrawer = () => {
             </Typography>
           </ListItemText>
         </ListItem>
-        <ListItem button component={Link} to="/">
+        <ListItem button component={Link} to="/login" onClick={handleLogout}>
           <ListItemText>
             <Typography
               variant="p"
