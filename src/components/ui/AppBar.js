@@ -46,6 +46,11 @@ export default function DenseAppBar() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -233,7 +238,7 @@ export default function DenseAppBar() {
                         </ListItemText>
                       </ListItem>
                       <Divider />
-                      <ListItem component={Link} to="/">
+                      <ListItem component={Link} to="/" onClick={handleLogout}>
                         <ListItemText>
                           <Typography
                             variant="p"
