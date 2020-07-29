@@ -133,6 +133,7 @@ const Dashboard = () => {
                 color: 'white',
                 marginBottom: matchesXS ? '1em' : undefined,
                 width: matchesXS && '100%',
+                borderRadius: 0,
               }}
               onClick={handleAddModalOpen}
             >

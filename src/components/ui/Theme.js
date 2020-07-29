@@ -23,6 +23,7 @@ const yellow = '#FDBD17';
 const pink = '#E86895';
 const lightPink = '#FAD6F6';
 const blue = 'lightblue';
+const black = '#474747';
 
 export default createMuiTheme({
   palette: {
@@ -99,7 +100,11 @@ export default createMuiTheme({
       color: green,
       fontSize: '1.5rem',
     },
-    subtitle2: {},
+    subtitle2: {
+      fontFamily: ralewayFont,
+      color: black,
+      fontSize: '1.5rem',
+    },
     body1: {},
     body2: {},
     button: {
@@ -108,6 +113,17 @@ export default createMuiTheme({
       fontFamily: ralewayFont,
       textTransform: 'capitalize',
     },
-    caption: {},
+    caption: {
+      fontFamily: ralewayFont,
+      fontSize: '1.3rem',
+      color: 'darkred',
+      fontStyle: 'none',
+    },
+    iconButtonText: {
+      fontFamily: ralewayFont,
+      fontSize: '1rem',
+      color: black,
+      fontStyle: 'none',
+    },
   },
 });

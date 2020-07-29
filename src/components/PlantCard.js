@@ -29,6 +29,10 @@ const useStyles = makeStyles({
   media: {
     height: 140,
   },
+
+  iconButtonText: {
+    ...theme.typography.iconButtonText,
+  },
 });
 
 const PlantCard = props => {
@@ -118,7 +122,12 @@ const PlantCard = props => {
                         </IconButton>
                       </Grid>
                       <Grid item>
-                        <Typography variant="caption">Edit</Typography>
+                        <Typography
+                          variant="iconButtonText"
+                          className={classes.iconButtonText}
+                        >
+                          Edit
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -151,7 +160,12 @@ const PlantCard = props => {
                           </IconButton>
                         </Grid>
                         <Grid item>
-                          <Typography variant="caption">Water Now</Typography>
+                          <Typography
+                            variant="iconButtonText"
+                            className={classes.iconButtonText}
+                          >
+                            Water Now
+                          </Typography>
                         </Grid>
                       </Grid>
                     </Grid>
