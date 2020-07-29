@@ -105,6 +105,9 @@ export default createMuiTheme({
       color: black,
       fontSize: '1.5rem',
     },
+    copyright: {
+      fontFamily: ralewayFont,
+    },
     body1: {},
     body2: {},
     button: {

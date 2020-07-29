@@ -6,12 +6,12 @@ import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
-
 // local components
 import PlantCard from '../PlantCard';
 import AddPlantModal from '../AddPlantModal';
 // context
 import { PlantContext } from '../../contexts/PlantContext';
+import AddButton from '../AddButton';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -103,6 +103,7 @@ const Dashboard = () => {
   return (
     <>
       <AddPlantModal className={classes.modal} />
+      <AddButton />
       <Grid
         container
         direction="column"
@@ -111,7 +112,13 @@ const Dashboard = () => {
       >
         {/* ----- Page Header ---- */}
         <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
-          <Typography variant="h2">My Plants</Typography>
+          <Typography
+            variant="h2"
+            className={classes.dashboardHeader}
+            style={{ fontSize: '2rem' }}
+          >
+            My Plants
+          </Typography>
         </Grid>
         {/* ---- Plant Bar ----- */}
         <Grid
@@ -134,6 +141,7 @@ const Dashboard = () => {
                 marginBottom: matchesXS ? '1em' : undefined,
                 width: matchesXS && '100%',
                 borderRadius: 0,
+                display: matchesXS ? 'none' : 'block',
               }}
               onClick={handleAddModalOpen}
             >
