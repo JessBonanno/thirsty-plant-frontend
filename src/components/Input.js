@@ -32,6 +32,9 @@ function Input(props) {
         <Typography variant="p" className={classes.errors}>
           {props.errors[props.name]}
         </Typography>
+        {/* {props.formState.confirm === props.formState.password ? null : (
+          <p className="errors">Passwords must match</p>
+        )} */}
       </div>
     </>
   );

@@ -235,13 +235,15 @@ function Login() {
                     <Grid item className={classes.formGridItem}>
                       <TextField
                         variant="outlined"
+                        label="Username"
                         className={classes.textInput}
                         placeholder="Username"
                         type="text"
                         onChange={changeHandler}
                         name="username"
                         value={formState.username}
-                        errors={errors}
+                        error={errors.username}
+                        // helperText={errors.username}
                       />
                       {errors && (
                         <div style={{ height: '1em', paddingTop: 5 }}>
@@ -264,7 +266,8 @@ function Login() {
                         onChange={changeHandler}
                         name="password"
                         value={formState.password}
-                        errors={errors}
+                        error={errors.password}
+                        // helperText={errors.password}
                       />
                       {errors && (
                         <div style={{ height: '1em', paddingTop: 5 }}>

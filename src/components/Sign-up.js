@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import { TweenMax, Power3 } from 'gsap';
 
 // api imports
@@ -28,35 +29,76 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: 'center',
   },
   form: {
-    marginTop: '3em',
+    // marginTop: '3em',
     display: 'flex',
     justifyContent: 'center',
     opacity: '0',
   },
-  buttons: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    justifyItems: 'space-between',
-    marginLeft: '0px',
-    marginBottom: '20px',
+  // form2: {
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   justifyContent: 'center',
+  //   paddingBottom: '25px',
+  // },
+  button: {
+    borderRadius: 0,
+    color: theme.palette.common.white,
+    height: 54,
+    width: 150,
+    fontSize: '1.8rem',
+    marginBottom: 20,
   },
+  // buttons: {
+  //   width: '100%',
+  //   display: 'flex',
+  //   justifyContent: 'center',
+  //   marginTop: '20px',
+  // },
+  // buttons2: {
+  //   width: '100%',
+  //   display: 'flex',
+  //   justifyContent: 'center',
+  //   marginTop: '20px',
+  // },
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    padding: '25px',
+    // backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    width: 654,
+    padding: '2em',
+    margin: '7em auto',
+    width: 350,
+    // height: 800,
     outline: 'none',
+    [theme.breakpoints.down('md')]: {
+      // height: 500,
+      width: 350,
+      // padding: 20,
+    },
     [theme.breakpoints.down('sm')]: {
-      height: 625,
-      width: 400,
-      padding: 20,
+      // height: 500,
+      width: 350,
+      // padding: 20,
+    },
+    [theme.breakpoints.down('xs')]: {
+      // height: 500,
+      width: 350,
+      // padding: 20,
     },
   },
   text: {
     textAlign: 'center',
-    marginBottom: '.25em',
+    marginTop: '25px',
+  },
+  formGridItem: {
+    width: '100%',
+    margin: '1em 0',
+  },
+  errors: {
+    fontSize: '1rem',
+    color: 'red',
+  },
+  textInput: {
+    boxShadow: theme.shadows[2],
+    width: '100%',
   },
 }));
 
@@ -66,7 +108,8 @@ function Signup() {
   const { setUserId, fetchParams, setFetchParams, response } = useContext(
     PlantContext
   );
-  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [signInError, setSignInError] = useState('');
 
   const defaultState = {
     email: '',
@@ -101,12 +144,9 @@ function Signup() {
       .required('must include at least 5 characters'),
     password: Yup.string().matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-      'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
+      'Must one uppercase, one number & be at least 8 characters'
     ),
-    confirm: Yup.string().oneOf(
-      [Yup.ref('password'), null],
-      'Passwords must match'
-    ),
+    confirm: Yup.string().required('Passwords must match'),
     terms: Yup.boolean().oneOf(
       [true],
       'You must accept the terms and conditions'
@@ -136,7 +176,7 @@ function Signup() {
 
   const formSubmit = async e => {
     e.preventDefault();
-    setSignUpLoading(true);
+    setLoading(true);
 
     try {
       const value =
@@ -155,10 +195,10 @@ function Signup() {
         url: '/users',
         data: formState,
       });
-      setSignUpLoading(false);
+      setLoading(false);
     } catch (err) {
       console.log(err);
-      setSignUpLoading(false);
+      setLoading(false);
     }
   };
 
@@ -218,106 +258,309 @@ function Signup() {
         }}
       >
         <Paper className={classes.paper}>
-          <form onSubmit={formSubmit}>
-            <Typography variant="h2" className={classes.text}>
-              Sign Up
-            </Typography>
-            <label>
-              <Input
-                placeholder="Email"
-                type="text"
-                onChange={changeHandler}
-                name="email"
-                value={formState.email}
-                errors={errors}
-              />
-            </label>
-            <label>
-              <Input
-                placeholder="Username"
-                type="text"
-                onChange={changeHandler}
-                name="username"
-                value={formState.username}
-                errors={errors}
-              />
-            </label>
-            <label>
-              <Input
-                placeholder="Password"
-                type="text"
-                onChange={changeHandler}
-                value={formState.password}
-                name="password"
-                errors={errors}
-              />
-            </label>
-            <label>
-              <Input
-                placeholder="Confirm Password"
-                type="text"
-                onChange={changeHandler}
-                value={formState.confirm}
-                name="confirm"
-                errors={errors}
-              />
-            </label>
-            <Input
-              placeholder="Phone Number"
-              type="text"
-              onChange={changeHandler}
-              name="phoneNumber"
-              value={formState.phoneNumber}
-              errors={errors}
-            />
-            <br />
-            <label htmlFor="terms">
-              <Grid container alignItems="center">
-                <Grid item>
-                  <input
-                    name="terms"
-                    type="checkbox"
-                    onChange={changeHandler}
-                    errors={errors}
-                  />
-                </Grid>
-                <Grid item>
-                  <Terms />
-                </Grid>
-              </Grid>
-            </label>
-            <div className={classes.buttons}>
-              <Button
-                disabled={setButtonDisabled}
-                variant="contained"
-                color="secondary"
-                style={{ color: 'white' }}
-                onClick={formSubmit}
-                className={classes.button}
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            // style={{ border: '1px solid red' }}
+          >
+            <Grid item>
+              <Typography
+                variant="h5"
+                className={classes.text}
+                style={{ marginBottom: '1.5em' }}
               >
-                {signUpLoading ? (
-                  <CircularProgress style={{ color: 'white' }} />
-                ) : (
-                  <Typography variant="button">Sign Up</Typography>
-                )}
-              </Button>
-            </div>
-            <Typography variant="h6" className={classes.text}>
-              Already have an account?{' '}
-              <Button
-                variant="contained"
-                color="secondary"
-                style={{ color: 'white' }}
-                component={Link}
-                to="/login"
-              >
-                Login
-              </Button>
-            </Typography>
-          </form>
+                Sign Up
+              </Typography>
+              <div style={{ height: 50, paddingBottom: 5 }}>
+                {/* needs to be changed to handle api error */}
+                {/* {signInError && (
+                  <Typography variant="caption">
+                    Username and password not recognized, please try again
+                  </Typography>
+                )} */}
+              </div>
+            </Grid>
+
+            <Grid item style={{ width: '100%' }}>
+              <form>
+                <Grid container direction="column" style={{ width: '100%' }}>
+                  <Grid item className={classes.formGridItem}>
+                    <TextField
+                      variant="outlined"
+                      className={classes.textInput}
+                      placeholder="Email"
+                      type="text"
+                      onChange={changeHandler}
+                      name="email"
+                      value={formState.email}
+                      error={errors.email}
+                    />
+                    {errors && (
+                      <div style={{ height: '1em', paddingTop: 5 }}>
+                        <Typography
+                          variant="caption"
+                          className={classes.errors}
+                        >
+                          {errors.email}
+                        </Typography>
+                      </div>
+                    )}
+                  </Grid>
+                  <Grid item className={classes.formGridItem}>
+                    <TextField
+                      variant="outlined"
+                      className={classes.textInput}
+                      label="Username"
+                      placeholder="Username"
+                      type="username"
+                      onChange={changeHandler}
+                      name="username"
+                      value={formState.username}
+                      error={errors.username}
+                    />
+                    {errors && (
+                      <div style={{ height: '1em', paddingTop: 5 }}>
+                        <Typography
+                          variant="caption"
+                          className={classes.errors}
+                        >
+                          {errors.username}
+                        </Typography>
+                      </div>
+                    )}
+                  </Grid>
+                  <Grid item className={classes.formGridItem}>
+                    <TextField
+                      variant="outlined"
+                      className={classes.textInput}
+                      label="Password"
+                      placeholder="Password"
+                      type="password"
+                      onChange={changeHandler}
+                      name="password"
+                      value={formState.password}
+                      error={errors}
+                    />
+                    {errors && (
+                      <div style={{ height: '1em', paddingTop: 5 }}>
+                        <Typography
+                          variant="caption"
+                          className={classes.errors}
+                        >
+                          {errors.password}
+                        </Typography>
+                      </div>
+                    )}
+                  </Grid>
+                  <Grid item className={classes.formGridItem}>
+                    <TextField
+                      variant="outlined"
+                      className={classes.textInput}
+                      label="Confirm Password"
+                      placeholder="Confirm Password"
+                      type="password"
+                      onChange={changeHandler}
+                      name="confirm"
+                      value={formState.confirm}
+                      errors={errors}
+                    />
+                    {errors && (
+                      <div style={{ height: '1em', paddingTop: 5 }}>
+                        <Typography
+                          variant="caption"
+                          className={classes.errors}
+                        >
+                          {errors.confirm}
+                        </Typography>
+                      </div>
+                    )}
+                  </Grid>
+                  <Grid item className={classes.formGridItem}>
+                    <TextField
+                      variant="outlined"
+                      className={classes.textInput}
+                      label="Phone Number"
+                      placeholder="Phone Number"
+                      type="tel"
+                      onChange={changeHandler}
+                      name="phoneNumber"
+                      value={formState.phoneNumber}
+                      error={errors.phoneNumber}
+                    />
+                    {errors && (
+                      <div style={{ height: '1em', paddingTop: 5 }}>
+                        <Typography
+                          variant="caption"
+                          className={classes.errors}
+                        >
+                          {errors.phoneNumber}
+                        </Typography>
+                      </div>
+                    )}
+                  </Grid>
+                  <Grid item>
+                    <label htmlFor="terms">
+                      <Grid container alignItems="center">
+                        <Grid item>
+                          <input
+                            name="terms"
+                            type="checkbox"
+                            onChange={changeHandler}
+                            errors={errors}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <Terms />
+                        </Grid>
+                      </Grid>
+                    </label>
+                  </Grid>
+                  <Grid item className={classes.formGridItem}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{ color: 'white', width: '100%' }}
+                      onClick={formSubmit}
+                      className={classes.button}
+                    >
+                      {loading ? (
+                        <CircularProgress style={{ color: 'white' }} />
+                      ) : (
+                        <Typography variant="button" onClick={formSubmit}>
+                          Sign Up
+                        </Typography>
+                      )}
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle2">
+                Need to{' '}
+                <Link
+                  to="/login"
+                  style={{ color: '#109fff', textDecoration: 'none' }}
+                >
+                  Log in
+                </Link>
+                ?
+              </Typography>
+            </Grid>
+          </Grid>
         </Paper>
       </div>
     </div>
+    // <div className={classes.signUpContainer}>
+    //   <div
+    //     className={classes.form}
+    //     ref={el => {
+    //       gsapAnimationForm = el;
+    //     }}
+    //   >
+    //     <Paper className={classes.paper}>
+    //       <form onSubmit={formSubmit}>
+    //         <Typography variant="h2" className={classes.text}>
+    //           Sign Up
+    //         </Typography>
+    //         <label>
+    //           <Input
+    //             placeholder="Email"
+    //             type="text"
+    //             onChange={changeHandler}
+    //             name="email"
+    //             value={formState.email}
+    //             errors={errors}
+    //           />
+    //         </label>
+    //         <label>
+    //           <Input
+    //             placeholder="Username"
+    //             type="text"
+    //             onChange={changeHandler}
+    //             name="username"
+    //             value={formState.username}
+    //             errors={errors}
+    //           />
+    //         </label>
+    //         <label>
+    //           <Input
+    //             placeholder="Password"
+    //             type="text"
+    //             onChange={changeHandler}
+    //             value={formState.password}
+    //             name="password"
+    //             errors={errors}
+    //           />
+    //         </label>
+    //         <label>
+    //           <Input
+    //             placeholder="Confirm Password"
+    //             type="text"
+    //             onChange={changeHandler}
+    //             value={formState.confirm}
+    //             name="confirm"
+    //             errors={errors}
+    //           />
+    //         </label>
+    //         <Input
+    //           placeholder="Phone Number"
+    //           type="text"
+    //           onChange={changeHandler}
+    //           name="phoneNumber"
+    //           value={formState.phoneNumber}
+    //           errors={errors}
+    //         />
+    //         <br />
+    //         <label htmlFor="terms">
+    //           <Grid container alignItems="center">
+    //             <Grid item>
+    //               <input
+    //                 name="terms"
+    //                 type="checkbox"
+    //                 onChange={changeHandler}
+    //                 errors={errors}
+    //               />
+    //             </Grid>
+    //             <Grid item>
+    //               <Terms />
+    //             </Grid>
+    //           </Grid>
+    //         </label>
+    //         <div className={classes.buttons}>
+    //           <Button
+    //             disabled={buttonDisabled}
+    //             variant="contained"
+    //             color="secondary"
+    //             style={{ color: 'white' }}
+    //             onClick={formSubmit}
+    //             className={classes.button}
+    //           >
+    //             {signUpLoading ? (
+    //               <CircularProgress style={{ color: 'white' }} />
+    //             ) : (
+    //               <Typography variant="button">Sign Up</Typography>
+    //             )}
+    //           </Button>
+    //         </div>
+    //         <Typography variant="h6" className={classes.text}>
+    //           Already have an account?{' '}
+    //           <Button
+    //             variant="contained"
+    //             color="secondary"
+    //             style={{ color: 'white' }}
+    //             component={Link}
+    //             to="/login"
+    //           >
+    //             Login
+    //           </Button>
+    //         </Typography>
+    //       </form>
+    //     </Paper>
+    //   </div>
+    // </div>
   );
 }
 
