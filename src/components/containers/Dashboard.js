@@ -172,16 +172,9 @@ const Dashboard = () => {
             {plants &&
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  align="center"
-                  key={item.id}
-                >
+                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
                   <PlantCard
+                    key={item.id}
                     nickname={item.nickname}
                     species={item.species}
                     imageUrl={item.imageUrl}

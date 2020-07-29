@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -57,24 +57,38 @@ const inputProps = {
  * @param {function} setEditModalOpen changes open state of modal
  * @returns {jsx}
  */
-export default function TransitionsModal() {
+export default function TransitionsModal(props) {
+  const {
+    id,
+    nickname,
+    species,
+    imageUrl,
+    h2oFrequency,
+    editModalOpen,
+    setEditModalOpen,
+  } = props;
+  console.log('EditPlantModal Props: ', props);
+
   const classes = useStyles();
   const {
     matchesSM,
-    plantData,
-    setPlantData,
-    setEditModalOpen,
-    editModalOpen,
-    imageUrl,
+    // setEditModalOpen,
+    // editModalOpen,
     fetchParams,
     setFetchParams,
-    handleEdiModalClose,
+    handleEditModalClose,
     handleUpload,
   } = useContext(PlantContext);
 
+  const [formState, setFormState] = useState({
+    species,
+    nickname,
+    h2oFrequency,
+  });
+
   const handleChange = e => {
-    setPlantData({
-      ...plantData,
+    setFormState({
+      ...formState,
       [e.target.name]: e.target.value,
     });
   };
@@ -84,11 +98,16 @@ export default function TransitionsModal() {
     await setFetchParams({
       ...fetchParams,
       method: 'put',
-      url: `/users/${userId}/plants`,
-      data: { ...plantData, imageUrl: imageUrl },
+      url: `/plants/${id}`,
+      data: { ...formState, imageUrl: imageUrl },
     });
 
     setEditModalOpen(false);
+    setFormState({
+      species: '',
+      nickname: '',
+      h2oFrequency: '',
+    });
 
     // Get the updated list of plants to populate the plants list
     await setFetchParams({
@@ -105,7 +124,7 @@ export default function TransitionsModal() {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={editModalOpen}
-        onClose={handleEdiModalClose}
+        onClose={handleEditModalClose}
         closeAfterTransition
         BackdropProps={{ style: { opacity: '0.3' } }}
       >
@@ -143,6 +162,9 @@ export default function TransitionsModal() {
                           className={classes.formField}
                           variant="outlined"
                           label="Plant name"
+                          name="nickname"
+                          value={formState.nickname}
+                          onChange={handleChange}
                         />
                       </Grid>
                       <Grid item>
@@ -150,6 +172,9 @@ export default function TransitionsModal() {
                           className={classes.formField}
                           variant="outlined"
                           label="Species name"
+                          name="species"
+                          value={formState.species}
+                          onChange={handleChange}
                         />
                       </Grid>{' '}
                     </form>
@@ -193,6 +218,9 @@ export default function TransitionsModal() {
                                   }}
                                   inputProps={inputProps}
                                   variant="outlined"
+                                  name="h2oFrequency"
+                                  value={formState.h2oFrequency}
+                                  onChange={handleChange}
                                 />
                               </Grid>
                               <Grid item>

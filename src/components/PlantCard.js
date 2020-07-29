@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -36,14 +36,32 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
-  const { handleEditModalOpen, handleDialogOpen } = useContext(PlantContext);
   const { id, nickname, species, imageUrl, lastWatering, h2oFrequency } = props;
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState();
+
   const classes = useStyles();
-  console.log('id: ', id);
+
+  const handleEditModalOpen = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
 
   return (
     <>
-      <EditPlantModal />
+      <EditPlantModal
+        id={id}
+        nickname={nickname}
+        species={species}
+        imageUrl={imageUrl}
+        h2oFrequency={h2oFrequency}
+        editModalOpen={editModalOpen}
+        setEditModalOpen={setEditModalOpen}
+      />
       <DeleteDialog id={id} />
       <Card className={classes.root} disableRipple>
         <CardActionArea>
