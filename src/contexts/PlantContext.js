@@ -30,6 +30,7 @@ export const PlantProvider = ({ children }) => {
 
   let image;
   const handleUpload = async e => {
+    console.log('handleUpload run');
     image = e.target.files[0];
     const data = new FormData();
     data.append('file', image);
@@ -43,6 +44,7 @@ export const PlantProvider = ({ children }) => {
 
     const file = await res;
     setImageUrl(res.data.url);
+    console.log('imageUrl from handleUpload: ', imageUrl);
   };
   const handleAddModalClose = () => {
     setAddModalOpen(false);

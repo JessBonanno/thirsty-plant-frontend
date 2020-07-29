@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -62,28 +63,25 @@ export default function TransitionsModal(props) {
     id,
     nickname,
     species,
-    imageUrl,
+    currentImageUrl,
     h2oFrequency,
     editModalOpen,
     setEditModalOpen,
   } = props;
-  console.log('EditPlantModal Props: ', props);
 
   const classes = useStyles();
   const {
     matchesSM,
-    // setEditModalOpen,
-    // editModalOpen,
     fetchParams,
     setFetchParams,
     handleEditModalClose,
-    handleUpload,
   } = useContext(PlantContext);
 
   const [formState, setFormState] = useState({
     species,
     nickname,
     h2oFrequency,
+    imageUrl: currentImageUrl,
   });
 
   const handleChange = e => {
@@ -93,13 +91,30 @@ export default function TransitionsModal(props) {
     });
   };
 
+  let image;
+  const handleUpload = async e => {
+    image = e.target.files[0];
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', 'wpnbbzl6');
+    data.append('api_key', '925249979199193');
+
+    const res = await axios.post(
+      `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
+      data
+    );
+
+    const url = await res.data.url;
+    setFormState({ ...formState, imageUrl: url });
+  };
+
   const handleSubmit = async e => {
     const userId = localStorage.getItem('userId');
     await setFetchParams({
       ...fetchParams,
       method: 'put',
       url: `/plants/${id}`,
-      data: { ...formState, imageUrl: imageUrl },
+      data: formState,
     });
 
     setEditModalOpen(false);
@@ -314,7 +329,7 @@ export default function TransitionsModal(props) {
                       <Grid item align="center">
                         <div
                           style={{
-                            backgroundImage: `url(${imageUrl})`,
+                            backgroundImage: `url(${formState.imageUrl})`,
                             backgroundSize: 'cover',
                             height: 200,
                             // width: 150,

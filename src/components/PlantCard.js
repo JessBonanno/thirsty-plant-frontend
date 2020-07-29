@@ -57,7 +57,7 @@ const PlantCard = props => {
         id={id}
         nickname={nickname}
         species={species}
-        imageUrl={imageUrl}
+        currentImageUrl={imageUrl}
         h2oFrequency={h2oFrequency}
         editModalOpen={editModalOpen}
         setEditModalOpen={setEditModalOpen}
