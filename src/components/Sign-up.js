@@ -15,7 +15,7 @@ import { TweenMax, Power3 } from 'gsap';
 import { PlantContext } from '../contexts/PlantContext';
 // local imports
 import Terms from './Terms';
-import signUp from './signUp.jpeg';
+import signUp from '../assets/images/green-gradient-background.svg';
 import Input from './Input.js';
 
 const useStyles = makeStyles(theme => ({
