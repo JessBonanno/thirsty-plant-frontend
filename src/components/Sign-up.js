@@ -225,9 +225,8 @@ function Signup() {
           console.log(res);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('userId', res.data.user.id);
-
-          history.push('/dashboard');
         })
+        .then(res => history.push('/dashboard'))
         .catch(err => console.log(err));
     }
   }, [response]);
@@ -341,7 +340,7 @@ function Signup() {
                       onChange={changeHandler}
                       name="password"
                       value={formState.password}
-                      error={errors}
+                      error={errors.password}
                     />
                     {errors && (
                       <div style={{ height: '1em', paddingTop: 5 }}>
