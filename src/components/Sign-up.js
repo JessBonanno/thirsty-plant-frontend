@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+
 import { TweenMax, Power3 } from 'gsap';
 
 // api imports
@@ -24,6 +25,7 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     minWidth: '100%',
     height: '100vh',
+    overflow: 'auto',
     // minHeight: "100%",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -64,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '2em',
-    margin: '7em auto',
+    margin: '3em auto',
     width: 350,
     // height: 800,
     outline: 'none',
