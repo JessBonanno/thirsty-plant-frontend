@@ -148,6 +148,9 @@ export default function TransitionsModal(props) {
                     <form>
                       <Grid item>
                         <TextField
+                          inputProps={{
+                            maxLength: 15,
+                          }}
                           className={classes.formField}
                           variant="outlined"
                           label="Plant name"
