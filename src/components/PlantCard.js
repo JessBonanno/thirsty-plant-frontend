@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,6 +16,7 @@ import theme from '../components/ui/Theme';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
+
 // context
 import { PlantContext } from '../contexts/PlantContext';
 
@@ -36,14 +37,42 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
-  const { handleEditModalOpen, handleDialogOpen } = useContext(PlantContext);
-  const { id, nickname, species, imageUrl, lastWatering, h2oFrequency } = props;
+  const { id, nickname, species, imageUrl, lastWatered, h2oFrequency } = props;
+  const { fetchParams, setFetchParams, useFetch } = useContext(PlantContext);
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState();
+
   const classes = useStyles();
-  console.log('id: ', id);
+
+  const handleEditModalOpen = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const waterPlant = () => {
+    const wateringDate = new Date(Date.now()).toISOString();
+    setFetchParams({
+      method: 'put',
+      url: `/plants/${id}`,
+      data: { lastWatered: wateringDate },
+    });
+  };
 
   return (
     <>
-      <EditPlantModal />
+      <EditPlantModal
+        id={id}
+        nickname={nickname}
+        species={species}
+        currentImageUrl={imageUrl}
+        h2oFrequency={h2oFrequency}
+        editModalOpen={editModalOpen}
+        setEditModalOpen={setEditModalOpen}
+      />
       <DeleteDialog id={id} />
       <Card className={classes.root} disableRipple>
         <CardActionArea>
@@ -138,7 +167,7 @@ const PlantCard = props => {
                   </Typography>
                   <Typography variant="body1" color="textSecondary">
                     {moment()
-                      .add(h2oFrequency + lastWatering, 'days')
+                      .add(h2oFrequency + lastWatered, 'days')
                       .calendar()}
                   </Typography>
                   <Grid container justify="space-between" alignItems="center">
@@ -147,13 +176,16 @@ const PlantCard = props => {
                         Last watering:
                       </Typography>
                       <Typography variant="body1" color="textSecondary">
-                        {lastWatering}
+                        {lastWatered}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
                       <Grid container direction="column" alignItems="center">
                         <Grid item>
-                          <IconButton style={{ padding: 5 }}>
+                          <IconButton
+                            style={{ padding: 5 }}
+                            onClick={waterPlant}
+                          >
                             <InvertColorsTwoToneIcon
                               style={{ color: theme.palette.common.blue }}
                             />

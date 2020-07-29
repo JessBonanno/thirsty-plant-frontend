@@ -51,6 +51,7 @@ const inputProps = {
 };
 
 export default function TransitionsModal(props) {
+  const { setIsReloading } = props;
   const classes = useStyles();
 
   const [plantData, setPlantData] = useState({
@@ -67,13 +68,9 @@ export default function TransitionsModal(props) {
     addModalOpen,
     handleClose,
     setAddModalOpen,
-    response,
-    isLoading,
     fetchParams,
     setFetchParams,
-    submitted,
     // userId,
-    setSubmitted,
   } = useContext(PlantContext);
 
   const handleChange = e => {
@@ -96,11 +93,13 @@ export default function TransitionsModal(props) {
     setAddModalOpen(false);
 
     // Get the updated list of plants to populate the plants list
+    setIsReloading(true);
     await setFetchParams({
       ...fetchParams,
       method: 'get',
       url: `/users/${userId}/plants`,
     });
+    setIsReloading(false);
   };
 
   return (
