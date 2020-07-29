@@ -71,7 +71,7 @@ const PlantCard = props => {
             </Grid>
             <CardMedia
               className={classes.media}
-              image={require('../assets/images/plant-for-card.jpg')}
+              image={imageUrl}
               title="Contemplative Reptile"
               style={{ marginBottom: '1em', height: 167 }}
             />

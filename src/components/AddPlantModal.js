@@ -89,8 +89,8 @@ export default function TransitionsModal(props) {
     await setFetchParams({
       ...fetchParams,
       method: 'post',
-      url: '/plants',
-      data: { ...plantData, token: localStorage.getItem('token') },
+      url: `/users/${userId}/plants`,
+      data: { ...plantData, imageUrl: imageUrl },
     });
 
     setAddModalOpen(false);

@@ -184,7 +184,7 @@ const Dashboard = () => {
                   <PlantCard
                     nickname={item.nickname}
                     species={item.species}
-                    imageUrl={item.image_url}
+                    imageUrl={item.imageUrl}
                     lastWatering={item.h2oTime}
                     h2oFrequency={item.h2oFrequency}
                     id={item.id}
