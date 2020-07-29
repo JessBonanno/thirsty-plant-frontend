@@ -119,5 +119,11 @@ export default createMuiTheme({
       color: 'darkred',
       fontStyle: 'none',
     },
+    iconButtonText: {
+      fontFamily: ralewayFont,
+      fontSize: '1rem',
+      color: black,
+      fontStyle: 'none',
+    },
   },
 });

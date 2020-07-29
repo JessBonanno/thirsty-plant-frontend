@@ -215,67 +215,68 @@ function Signup() {
         className={classes.form}
         ref={el => {
           gsapAnimationForm = el;
-        }}>
+        }}
+      >
         <Paper className={classes.paper}>
           <form onSubmit={formSubmit}>
-            <Typography variant='h2' className={classes.text}>
+            <Typography variant="h2" className={classes.text}>
               Sign Up
             </Typography>
             <label>
               <Input
-                placeholder='Email'
-                type='text'
+                placeholder="Email"
+                type="text"
                 onChange={changeHandler}
-                name='email'
+                name="email"
                 value={formState.email}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder='Username'
-                type='text'
+                placeholder="Username"
+                type="text"
                 onChange={changeHandler}
-                name='username'
+                name="username"
                 value={formState.username}
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder='Password'
-                type='text'
+                placeholder="Password"
+                type="text"
                 onChange={changeHandler}
                 value={formState.password}
-                name='password'
+                name="password"
                 errors={errors}
               />
             </label>
             <label>
               <Input
-                placeholder='Confirm Password'
-                type='text'
+                placeholder="Confirm Password"
+                type="text"
                 onChange={changeHandler}
                 value={formState.confirm}
-                name='confirm'
+                name="confirm"
                 errors={errors}
               />
             </label>
             <Input
-              placeholder='Phone Number'
-              type='text'
+              placeholder="Phone Number"
+              type="text"
               onChange={changeHandler}
-              name='phoneNumber'
+              name="phoneNumber"
               value={formState.phoneNumber}
               errors={errors}
             />
             <br />
-            <label htmlFor='terms'>
-              <Grid container alignItems='center'>
+            <label htmlFor="terms">
+              <Grid container alignItems="center">
                 <Grid item>
                   <input
-                    name='terms'
-                    type='checkbox'
+                    name="terms"
+                    type="checkbox"
                     onChange={changeHandler}
                     errors={errors}
                   />
@@ -287,26 +288,29 @@ function Signup() {
             </label>
             <div className={classes.buttons}>
               <Button
-                variant='contained'
-                color='secondary'
+                disabled={setButtonDisabled}
+                variant="contained"
+                color="secondary"
                 style={{ color: 'white' }}
                 onClick={formSubmit}
-                className={classes.button}>
+                className={classes.button}
+              >
                 {signUpLoading ? (
                   <CircularProgress style={{ color: 'white' }} />
                 ) : (
-                  <Typography variant='button'>Sign Up</Typography>
+                  <Typography variant="button">Sign Up</Typography>
                 )}
               </Button>
             </div>
-            <Typography variant='h6' className={classes.text}>
+            <Typography variant="h6" className={classes.text}>
               Already have an account?{' '}
               <Button
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 style={{ color: 'white' }}
                 component={Link}
-                to='/login'>
+                to="/login"
+              >
                 Login
               </Button>
             </Typography>

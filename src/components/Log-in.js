@@ -220,11 +220,13 @@ function Login() {
                 >
                   Sign In
                 </Typography>
-                {loginError && (
-                  <Typography variant="caption">
-                    Username and password not recognized, please try again
-                  </Typography>
-                )}
+                <div style={{ height: 50, paddingBottom: 5 }}>
+                  {loginError && (
+                    <Typography variant="caption">
+                      Username and password not recognized, please try again
+                    </Typography>
+                  )}
+                </div>
               </Grid>
 
               <Grid item style={{ width: '100%' }}>
