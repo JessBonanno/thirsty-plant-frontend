@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 // eslint-disable-next-line
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import signUp from './signUp.jpeg';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import GradientBackground from '../assets/images/green-gradient-background.svg';
 import PlantBackgroundImg from '../assets/images/plant-background.png';
 import Paper from '@material-ui/core/Paper';
@@ -21,7 +22,17 @@ import { PlantContext } from '../contexts/PlantContext';
 import { CircularProgress } from '@material-ui/core';
 import { TweenMax, Power3 } from 'gsap';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
   signUpContainer: {
     backgroundImage: `url(${PlantBackgroundImg}), url(${GradientBackground})`,
     backgroundPosition: 'left top, center right',
@@ -128,14 +139,69 @@ function Login() {
     password: '',
   });
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState(false);
+  const [loginError, setLoginError] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
 
   const formSchema = Yup.object().shape({
     username: Yup.string().required('username is required'),
     password: Yup.string().required('password is required'),
   });
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const snackbar = (
+    <div className={classes.root}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={10000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="error">
+          <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
+            <div>
+              <Typography variant="p">{loginError}</Typography>
+            </div>
+            <div>
+              {errors && <Typography variant="p">{errors.username}</Typography>}
+            </div>
+            <div>
+              {errors && <Typography variant="p">{errors.password}</Typography>}
+            </div>
+          </div>
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+
+  useEffect(() => {
+    if (loginError !== '') {
+      console.log('test');
+      console.log(loginError);
+      setOpenSnackbar(true);
+    } else {
+      switch (true) {
+        case errors.username !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.password !== '':
+          setOpenSnackbar(true);
+          break;
+        default:
+          setOpenSnackbar(false);
+          break;
+      }
+    }
+  }, [errors, loginError]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -181,7 +247,9 @@ function Login() {
         console.log(err);
         setLoading(false);
         if (err) {
-          setLoginError(true);
+          setLoginError(
+            'Username and password not recognized, please try again'
+          );
         }
       });
   };
@@ -193,7 +261,7 @@ function Login() {
   }, []);
 
   const changeHandler = e => {
-    setLoginError(false);
+    setLoginError('');
 
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -213,6 +281,7 @@ function Login() {
   return (
     <>
       <div className={classes.signUpContainer}>
+        {snackbar}
         <div
           className={classes.form}
           ref={el => {
@@ -260,16 +329,6 @@ function Login() {
                         error={errors.username}
                         // helperText={errors.username}
                       />
-                      {errors && (
-                        <div style={{ height: '1em', paddingTop: 5 }}>
-                          <Typography
-                            variant="caption"
-                            className={classes.errors}
-                          >
-                            {errors.username}
-                          </Typography>
-                        </div>
-                      )}
                     </Grid>
                     <Grid item className={classes.formGridItem}>
                       <TextField
@@ -284,16 +343,6 @@ function Login() {
                         error={errors.password}
                         // helperText={errors.password}
                       />
-                      {errors && (
-                        <div style={{ height: '1em', paddingTop: 5 }}>
-                          <Typography
-                            variant="caption"
-                            className={classes.errors}
-                          >
-                            {errors.password}
-                          </Typography>
-                        </div>
-                      )}
                     </Grid>
 
                     <Grid item className={classes.formGridItem}>
