@@ -176,7 +176,7 @@ const PlantCard = props => {
                         Last watering:
                       </Typography>
                       <Typography variant="body1" color="textSecondary">
-                        {lastWatered}
+                        {moment(lastWatered).format('lll')}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
