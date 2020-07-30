@@ -40,7 +40,7 @@ const PlantCard = props => {
   const { fetchParams, setFetchParams, useFetch } = useContext(PlantContext);
 
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const classes = useStyles();
 
@@ -49,8 +49,11 @@ const PlantCard = props => {
   };
 
   const handleDialogOpen = () => {
+    console.log('test');
     setDialogOpen(true);
   };
+
+  console.log(dialogOpen);
 
   const waterPlant = () => {
     const wateringDate = new Date(Date.now()).toISOString();
@@ -77,7 +80,11 @@ const PlantCard = props => {
         editModalOpen={editModalOpen}
         setEditModalOpen={setEditModalOpen}
       />
-      <DeleteDialog id={id} />
+      <DeleteDialog
+        id={id}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+      />
       <Card className={classes.root} disableRipple>
         <CardActionArea>
           <CardContent style={{ padding: 0 }}>

@@ -25,15 +25,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @returns {jsx}
  */
 
-export default function DeleteDialog({ id }) {
+export default function DeleteDialog({ id, dialogOpen, setDialogOpen }) {
   console.log('id: ', id);
-  const {
-    fetchParams,
-    setFetchParams,
-    dialogOpen,
-    setDialogOpen,
-    handleDialogClose,
-  } = useContext(PlantContext);
+  const { fetchParams, setFetchParams, handleDialogClose } = useContext(
+    PlantContext
+  );
 
   const handleDeletePlant = e => {
     e.preventDefault();

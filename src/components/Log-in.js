@@ -185,8 +185,6 @@ function Login() {
 
   useEffect(() => {
     if (loginError !== '') {
-      console.log('test');
-      console.log(loginError);
       setOpenSnackbar(true);
     } else {
       switch (true) {
@@ -202,12 +200,6 @@ function Login() {
       }
     }
   }, [errors, loginError]);
-
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/dashboard');
-    }
-  }, [loggedIn, history]);
 
   const validateChange = e => {
     e.persist();
@@ -241,7 +233,7 @@ function Login() {
         setUserId(res.data.user.id);
         localStorage.setItem('userId', res.data.user.id);
         setLoading(false);
-        setLoggedIn(true);
+        history.push('/dashboard');
       })
       .catch(err => {
         console.log(err);
