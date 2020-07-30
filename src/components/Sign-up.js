@@ -367,10 +367,10 @@ function Signup() {
           console.log(res);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('userId', res.data.user.id);
-          setLoggedIn(true);
         })
         .catch(err => console.log(err));
     }
+    setLoggedIn(true);
   }, [response]);
 
   const changeHandler = e => {
