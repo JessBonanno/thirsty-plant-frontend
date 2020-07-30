@@ -244,41 +244,54 @@ function Signup() {
       );
   };
 
-  const formSubmit = async e => {
-    e.preventDefault();
-    setLoading(true);
-    setSignInError('');
-
-    axios
+  async function signUp() {
+    const res = await axios
       .post(`https://bw-water-my-plants.herokuapp.com/api/users`, formState)
       .then(res => {
         setUserId(res.id);
         console.log(res);
-        axios
-          .post(
-            'https://bw-water-my-plants.herokuapp.com/api/users/login',
-            formState
-          )
-          .then(res => {
-            console.log(res);
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('userId', res.data.user.id);
-            setLoggedIn(true);
-            setLoading(false);
-            if (res) {
-              history.push('/dashboard');
-            }
-          })
-          .catch(err => {
-            setLoading(false);
-            console.log(err);
-          });
       })
       .catch(err => {
         setLoading(false);
         console.log(err);
         setSignInError('Username or phone number already in use.');
       });
+
+    return res;
+  }
+
+  async function login() {
+    const res = await axios
+      .post(
+        'https://bw-water-my-plants.herokuapp.com/api/users/login',
+        formState
+      )
+      .then(res => {
+        console.log(res);
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', res.data.user.id);
+        setLoggedIn(true);
+        setLoading(false);
+      })
+      .catch(err => {
+        setLoading(false);
+        console.log(err);
+      });
+
+    return res;
+  }
+
+  const formSubmit = async e => {
+    e.preventDefault();
+    setLoading(true);
+    setSignInError('');
+    try {
+      await signUp();
+      await login();
+      history.push('/dashboard');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const changeHandler = e => {
