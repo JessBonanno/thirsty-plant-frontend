@@ -352,27 +352,6 @@ function Signup() {
     });
   }, []);
 
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-    }
-    if (response !== null) {
-      setUserId(response.id);
-      axios
-        .post(
-          'https://bw-water-my-plants.herokuapp.com/api/users/login',
-          formState
-        )
-        .then(res => {
-          console.log(res);
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('userId', res.data.user.id);
-        })
-        .catch(err => console.log(err));
-    }
-    setLoggedIn(true);
-  }, [response]);
-
   const changeHandler = e => {
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
