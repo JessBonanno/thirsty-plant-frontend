@@ -104,7 +104,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://infallible-curie-a39dce.netlify.app/"
+                      href="https://watermyplantsjuly2020.netlify.app/"
                     >
                       Home
                     </a>
@@ -135,7 +135,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://infallible-curie-a39dce.netlify.app/about.html"
+                      href="https://watermyplantsjuly2020.netlify.app/about.html"
                     >
                       About Us
                     </a>
@@ -151,7 +151,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://infallible-curie-a39dce.netlify.app/guide.html"
+                      href="https://watermyplantsjuly2020.netlify.app/guide.html"
                     >
                       Learn
                     </a>

@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -100,10 +101,15 @@ const Dashboard = () => {
 
   console.log(plants);
 
+  const sortedPlants = plants.sort((a, b) => b.nickname - a.nickname);
+  console.log(sortedPlants);
+
   return (
     <>
-      <AddPlantModal className={classes.modal} />
-      <AddButton />
+      <AddPlantModal
+        className={classes.modal}
+        setIsReloading={setIsReloading}
+      />
       <Grid
         container
         direction="column"
@@ -180,20 +186,13 @@ const Dashboard = () => {
             {plants &&
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  align="center"
-                  key={item.id}
-                >
+                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
                   <PlantCard
+                    key={item.id}
                     nickname={item.nickname}
                     species={item.species}
                     imageUrl={item.imageUrl}
-                    lastWatering={item.h2oTime}
+                    lastWatered={item.lastWatered}
                     h2oFrequency={item.h2oFrequency}
                     id={item.id}
                   />

@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: 'left top, center right',
     backgroundRepeat: 'no-repeat, no-repeat',
     backgroundSize: 'contain, cover',
-    backgroundAttachment: 'fixed, fixed',
+    // backgroundAttachment: 'fixed, fixed',
     // position: 'fixed',
     minWidth: '100%',
     height: '100vh',
@@ -72,23 +72,25 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '2em',
-    margin: '7em auto',
+    margin: '5em auto',
     width: 250,
-    height: 440,
+    // height: 440,
     outline: 'none',
     [theme.breakpoints.down('md')]: {
-      height: 500,
+      // height: 500,
       width: 350,
       // padding: 20,
     },
     [theme.breakpoints.down('sm')]: {
-      height: 500,
-      width: '70 %',
       // padding: 20,
     },
     [theme.breakpoints.down('xs')]: {
-      height: 500,
-      width: 355,
+      margin: 0,
+      width: '100%',
+      height: '100vh',
+
+      // height: 500,
+      // width: 355,
       // padding: 20,
     },
   },
@@ -111,7 +113,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Login() {
-  const { setUserId } = useContext(PlantContext);
+  const { setUserId, userId } = useContext(PlantContext);
 
   const history = useHistory();
   const classes = useStyles();
@@ -133,6 +135,12 @@ function Login() {
     username: Yup.string().required('username is required'),
     password: Yup.string().required('password is required'),
   });
+
+  useEffect(() => {
+    userId === null
+      ? setUserId(localStorage.getItem('userId'))
+      : history.push('/dashboard');
+  }, []);
 
   const validateChange = e => {
     e.persist();
