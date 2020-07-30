@@ -11,15 +11,14 @@ import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-
 import { TweenMax, Power3 } from 'gsap';
 
 // api imports
 import { PlantContext } from '../contexts/PlantContext';
+
 // local imports
 import Terms from './Terms';
 import signUp from '../assets/images/green-gradient-background.svg';
-import Input from './Input.js';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -38,24 +37,15 @@ const useStyles = makeStyles(theme => ({
     minWidth: '100%',
     height: '100vh',
     overflow: 'auto',
-    // minHeight: "100%",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    // padding: '1em 0',
     paddingBottom: '5em',
   },
   form: {
-    // marginTop: '3em',
     display: 'flex',
     justifyContent: 'center',
     opacity: '0',
   },
-  // form2: {
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   justifyContent: 'center',
-  //   paddingBottom: '25px',
-  // },
   button: {
     borderRadius: 0,
     color: theme.palette.common.white,
@@ -64,41 +54,21 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1.8rem',
     marginBottom: 20,
   },
-  // buttons: {
-  //   width: '100%',
-  //   display: 'flex',
-  //   justifyContent: 'center',
-  //   marginTop: '20px',
-  // },
-  // buttons2: {
-  //   width: '100%',
-  //   display: 'flex',
-  //   justifyContent: 'center',
-  //   marginTop: '20px',
-  // },
   paper: {
-    // backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '2em',
     margin: '3em auto',
     width: 350,
-    // height: 800,
     outline: 'none',
     [theme.breakpoints.down('md')]: {
-      // height: 500,
       width: 350,
-      // padding: 20,
     },
     [theme.breakpoints.down('sm')]: {
-      // height: 500,
       width: 350,
-      // padding: 20,
     },
     [theme.breakpoints.down('xs')]: {
-      // height: 500,
       width: 350,
       margin: 0,
-      // padding: 20,
     },
   },
   text: {
@@ -120,19 +90,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Signup() {
-  const classes = useStyles();
   let gsapAnimationForm = useRef(null);
+  const classes = useStyles();
   const history = useHistory();
-  const {
-    setUserId,
-    fetchParams,
-    setFetchParams,
-    response,
-    error,
-  } = useContext(PlantContext);
+  const { setUserId } = useContext(PlantContext);
   const [loading, setLoading] = useState(false);
   const [signInError, setSignInError] = useState('');
-
   const defaultState = {
     email: '',
     username: '',
@@ -141,12 +104,8 @@ function Signup() {
     phoneNumber: '',
     terms: false,
   };
-
   const [formState, setFormState] = useState(defaultState);
-
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  // eslint-disable-next-line
-  const [postState, setPost] = useState([]);
   const [errors, setErrors] = useState({
     email: '',
     username: '',
@@ -155,19 +114,53 @@ function Signup() {
     phoneNumber: '',
     terms: '',
   });
-
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleClick = () => {
-    setOpenSnackbar(true);
-  };
+  useEffect(() => {
+    TweenMax.to(gsapAnimationForm, 5, {
+      opacity: 1,
+      ease: Power3.easeOut,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (signInError !== '') {
+      setOpenSnackbar(true);
+    } else {
+      switch (true) {
+        case errors.email !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.username !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.password !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.confirm !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.phoneNumber !== '':
+          setOpenSnackbar(true);
+          break;
+        default:
+          setOpenSnackbar(false);
+          break;
+      }
+    }
+  }, [errors, signInError]);
+
+  useEffect(() => {
+    formSchema.isValid(formState).then(valid => {
+      setButtonDisabled(!valid);
+    });
+  }, [formState]);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenSnackbar(false);
   };
 
@@ -208,33 +201,6 @@ function Signup() {
       </Snackbar>
     </div>
   );
-
-  useEffect(() => {
-    if (signInError !== '') {
-      setOpenSnackbar(true);
-    } else {
-      switch (true) {
-        case errors.email !== '':
-          setOpenSnackbar(true);
-          break;
-        case errors.username !== '':
-          setOpenSnackbar(true);
-          break;
-        case errors.password !== '':
-          setOpenSnackbar(true);
-          break;
-        case errors.confirm !== '':
-          setOpenSnackbar(true);
-          break;
-        case errors.phoneNumber !== '':
-          setOpenSnackbar(true);
-          break;
-        default:
-          setOpenSnackbar(false);
-          break;
-      }
-    }
-  }, [errors, signInError]);
 
   const phoneRegex = RegExp(
     /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
@@ -298,6 +264,7 @@ function Signup() {
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.user.id);
             setLoggedIn(true);
+            setLoading(false);
           })
           .catch(err => {
             setLoading(false);
@@ -311,25 +278,6 @@ function Signup() {
       });
   };
 
-  // useEffect(() => {
-  //   setSignUpLoading(false);
-  // }, []);
-
-  // const [token, setToken] = useState('');
-
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/dashboard');
-    }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    TweenMax.to(gsapAnimationForm, 5, {
-      opacity: 1,
-      ease: Power3.easeOut,
-    });
-  }, []);
-
   const changeHandler = e => {
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -339,12 +287,6 @@ function Signup() {
     });
     validateChange(e);
   };
-
-  useEffect(() => {
-    formSchema.isValid(formState).then(valid => {
-      setButtonDisabled(!valid);
-    });
-  }, [formState]);
 
   return (
     <div className={classes.signUpContainer}>
@@ -361,7 +303,6 @@ function Signup() {
             direction="column"
             justify="center"
             alignItems="center"
-            // style={{ border: '1px solid red' }}
           >
             <Grid item>
               <Typography
@@ -387,16 +328,6 @@ function Signup() {
                       value={formState.email}
                       error={errors.email}
                     />
-                    {/* {errors && (
-                      <div style={{ height: '1em', paddingTop: 5 }}>
-                        <Typography
-                          variant="caption"
-                          className={classes.errors}
-                        >
-                          {errors.email}
-                        </Typography>
-                      </div>
-                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -410,16 +341,6 @@ function Signup() {
                       value={formState.username}
                       error={errors.username}
                     />
-                    {/* {errors && (
-                      <div style={{ height: '1em', paddingTop: 5 }}>
-                        <Typography
-                          variant="caption"
-                          className={classes.errors}
-                        >
-                          {errors.username}
-                        </Typography>
-                      </div>
-                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -433,16 +354,6 @@ function Signup() {
                       value={formState.password}
                       error={errors.password}
                     />
-                    {/* {errors && (
-                      <div style={{ height: '1em', paddingTop: 5 }}>
-                        <Typography
-                          variant="caption"
-                          className={classes.errors}
-                        >
-                          {errors.password}
-                        </Typography>
-                      </div>
-                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -456,16 +367,6 @@ function Signup() {
                       value={formState.confirm}
                       errors={errors}
                     />
-                    {/* {errors && (
-                      <div style={{ height: '1em', paddingTop: 5 }}>
-                        <Typography
-                          variant="caption"
-                          className={classes.errors}
-                        >
-                          {errors.confirm}
-                        </Typography>
-                      </div>
-                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -479,16 +380,6 @@ function Signup() {
                       value={formState.phoneNumber}
                       error={errors.phoneNumber}
                     />
-                    {/* {errors && (
-                      <div style={{ height: '1em', paddingTop: 5 }}>
-                        <Typography
-                          variant="caption"
-                          className={classes.errors}
-                        >
-                          {errors.phoneNumber}
-                        </Typography>
-                      </div>
-                    )} */}
                   </Grid>
                   <Grid item>
                     <label htmlFor="terms">
@@ -542,114 +433,6 @@ function Signup() {
         </Paper>
       </div>
     </div>
-    // <div className={classes.signUpContainer}>
-    //   <div
-    //     className={classes.form}
-    //     ref={el => {
-    //       gsapAnimationForm = el;
-    //     }}
-    //   >
-    //     <Paper className={classes.paper}>
-    //       <form onSubmit={formSubmit}>
-    //         <Typography variant="h2" className={classes.text}>
-    //           Sign Up
-    //         </Typography>
-    //         <label>
-    //           <Input
-    //             placeholder="Email"
-    //             type="text"
-    //             onChange={changeHandler}
-    //             name="email"
-    //             value={formState.email}
-    //             errors={errors}
-    //           />
-    //         </label>
-    //         <label>
-    //           <Input
-    //             placeholder="Username"
-    //             type="text"
-    //             onChange={changeHandler}
-    //             name="username"
-    //             value={formState.username}
-    //             errors={errors}
-    //           />
-    //         </label>
-    //         <label>
-    //           <Input
-    //             placeholder="Password"
-    //             type="text"
-    //             onChange={changeHandler}
-    //             value={formState.password}
-    //             name="password"
-    //             errors={errors}
-    //           />
-    //         </label>
-    //         <label>
-    //           <Input
-    //             placeholder="Confirm Password"
-    //             type="text"
-    //             onChange={changeHandler}
-    //             value={formState.confirm}
-    //             name="confirm"
-    //             errors={errors}
-    //           />
-    //         </label>
-    //         <Input
-    //           placeholder="Phone Number"
-    //           type="text"
-    //           onChange={changeHandler}
-    //           name="phoneNumber"
-    //           value={formState.phoneNumber}
-    //           errors={errors}
-    //         />
-    //         <br />
-    //         <label htmlFor="terms">
-    //           <Grid container alignItems="center">
-    //             <Grid item>
-    //               <input
-    //                 name="terms"
-    //                 type="checkbox"
-    //                 onChange={changeHandler}
-    //                 errors={errors}
-    //               />
-    //             </Grid>
-    //             <Grid item>
-    //               <Terms />
-    //             </Grid>
-    //           </Grid>
-    //         </label>
-    //         <div className={classes.buttons}>
-    //           <Button
-    //             disabled={buttonDisabled}
-    //             variant="contained"
-    //             color="secondary"
-    //             style={{ color: 'white' }}
-    //             onClick={formSubmit}
-    //             className={classes.button}
-    //           >
-    //             {signUpLoading ? (
-    //               <CircularProgress style={{ color: 'white' }} />
-    //             ) : (
-    //               <Typography variant="button">Sign Up</Typography>
-    //             )}
-    //           </Button>
-    //         </div>
-    //         <Typography variant="h6" className={classes.text}>
-    //           Already have an account?{' '}
-    //           <Button
-    //             variant="contained"
-    //             color="secondary"
-    //             style={{ color: 'white' }}
-    //             component={Link}
-    //             to="/login"
-    //           >
-    //             Login
-    //           </Button>
-    //         </Typography>
-    //       </form>
-    //     </Paper>
-    //   </div>
-    // </div>
   );
 }
 
