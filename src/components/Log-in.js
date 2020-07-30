@@ -17,7 +17,7 @@ import { CircularProgress } from '@material-ui/core';
 import { TweenMax, Power3 } from 'gsap';
 // function for the snackbar
 function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 const useStyles = makeStyles(theme => ({
   root: {
@@ -122,17 +122,18 @@ function Login() {
         open={openSnackbar}
         autoHideDuration={10000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert severity='error'>
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="error">
           <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
             <div>
-              <Typography variant='p'>{loginError}</Typography>
+              <Typography variant="p">{loginError}</Typography>
             </div>
             <div>
-              {errors && <Typography variant='p'>{errors.username}</Typography>}
+              {errors && <Typography variant="p">{errors.username}</Typography>}
             </div>
             <div>
-              {errors && <Typography variant='p'>{errors.password}</Typography>}
+              {errors && <Typography variant="p">{errors.password}</Typography>}
             </div>
           </div>
         </Alert>
@@ -186,10 +187,8 @@ function Login() {
     validateChange(e);
   };
 
-  const formSubmit = e => {
-    e.preventDefault();
-    setLoading(true);
-    axios
+  const login = async () => {
+    const res = await axios
       .post(
         'https://bw-water-my-plants.herokuapp.com/api/users/login',
         formState
@@ -210,7 +209,19 @@ function Login() {
           );
         }
       });
+    return res;
   };
+
+  async function formSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await login();
+      history.push('/dashboard');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -220,25 +231,27 @@ function Login() {
           className={classes.form}
           ref={el => {
             gsapAnimationLogin = el;
-          }}>
+          }}
+        >
           <Paper className={classes.paper}>
             <Grid
               container
-              direction='column'
-              justify='center'
-              alignItems='center'
+              direction="column"
+              justify="center"
+              alignItems="center"
               // style={{ border: '1px solid red' }}
             >
               <Grid item>
                 <Typography
-                  variant='h5'
+                  variant="h5"
                   className={classes.text}
-                  style={{ marginBottom: '1.5em' }}>
+                  style={{ marginBottom: '1.5em' }}
+                >
                   Sign In
                 </Typography>
                 <div style={{ height: 50, paddingBottom: 5 }}>
                   {loginError && (
-                    <Typography variant='caption'>
+                    <Typography variant="caption">
                       Username and password not recognized, please try again
                     </Typography>
                   )}
@@ -247,16 +260,16 @@ function Login() {
 
               <Grid item style={{ width: '100%' }}>
                 <form>
-                  <Grid container direction='column' style={{ width: '100%' }}>
+                  <Grid container direction="column" style={{ width: '100%' }}>
                     <Grid item className={classes.formGridItem}>
                       <TextField
-                        variant='outlined'
-                        label='Username'
+                        variant="outlined"
+                        label="Username"
                         className={classes.textInput}
-                        placeholder='Username'
-                        type='text'
+                        placeholder="Username"
+                        type="text"
                         onChange={changeHandler}
-                        name='username'
+                        name="username"
                         value={formState.username}
                         error={errors.username}
                         // helperText={errors.username}
@@ -264,13 +277,13 @@ function Login() {
                     </Grid>
                     <Grid item className={classes.formGridItem}>
                       <TextField
-                        variant='outlined'
+                        variant="outlined"
                         className={classes.textInput}
-                        label='Password'
-                        placeholder='Password'
-                        type='password'
+                        label="Password"
+                        placeholder="Password"
+                        type="password"
                         onChange={changeHandler}
-                        name='password'
+                        name="password"
                         value={formState.password}
                         error={errors.password}
                         // helperText={errors.password}
@@ -279,15 +292,16 @@ function Login() {
 
                     <Grid item className={classes.formGridItem}>
                       <Button
-                        variant='contained'
-                        color='secondary'
+                        variant="contained"
+                        color="secondary"
                         style={{ color: 'white', width: '100%' }}
                         onClick={formSubmit}
-                        className={classes.button}>
+                        className={classes.button}
+                      >
                         {loading ? (
                           <CircularProgress style={{ color: 'white' }} />
                         ) : (
-                          <Typography variant='button'>Login</Typography>
+                          <Typography variant="button">Login</Typography>
                         )}
                       </Button>
                     </Grid>
@@ -295,11 +309,12 @@ function Login() {
                 </form>
               </Grid>
               <Grid item>
-                <Typography variant='subtitle2'>
+                <Typography variant="subtitle2">
                   Need to{' '}
                   <Link
-                    to='/signup'
-                    style={{ color: '#109fff', textDecoration: 'none' }}>
+                    to="/signup"
+                    style={{ color: '#109fff', textDecoration: 'none' }}
+                  >
                     Signup
                   </Link>
                   ?
