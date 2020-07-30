@@ -61,6 +61,11 @@ const PlantCard = props => {
       data: { lastWatered: wateringDate },
     });
   };
+  const getWateringDate = moment(lastWatered, 'YYYMMDD').add(
+    h2oFrequency,
+    'days'
+  );
+  const nextWatering = moment(getWateringDate).format('ll');
 
   return (
     <>
@@ -144,13 +149,13 @@ const PlantCard = props => {
                     <Grid container direction="row" alignItems="center">
                       <Grid item>
                         <IconButton
-                          style={{ marginBottom: '.25em' }}
+                          style={{ marginBottom: '.25em', paddingRight: 10 }}
                           onClick={handleEditModalOpen}
                         >
                           <EditTwoToneIcon />
                         </IconButton>
                       </Grid>
-                      <Grid item>
+                      <Grid item style={{ marginLeft: 'auto' }}>
                         <Typography
                           variant="iconButtonText"
                           className={classes.iconButtonText}
@@ -166,9 +171,7 @@ const PlantCard = props => {
                     Next watering:
                   </Typography>
                   <Typography variant="body1" color="textSecondary">
-                    {moment()
-                      .add(h2oFrequency + lastWatered, 'days')
-                      .calendar()}
+                    {nextWatering}
                   </Typography>
                   <Grid container justify="space-between" alignItems="center">
                     <Grid item style={{ width: '70%' }}>
