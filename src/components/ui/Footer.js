@@ -36,6 +36,11 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     margin: '0 auto',
   },
+  copyrightText: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '.8rem',
+    },
+  },
 }));
 /**
  * Footer component displaying a drawer of nav link items on mobile screen sizes
@@ -56,21 +61,24 @@ export default function BottomAppBar() {
           backgroundColor:
             (pathname === '/login' || pathname === '/signup') && 'white',
         }}
-        position='fixed'
-        color='primary'
-        className={classes.appBar}>
+        position="fixed"
+        color="primary"
+        className={classes.appBar}
+      >
         <Toolbar>
           <Drawer />
-          <Grid container justify='center'>
-            <Grid item align='bottom'>
+          <Grid container justify="center">
+            <Grid item align="bottom">
               <Typography
-                variant='caption'
+                variant="caption"
+                className={classes.copyrightText}
                 style={{
                   color:
                     pathname === '/login' || pathname === '/signup'
                       ? theme.palette.common.lightGreen
                       : 'white',
-                }}>
+                }}
+              >
                 &copy; Copyright 2020, Lambda Track Team
               </Typography>
             </Grid>

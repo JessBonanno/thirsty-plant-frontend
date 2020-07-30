@@ -157,6 +157,7 @@ function Signup() {
   });
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleClick = () => {
     setOpenSnackbar(true);
@@ -296,11 +297,10 @@ function Signup() {
             console.log(res);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.user.id);
-            history.push('/dashboard');
+            setLoggedIn(true);
           })
           .catch(err => {
             setLoading(false);
-
             console.log(err);
           });
       })
@@ -309,34 +309,19 @@ function Signup() {
         console.log(err);
         setSignInError('Username or phone number already in use.');
       });
-
-    // try {
-    //   const value =
-    //     e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    //   setFormState({
-    //     ...formState,
-    //     [e.target.name]: value,
-    //   });
-    //   // const post = setPost({
-    //   //   ...postState,
-    //   //   formState,
-    //   // });
-    //   setFetchParams({
-    //     ...fetchParams,
-    //     method: 'post',
-    //     url: '/users',
-    //     data: formState,
-    //   });
-    //   setLoading(false);
-    // } catch (err) {
-    //   console.log(err);
-    //   setLoading(false);
-    // }
   };
 
   // useEffect(() => {
   //   setSignUpLoading(false);
   // }, []);
+
+  // const [token, setToken] = useState('');
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push('/dashboard');
+    }
+  }, [loggedIn]);
 
   useEffect(() => {
     TweenMax.to(gsapAnimationForm, 5, {
@@ -344,27 +329,6 @@ function Signup() {
       ease: Power3.easeOut,
     });
   }, []);
-
-  useEffect(() => {
-    if (error) {
-      console.log(error);
-    }
-    if (response !== null) {
-      setUserId(response.id);
-      axios
-        .post(
-          'https://bw-water-my-plants.herokuapp.com/api/users/login',
-          formState
-        )
-        .then(res => {
-          console.log(res);
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('userId', res.data.user.id);
-        })
-        .then(res => history.push('/dashboard'))
-        .catch(err => console.log(err));
-    }
-  }, [response]);
 
   const changeHandler = e => {
     const value =
@@ -555,9 +519,7 @@ function Signup() {
                       {loading ? (
                         <CircularProgress style={{ color: 'white' }} />
                       ) : (
-                        <Typography variant="button" onClick={formSubmit}>
-                          Sign Up
-                        </Typography>
+                        <Typography variant="button">Sign Up</Typography>
                       )}
                     </Button>
                   </Grid>

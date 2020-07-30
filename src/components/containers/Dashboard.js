@@ -7,12 +7,12 @@ import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
-
 // local components
 import PlantCard from '../PlantCard';
 import AddPlantModal from '../AddPlantModal';
 // context
 import { PlantContext } from '../../contexts/PlantContext';
+import AddButton from '../AddButton';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
-    width: '100%',
+    width: 250,
     [theme.breakpoints.up('sm')]: {
       width: '12ch',
       '&:focus': {
@@ -99,13 +99,9 @@ const Dashboard = () => {
     }
   }, [response]);
 
-  console.log(plants);
-
-  const sortedPlants = plants.sort((a, b) => b.nickname - a.nickname);
-  console.log(sortedPlants);
-
   return (
     <>
+      <AddButton handleAddModalOpen={handleAddModalOpen} />
       <AddPlantModal
         className={classes.modal}
         setIsReloading={setIsReloading}
@@ -118,7 +114,13 @@ const Dashboard = () => {
       >
         {/* ----- Page Header ---- */}
         <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
-          <Typography variant="h2">My Plants</Typography>
+          <Typography
+            variant="h2"
+            className={classes.dashboardHeader}
+            style={{ fontSize: '2rem' }}
+          >
+            My Plants
+          </Typography>
         </Grid>
         {/* ---- Plant Bar ----- */}
         <Grid
@@ -141,6 +143,7 @@ const Dashboard = () => {
                 marginBottom: matchesXS ? '1em' : undefined,
                 width: matchesXS && '100%',
                 borderRadius: 0,
+                display: matchesXS ? 'none' : 'block',
               }}
               onClick={handleAddModalOpen}
             >
