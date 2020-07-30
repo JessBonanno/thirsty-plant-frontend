@@ -101,6 +101,9 @@ const Dashboard = () => {
 
   console.log(plants);
 
+  const sortedPlants = plants.sort((a, b) => b.nickname - a.nickname);
+  console.log(sortedPlants);
+
   return (
     <>
       <AddPlantModal

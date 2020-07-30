@@ -113,7 +113,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Login() {
-  const { setUserId } = useContext(PlantContext);
+  const { setUserId, userId } = useContext(PlantContext);
 
   const history = useHistory();
   const classes = useStyles();
@@ -135,6 +135,12 @@ function Login() {
     username: Yup.string().required('username is required'),
     password: Yup.string().required('password is required'),
   });
+
+  useEffect(() => {
+    userId === null
+      ? setUserId(localStorage.getItem('userId'))
+      : history.push('/dashboard');
+  }, []);
 
   const validateChange = e => {
     e.persist();

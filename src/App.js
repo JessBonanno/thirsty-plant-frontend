@@ -28,6 +28,9 @@ function App() {
         <Route path="/Signup" component={Signup} />
         <PrivateRoute path="/settings" component={EditUser} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
+        <Route exact path="/">
+          <h1>WElcome to water my plants</h1>
+        </Route>
       </div>
       <Hidden mdUp>
         <Footer />
