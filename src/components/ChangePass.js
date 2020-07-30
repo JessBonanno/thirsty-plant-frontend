@@ -7,12 +7,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import signUp from "./signUp.jpeg";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import Paper from '@material-ui/core/Paper';
+import Paper from "@material-ui/core/Paper";
 import { TweenMax, Power3 } from "gsap";
 
-
 function ChangePass() {
-    let gsapAnimationChangePass = useRef(null);
+	let gsapAnimationChangePass = useRef(null);
 	const defaultState = { current: "", new: "", confirm: "", phone: "" };
 	const [formState, setFormState] = useState(defaultState);
 	// eslint-disable-next-line
@@ -22,22 +21,20 @@ function ChangePass() {
 		new: "",
 		confirm: "",
 		phoneNumber: "",
-    });
-    const phoneRegex = RegExp(
-        /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
-    );
+	});
+	const phoneRegex = RegExp(
+		/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+	);
 	const formSchema = Yup.object().shape({
-        current: Yup.string()
-            .required(
-                'Please enter your current password'
-            ),
-            new: Yup.string()
-                .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-                    'Must include one lowercase, one uppercase, one number & be at least 8 characters in length'
-                ),
+		current: Yup.string().required("Please enter your current password"),
+		new: Yup.string().matches(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+			"Must include one lowercase, one uppercase, one number & be at least 8 characters in length"
+		),
 		confirm: Yup.string().oneOf([Yup.ref("new"), null], "Passwords must match"),
-        phone: Yup.string().matches(phoneRegex, "Invalid phone").required("Phone is required")
+		phone: Yup.string()
+			.matches(phoneRegex, "Invalid phone")
+			.required("Phone is required"),
 	});
 	const validateChange = (e) => {
 		e.persist();
@@ -73,69 +70,72 @@ function ChangePass() {
 	};
 
 	const changeHandler = (e) => {
-        const value =
-            e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        setFormState({
-            ...formState,
-            [e.target.name]: value
-        });
-        validateChange(e);
-    };
-    
-    useEffect(() => {
-			TweenMax.to(gsapAnimationChangePass, 5, {
-				opacity: 1,
-				ease: Power3.easeOut,
-			});
-		}, []);
-    const useStyles = makeStyles((theme) => ({
-        signUpContainer: {
-            backgroundImage: `url(${signUp})`,
-            position: "fixed",
-            minWidth: "100%",
-            height: "100vh",
-            // minHeight: "100%",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+		const value =
+			e.target.type === "checkbox" ? e.target.checked : e.target.value;
+		setFormState({
+			...formState,
+			[e.target.name]: value,
+		});
+		validateChange(e);
+	};
 
-        },
-        form: {
-            marginTop: "3em",
-            display: "flex",
-            justifyContent: "center",
-            opacity: "0",
-        },
+	useEffect(() => {
+		TweenMax.to(gsapAnimationChangePass, 5, {
+			opacity: 1,
+			ease: Power3.easeOut,
+		});
+	}, []);
+	const useStyles = makeStyles((theme) => ({
+		signUpContainer: {
+			backgroundImage: `url(${signUp})`,
+			position: "fixed",
+			minWidth: "100%",
+			height: "100vh",
+			// minHeight: "100%",
+			backgroundSize: "cover",
+			backgroundPosition: "center",
+		},
+		form: {
+			marginTop: "3em",
+			display: "flex",
+			justifyContent: "center",
+			opacity: "0",
+		},
 		buttons: {
 			width: "100%",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 			justifyItems: "space-between",
-			marginLeft: "25px",
-        },
-        paper: {
-            backgroundColor: theme.palette.background.paper,
-            boxShadow: theme.shadows[5],
-            padding: '70px',
-            width: 654,
-            height: 500,
-            outline: 'none',
-            [theme.breakpoints.down('sm')]: {
-                height: 550,
-                width: 400,
-                padding: 20,
-            },
-        },
-        text: {
+		},
+		paper: {
+			backgroundColor: theme.palette.background.paper,
+			boxShadow: theme.shadows[5],
+			padding: "70px",
+			width: 400,
+			height: 420,
+			outline: "none",
+			[theme.breakpoints.down("md")]: {
+				height: 650,
+				width: 400,
+				padding: 20,
+			},
+			[theme.breakpoints.down("sm")]: {
+				height: 580,
+				width: 400,
+				padding: 20,
+			},
+		},
+		text: {
             textAlign: "center",
-        }
+            marginBottom: "50px",
+		},
 	}));
-    const classes = useStyles();
-  
+	const classes = useStyles();
 
-    const back = () => {
-        window.history.back()
-    }
+	const back = () => {
+		window.history.back();
+	};
 	return (
 		<div className={classes.signUpContainer}>
 			<div

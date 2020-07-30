@@ -18,12 +18,20 @@ function Input(props) {
 			justifyContent: "center",
 		},
 		text: {
-			margin: "10px 50px 0px 0px",
-			border: "0",
+			margin: "-10px 50px 0px 0px",
+			padding: "-100px",
 			boxShadow: theme.shadows[5],
 			borderRadius: "10px",
-			width: "100%",
+			width: "90%",
+			height: "2px",
 			padding: theme.spacing(2, 4, 3),
+			[theme.breakpoints.down("md")]: {
+				border: "2px solid red",
+				margin: "-5px 50px 0px 0px",
+			},
+			[theme.breakpoints.down("sm")]: {
+				marginLeft: "40px",
+			},
 		},
 		errors: {
 			fontSize: "0.8rem",

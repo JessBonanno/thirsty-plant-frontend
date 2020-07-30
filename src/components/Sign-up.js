@@ -10,8 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Login from "./Log-in";
 import { TweenMax, Power3 } from "gsap";
+import TextField from "@material-ui/core/TextField"
 
 function Signup() {
+    let gsapAnimationForm = useRef(null);
 	const defaultState = {
 		email: "",
 		username: "",
@@ -128,8 +130,8 @@ function Signup() {
 		form: {
 			marginTop: "3em",
 			display: "flex",
-            justifyContent: "center",
-            opacity: "0",
+			justifyContent: "center",
+			opacity: "0",
 		},
 		buttons: {
 			width: "100%",
@@ -139,21 +141,34 @@ function Signup() {
 			justifyItems: "space-between",
 			marginLeft: "0px",
 			marginBottom: "20px",
+			marginTop: "-50px",
+			[theme.breakpoints.down("md")]: {
+				marginTop: "-30px",
+			},
 		},
 		paper: {
 			backgroundColor: theme.palette.background.paper,
-			padding: "25px",
 			boxShadow: theme.shadows[5],
-			width: 654,
+			marginTop: "-30px",
+			height: 650,
+			width: 400,
+			padding: 20,
 			outline: "none",
+			[theme.breakpoints.down("md")]: {
+				height: 650,
+				width: 400,
+				padding: 20,
+			},
 			[theme.breakpoints.down("sm")]: {
-				height: 800,
+				height: 700,
 				width: 400,
 				padding: 20,
 			},
 		},
 		text: {
-			textAlign: "center",
+            textAlign: "center",
+            marginBottom: "20px",
+            marginTop: "-10px",
 		},
 	}));
 	const classes = useStyles();
@@ -177,7 +192,7 @@ function Signup() {
 								onChange={changeHandler}
 								name="email"
 								value={formState.email}
-								errors={errors}
+                                errors={errors}
 							/>
 						</label>
 						<label>
