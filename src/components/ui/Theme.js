@@ -110,8 +110,12 @@ export default createMuiTheme({
     copyright: {
       fontFamily: ralewayFont,
     },
-    body1: {},
-    body2: {},
+    body1: {
+      fontFamily: ralewayFont,
+    },
+    body2: {
+      fontFamily: ralewayFont,
+    },
     button: {
       color: 'white',
       fontSize: '1.2rem',
