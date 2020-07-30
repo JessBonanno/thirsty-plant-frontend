@@ -265,6 +265,9 @@ function Signup() {
             localStorage.setItem('userId', res.data.user.id);
             setLoggedIn(true);
             setLoading(false);
+            if (res) {
+              history.push('/dashboard');
+            }
           })
           .catch(err => {
             setLoading(false);
