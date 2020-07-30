@@ -75,6 +75,7 @@ const Dashboard = () => {
   const classes = useStyles();
   const {
     matchesXS,
+    matchesSM,
     handleAddModalOpen,
     response,
     setFetchParams,
@@ -134,40 +135,44 @@ const Dashboard = () => {
             padding: 15,
           }}
         >
-          <Grid item>
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{
-                color: 'white',
-                marginBottom: matchesXS ? '1em' : undefined,
-                width: matchesXS && '100%',
-                borderRadius: 0,
-                display: matchesXS ? 'none' : 'block',
-              }}
-              onClick={handleAddModalOpen}
-            >
-              Add New Plant
-            </Button>
-          </Grid>
-          <Grid item>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                style={{
-                  margin: 0,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-          </Grid>
+          {plants && plants.length !== 0 && (
+            <>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  style={{
+                    color: 'white',
+                    marginBottom: matchesXS ? '1em' : undefined,
+                    width: matchesXS && '100%',
+                    borderRadius: 0,
+                    display: matchesXS ? 'none' : 'block',
+                  }}
+                  onClick={handleAddModalOpen}
+                >
+                  Add New Plant
+                </Button>
+              </Grid>
+              <Grid item>
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    style={{
+                      margin: 0,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </div>
+              </Grid>
+            </>
+          )}
         </Grid>
         {isReloading ? (
           <Typography variant="h3">Fetching plant data...</Typography>
@@ -179,7 +184,7 @@ const Dashboard = () => {
             justify="center"
             className={classes.cardsContainer}
           >
-            {plants ? (
+            {plants && plants.length !== 0 ? (
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
                 <Grid item xs={12} sm={6} md={4} lg={3} align="center">
@@ -196,19 +201,29 @@ const Dashboard = () => {
               ))
             ) : (
               <Grid item>
-                <h2>Get started, add your first plant now!</h2>
-                <Grid item>
+                <Typography
+                  variant="h3"
+                  align="center"
+                  style={{
+                    margin: matchesSM ? '0.5em 0' : '1em 0',
+                    padding: matchesSM ? '1em' : '2em',
+                    fontSize: matchesSM && '2.2rem',
+                  }}
+                >
+                  Get started, add your first plant now!
+                </Typography>
+                <Grid item align="center">
                   <Button
                     variant="contained"
                     color="secondary"
                     style={{
                       color: 'white',
                       marginBottom: matchesXS ? '1em' : undefined,
-                      width: matchesXS && '100%',
+                      display: matchesXS && 'none',
                       borderRadius: 0,
-                      display: matchesXS ? 'none' : 'block',
+                      // display: matchesXS ? 'none' : 'block',
                     }}
-                    // onClick={handleAddModalOpen}
+                    onClick={handleAddModalOpen}
                   >
                     Add New Plant
                   </Button>
