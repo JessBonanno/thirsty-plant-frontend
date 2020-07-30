@@ -11,18 +11,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   const token = window.localStorage.getItem('token');
 
   return (
-    token && (
-      <Route
-        {...rest}
-        render={props => {
-          if (token) {
-            return <Component {...props} />;
-          } else {
-            return <Redirect to="/login" />;
-          }
-        }}
-      />
-    )
+    <Route
+      {...rest}
+      render={props => {
+        if (token) {
+          return <Component {...props} />;
+        } else {
+          return <Redirect to="/login" />;
+        }
+      }}
+    />
   );
 };
 
