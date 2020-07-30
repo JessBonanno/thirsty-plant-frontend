@@ -193,7 +193,7 @@ useEffect(() => {
 								Sign Up
 							</Button>
 						</Typography>
-						<Typography variant="h6" className={classes.text}>
+						{/* <Typography variant="h6" className={classes.text}>
 							Having trouble signing in?{" "}
 							<Button
 								variant="contained"
@@ -201,17 +201,6 @@ useEffect(() => {
 								style={{ color: "white" }}
 								component={Link}
 								to="/ChangePass"
-							>
-								Change Password
-							</Button>
-						</Typography>
-						{/* <Typography variant="h6" className={classes.text}>
-							Having trouble logging in?{" "}
-							<Button
-								variant="contained"
-								color="secondary"
-								style={{ color: "white" }}
-								href={ChangePass}
 							>
 								Change Password
 							</Button>
