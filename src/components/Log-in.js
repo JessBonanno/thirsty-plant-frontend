@@ -130,6 +130,7 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const formSchema = Yup.object().shape({
     username: Yup.string().required('username is required'),
@@ -137,10 +138,10 @@ function Login() {
   });
 
   useEffect(() => {
-    userId === null
-      ? setUserId(localStorage.getItem('userId'))
-      : history.push('/dashboard');
-  }, []);
+    if (loggedIn) {
+      history.push('/dashboard');
+    }
+  }, [loggedIn]);
 
   const validateChange = e => {
     e.persist();
@@ -174,7 +175,7 @@ function Login() {
         setUserId(res.data.user.id);
         localStorage.setItem('userId', res.data.user.id);
         setLoading(false);
-        history.push('/dashboard');
+        setLoggedIn(true);
       })
       .catch(err => {
         console.log(err);

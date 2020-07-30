@@ -157,6 +157,7 @@ function Signup() {
   });
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleClick = () => {
     setOpenSnackbar(true);
@@ -339,6 +340,12 @@ function Signup() {
   // }, []);
 
   useEffect(() => {
+    if (loggedIn) {
+      history.push('/dashboard');
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
     TweenMax.to(gsapAnimationForm, 5, {
       opacity: 1,
       ease: Power3.easeOut,
@@ -360,8 +367,8 @@ function Signup() {
           console.log(res);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('userId', res.data.user.id);
+          setLoggedIn(true);
         })
-        .then(res => history.push('/dashboard'))
         .catch(err => console.log(err));
     }
   }, [response]);
@@ -555,9 +562,7 @@ function Signup() {
                       {loading ? (
                         <CircularProgress style={{ color: 'white' }} />
                       ) : (
-                        <Typography variant="button" onClick={formSubmit}>
-                          Sign Up
-                        </Typography>
+                        <Typography variant="button">Sign Up</Typography>
                       )}
                     </Button>
                   </Grid>
