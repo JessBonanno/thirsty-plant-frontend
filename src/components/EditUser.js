@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import axios from 'axios';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 import { useHistory } from 'react-router-dom';
 import Input from './Input.js';
 import * as Yup from 'yup';
@@ -8,10 +10,16 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import theme from './ui/Theme';
 import { CircularProgress } from '@material-ui/core';
 // Local imports
 import { PlantContext } from '../contexts/PlantContext';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -38,6 +46,9 @@ const useStyles = makeStyles(theme => ({
 function EditUser() {
   const [phoneSaveLoading, setPhoneSaveLoading] = useState(false);
   const [passwordSaveLoading, setPasswordSaveLoading] = useState(false);
+  const [openPhoneSnackbar, setOpenPhoneSnackbar] = useState(false);
+  const [openPasswordSnackbar, setOpenPasswordSnackbar] = useState(false);
+
   const history = useHistory();
   const {
     fetchParams,
@@ -117,7 +128,6 @@ function EditUser() {
 
   const phoneSubmit = e => {
     e.preventDefault();
-    setPhoneSaveLoading(true);
 
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -125,6 +135,7 @@ function EditUser() {
       ...formState,
       [e.target.name]: value,
     });
+    setPhoneSaveLoading(true);
     const phoneNumber = formState.phoneNumber.replace(
       /(\d{3})(\d{3})(\d{4})/,
       '($1)-$2-$3'
@@ -136,12 +147,12 @@ function EditUser() {
         phoneNumber: phoneNumber,
       },
     });
+    setOpenPhoneSnackbar(true);
     setPhoneSaveLoading(false);
   };
 
   const passwordSubmit = e => {
     e.preventDefault();
-    setPasswordSaveLoading(true);
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormState({
@@ -149,17 +160,29 @@ function EditUser() {
       [e.target.name]: value,
     });
 
-    setFetchParams({
-      method: 'put',
-      url: `/users/${userId}`,
-      data: {
+    setPasswordSaveLoading(true);
+    const token = localStorage.getItem('token');
+    console.log(token);
+    axiosWithAuth()
+      .put(`https://bw-water-my-plants.herokuapp.com/api/users/${userId}`, {
         newPassword: formState.newPassword,
         password: formState.password,
-      },
-    });
-    setPasswordSaveLoading(false);
+      })
+      .then(res => {
+        console.log(response);
+        setPasswordSaveLoading(false);
+        setFormState({
+          ...formState,
+          password: '',
+          newPassword: '',
+          confirmedNewPassword: '',
+        });
+        setOpenPasswordSnackbar(true);
+      })
+      .catch(err => console.log(err));
   };
 
+  console.log(passwordSaveLoading);
   const changeHandler = e => {
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -170,8 +193,55 @@ function EditUser() {
     validateChange(e);
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenPasswordSnackbar(false);
+    setOpenPhoneSnackbar(false);
+  };
+
+  const passwordSnackbar = (
+    <div className={classes.root}>
+      <Snackbar
+        open={openPasswordSnackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="success">
+          <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
+            <Typography variant="p">Password changed successfully</Typography>
+          </div>
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+
+  const phoneSnackbar = (
+    <div className={classes.root}>
+      <Snackbar
+        open={openPhoneSnackbar}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="success">
+          <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
+            <Typography variant="p">
+              Phone number changed successfully
+            </Typography>
+          </div>
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+
   return (
     <>
+      {phoneSnackbar}
+      {passwordSnackbar}
       <Grid container direction="column" className={classes.settingsContainer}>
         <Grid item className={classes.title}>
           <Typography variant="h2" style={{ marginBottom: '1em' }}>
@@ -224,6 +294,7 @@ function EditUser() {
                     variant="outlined"
                     label="Password"
                     name="password"
+                    type="password"
                     value={formState.password}
                     onChange={changeHandler}
                   />
@@ -235,6 +306,8 @@ function EditUser() {
                     variant="outlined"
                     label="New Password"
                     name="newPassword"
+                    type="password"
+                    value={formState.newPassword}
                     onChange={changeHandler}
                   />
                 </Grid>
@@ -245,6 +318,7 @@ function EditUser() {
                       variant="outlined"
                       name="confirmedNewPassword"
                       label="Confirm New Password"
+                      type="password"
                       value={formState.confirmedNewPassword}
                       onChange={changeHandler}
                     />

@@ -18,18 +18,20 @@ export default function useFetch({
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  console.log('test from useFetch');
-  console.log({ method, url, data });
+  // console.log('test from useFetch');
+  // console.log({ method, url, data });
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
         api[method](url, data, config).then(res => {
+          console.log('test from res');
           console.log(res);
           setResponse(res.data);
           setIsLoading(false);
         });
       } catch (err) {
+        console.log('test  from error');
         console.log(err);
         setError(err);
       }

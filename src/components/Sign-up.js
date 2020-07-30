@@ -4,11 +4,14 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+
 import { TweenMax, Power3 } from 'gsap';
 
 // api imports
@@ -18,15 +21,28 @@ import Terms from './Terms';
 import signUp from '../assets/images/green-gradient-background.svg';
 import Input from './Input.js';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
   signUpContainer: {
     backgroundImage: `url(${signUp})`,
     position: 'fixed',
     minWidth: '100%',
     height: '100vh',
+    overflow: 'auto',
     // minHeight: "100%",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    // padding: '1em 0',
+    paddingBottom: '5em',
   },
   form: {
     // marginTop: '3em',
@@ -64,7 +80,7 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '2em',
-    margin: '7em auto',
+    margin: '3em auto',
     width: 350,
     // height: 800,
     outline: 'none',
@@ -81,6 +97,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       // height: 500,
       width: 350,
+      margin: 0,
       // padding: 20,
     },
   },
@@ -103,11 +120,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Signup() {
+  const classes = useStyles();
   let gsapAnimationForm = useRef(null);
   const history = useHistory();
-  const { setUserId, fetchParams, setFetchParams, response } = useContext(
-    PlantContext
-  );
+  const {
+    setUserId,
+    fetchParams,
+    setFetchParams,
+    response,
+    error,
+  } = useContext(PlantContext);
   const [loading, setLoading] = useState(false);
   const [signInError, setSignInError] = useState('');
 
@@ -119,9 +141,10 @@ function Signup() {
     phoneNumber: '',
     terms: false,
   };
+
   const [formState, setFormState] = useState(defaultState);
 
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   // eslint-disable-next-line
   const [postState, setPost] = useState([]);
   const [errors, setErrors] = useState({
@@ -132,6 +155,86 @@ function Signup() {
     phoneNumber: '',
     terms: '',
   });
+
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleClick = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const snackbar = (
+    <div className={classes.root}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={10000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="error">
+          <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
+            <div>
+              <Typography variant="p">{signInError}</Typography>
+            </div>
+            <div>
+              {' '}
+              {errors && <Typography variant="p">{errors.email}</Typography>}
+            </div>
+
+            <div>
+              {errors && <Typography variant="p">{errors.username}</Typography>}
+            </div>
+            <div>
+              {errors && <Typography variant="p">{errors.password}</Typography>}
+            </div>
+            <div>
+              {errors && (
+                <Typography variant="p">{errors.phoneNumber}</Typography>
+              )}
+            </div>
+            <div>
+              {errors && <Typography variant="p">{errors.confirm}</Typography>}
+            </div>
+          </div>
+        </Alert>
+      </Snackbar>
+    </div>
+  );
+
+  useEffect(() => {
+    if (signInError !== '') {
+      setOpenSnackbar(true);
+    } else {
+      switch (true) {
+        case errors.email !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.username !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.password !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.confirm !== '':
+          setOpenSnackbar(true);
+          break;
+        case errors.phoneNumber !== '':
+          setOpenSnackbar(true);
+          break;
+        default:
+          setOpenSnackbar(false);
+          break;
+      }
+    }
+  }, [errors, signInError]);
+
   const phoneRegex = RegExp(
     /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
   );
@@ -177,29 +280,58 @@ function Signup() {
   const formSubmit = async e => {
     e.preventDefault();
     setLoading(true);
+    setSignInError('');
 
-    try {
-      const value =
-        e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-      setFormState({
-        ...formState,
-        [e.target.name]: value,
+    axios
+      .post(`https://bw-water-my-plants.herokuapp.com/api/users`, formState)
+      .then(res => {
+        setUserId(res.id);
+        console.log(res);
+        axios
+          .post(
+            'https://bw-water-my-plants.herokuapp.com/api/users/login',
+            formState
+          )
+          .then(res => {
+            console.log(res);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('userId', res.data.user.id);
+            history.push('/dashboard');
+          })
+          .catch(err => {
+            setLoading(false);
+
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        setLoading(false);
+        console.log(err);
+        setSignInError('Username or phone number already in use.');
       });
-      // const post = setPost({
-      //   ...postState,
-      //   formState,
-      // });
-      setFetchParams({
-        ...fetchParams,
-        method: 'post',
-        url: '/users',
-        data: formState,
-      });
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
+
+    // try {
+    //   const value =
+    //     e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    //   setFormState({
+    //     ...formState,
+    //     [e.target.name]: value,
+    //   });
+    //   // const post = setPost({
+    //   //   ...postState,
+    //   //   formState,
+    //   // });
+    //   setFetchParams({
+    //     ...fetchParams,
+    //     method: 'post',
+    //     url: '/users',
+    //     data: formState,
+    //   });
+    //   setLoading(false);
+    // } catch (err) {
+    //   console.log(err);
+    //   setLoading(false);
+    // }
   };
 
   // useEffect(() => {
@@ -214,6 +346,9 @@ function Signup() {
   }, []);
 
   useEffect(() => {
+    if (error) {
+      console.log(error);
+    }
     if (response !== null) {
       setUserId(response.id);
       axios
@@ -247,9 +382,9 @@ function Signup() {
     });
   }, [formState]);
 
-  const classes = useStyles();
   return (
     <div className={classes.signUpContainer}>
+      {snackbar}
       <div
         className={classes.form}
         ref={el => {
@@ -272,14 +407,6 @@ function Signup() {
               >
                 Sign Up
               </Typography>
-              <div style={{ height: 50, paddingBottom: 5 }}>
-                {/* needs to be changed to handle api error */}
-                {/* {signInError && (
-                  <Typography variant="caption">
-                    Username and password not recognized, please try again
-                  </Typography>
-                )} */}
-              </div>
             </Grid>
 
             <Grid item style={{ width: '100%' }}>
@@ -296,7 +423,7 @@ function Signup() {
                       value={formState.email}
                       error={errors.email}
                     />
-                    {errors && (
+                    {/* {errors && (
                       <div style={{ height: '1em', paddingTop: 5 }}>
                         <Typography
                           variant="caption"
@@ -305,7 +432,7 @@ function Signup() {
                           {errors.email}
                         </Typography>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -319,7 +446,7 @@ function Signup() {
                       value={formState.username}
                       error={errors.username}
                     />
-                    {errors && (
+                    {/* {errors && (
                       <div style={{ height: '1em', paddingTop: 5 }}>
                         <Typography
                           variant="caption"
@@ -328,7 +455,7 @@ function Signup() {
                           {errors.username}
                         </Typography>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -342,7 +469,7 @@ function Signup() {
                       value={formState.password}
                       error={errors.password}
                     />
-                    {errors && (
+                    {/* {errors && (
                       <div style={{ height: '1em', paddingTop: 5 }}>
                         <Typography
                           variant="caption"
@@ -351,7 +478,7 @@ function Signup() {
                           {errors.password}
                         </Typography>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -365,7 +492,7 @@ function Signup() {
                       value={formState.confirm}
                       errors={errors}
                     />
-                    {errors && (
+                    {/* {errors && (
                       <div style={{ height: '1em', paddingTop: 5 }}>
                         <Typography
                           variant="caption"
@@ -374,7 +501,7 @@ function Signup() {
                           {errors.confirm}
                         </Typography>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
@@ -388,7 +515,7 @@ function Signup() {
                       value={formState.phoneNumber}
                       error={errors.phoneNumber}
                     />
-                    {errors && (
+                    {/* {errors && (
                       <div style={{ height: '1em', paddingTop: 5 }}>
                         <Typography
                           variant="caption"
@@ -397,7 +524,7 @@ function Signup() {
                           {errors.phoneNumber}
                         </Typography>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                   <Grid item>
                     <label htmlFor="terms">
@@ -423,6 +550,7 @@ function Signup() {
                       style={{ color: 'white', width: '100%' }}
                       onClick={formSubmit}
                       className={classes.button}
+                      disabled={buttonDisabled}
                     >
                       {loading ? (
                         <CircularProgress style={{ color: 'white' }} />

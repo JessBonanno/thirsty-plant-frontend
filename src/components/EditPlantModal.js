@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
@@ -57,26 +58,54 @@ const inputProps = {
  * @param {function} setEditModalOpen changes open state of modal
  * @returns {jsx}
  */
-export default function TransitionsModal() {
+export default function TransitionsModal(props) {
+  const {
+    id,
+    nickname,
+    species,
+    currentImageUrl,
+    h2oFrequency,
+    editModalOpen,
+    setEditModalOpen,
+  } = props;
+
   const classes = useStyles();
   const {
     matchesSM,
-    plantData,
-    setPlantData,
-    setEditModalOpen,
-    editModalOpen,
-    imageUrl,
     fetchParams,
     setFetchParams,
-    handleEdiModalClose,
-    handleUpload,
+    handleEditModalClose,
   } = useContext(PlantContext);
 
+  const [formState, setFormState] = useState({
+    species,
+    nickname,
+    h2oFrequency,
+    imageUrl: currentImageUrl,
+  });
+
   const handleChange = e => {
-    setPlantData({
-      ...plantData,
+    setFormState({
+      ...formState,
       [e.target.name]: e.target.value,
     });
+  };
+
+  let image;
+  const handleUpload = async e => {
+    image = e.target.files[0];
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', 'wpnbbzl6');
+    data.append('api_key', '925249979199193');
+
+    const res = await axios.post(
+      `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
+      data
+    );
+
+    const url = await res.data.url;
+    setFormState({ ...formState, imageUrl: url });
   };
 
   const handleSubmit = async e => {
@@ -84,11 +113,16 @@ export default function TransitionsModal() {
     await setFetchParams({
       ...fetchParams,
       method: 'put',
-      url: `/users/${userId}/plants`,
-      data: { ...plantData, imageUrl: imageUrl },
+      url: `/plants/${id}`,
+      data: formState,
     });
 
     setEditModalOpen(false);
+    setFormState({
+      species: '',
+      nickname: '',
+      h2oFrequency: '',
+    });
 
     // Get the updated list of plants to populate the plants list
     await setFetchParams({
@@ -105,7 +139,7 @@ export default function TransitionsModal() {
         aria-describedby="transition-modal-description"
         className={classes.modal}
         open={editModalOpen}
-        onClose={handleEdiModalClose}
+        onClose={handleEditModalClose}
         closeAfterTransition
         BackdropProps={{ style: { opacity: '0.3' } }}
       >
@@ -143,6 +177,9 @@ export default function TransitionsModal() {
                           className={classes.formField}
                           variant="outlined"
                           label="Plant name"
+                          name="nickname"
+                          value={formState.nickname}
+                          onChange={handleChange}
                         />
                       </Grid>
                       <Grid item>
@@ -150,6 +187,9 @@ export default function TransitionsModal() {
                           className={classes.formField}
                           variant="outlined"
                           label="Species name"
+                          name="species"
+                          value={formState.species}
+                          onChange={handleChange}
                         />
                       </Grid>{' '}
                     </form>
@@ -193,6 +233,9 @@ export default function TransitionsModal() {
                                   }}
                                   inputProps={inputProps}
                                   variant="outlined"
+                                  name="h2oFrequency"
+                                  value={formState.h2oFrequency}
+                                  onChange={handleChange}
                                 />
                               </Grid>
                               <Grid item>
@@ -286,7 +329,7 @@ export default function TransitionsModal() {
                       <Grid item align="center">
                         <div
                           style={{
-                            backgroundImage: `url(${imageUrl})`,
+                            backgroundImage: `url(${formState.imageUrl})`,
                             backgroundSize: 'cover',
                             height: 200,
                             // width: 150,
