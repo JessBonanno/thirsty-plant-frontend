@@ -175,6 +175,7 @@ function Login() {
         setUserId(res.data.user.id);
         localStorage.setItem('userId', res.data.user.id);
         setLoading(false);
+        setLoggedIn(true);
       })
       .catch(err => {
         console.log(err);
@@ -183,8 +184,13 @@ function Login() {
           setLoginError(true);
         }
       });
-    setLoggedIn(true);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      history.push('/dashboard');
+    }
+  }, []);
 
   const changeHandler = e => {
     setLoginError(false);
