@@ -179,7 +179,7 @@ const Dashboard = () => {
             justify="center"
             className={classes.cardsContainer}
           >
-            {plants &&
+            {plants ? (
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
                 <Grid item xs={12} sm={6} md={4} lg={3} align="center">
@@ -193,7 +193,28 @@ const Dashboard = () => {
                     id={item.id}
                   />
                 </Grid>
-              ))}
+              ))
+            ) : (
+              <Grid item>
+                <h2>Get started, add your first plant now!</h2>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    style={{
+                      color: 'white',
+                      marginBottom: matchesXS ? '1em' : undefined,
+                      width: matchesXS && '100%',
+                      borderRadius: 0,
+                      display: matchesXS ? 'none' : 'block',
+                    }}
+                    // onClick={handleAddModalOpen}
+                  >
+                    Add New Plant
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
           </Grid>
         )}
       </Grid>

@@ -356,9 +356,7 @@ function Login() {
                         {loading ? (
                           <CircularProgress style={{ color: 'white' }} />
                         ) : (
-                          <Typography variant="button" onClick={formSubmit}>
-                            Login
-                          </Typography>
+                          <Typography variant="button">Login</Typography>
                         )}
                       </Button>
                     </Grid>
