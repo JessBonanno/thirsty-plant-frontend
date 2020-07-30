@@ -22,8 +22,7 @@ import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
-    minWidth: 245,
+    width: 345,
     minHeight: 275,
     margin: '1em',
   },
