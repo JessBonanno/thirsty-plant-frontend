@@ -297,10 +297,10 @@ function Signup() {
             console.log(res);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.user.id);
+            setLoggedIn(true);
           })
           .catch(err => {
             setLoading(false);
-
             console.log(err);
           });
       })
@@ -309,8 +309,6 @@ function Signup() {
         console.log(err);
         setSignInError('Username or phone number already in use.');
       });
-
-    setLoggedIn(true);
   };
 
   // useEffect(() => {
