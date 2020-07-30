@@ -141,7 +141,7 @@ function Login() {
     if (loggedIn) {
       history.push('/dashboard');
     }
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   const validateChange = e => {
     e.persist();
@@ -175,7 +175,6 @@ function Login() {
         setUserId(res.data.user.id);
         localStorage.setItem('userId', res.data.user.id);
         setLoading(false);
-        setLoggedIn(true);
       })
       .catch(err => {
         console.log(err);
@@ -184,6 +183,7 @@ function Login() {
           setLoginError(true);
         }
       });
+    setLoggedIn(true);
   };
 
   const changeHandler = e => {
