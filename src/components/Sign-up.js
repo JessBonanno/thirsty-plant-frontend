@@ -297,7 +297,6 @@ function Signup() {
             console.log(res);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userId', res.data.user.id);
-            history.push('/dashboard');
           })
           .catch(err => {
             setLoading(false);
@@ -311,33 +310,14 @@ function Signup() {
         setSignInError('Username or phone number already in use.');
       });
 
-    // try {
-    //   const value =
-    //     e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    //   setFormState({
-    //     ...formState,
-    //     [e.target.name]: value,
-    //   });
-    //   // const post = setPost({
-    //   //   ...postState,
-    //   //   formState,
-    //   // });
-    //   setFetchParams({
-    //     ...fetchParams,
-    //     method: 'post',
-    //     url: '/users',
-    //     data: formState,
-    //   });
-    //   setLoading(false);
-    // } catch (err) {
-    //   console.log(err);
-    //   setLoading(false);
-    // }
+    setLoggedIn(true);
   };
 
   // useEffect(() => {
   //   setSignUpLoading(false);
   // }, []);
+
+  // const [token, setToken] = useState('');
 
   useEffect(() => {
     if (loggedIn) {
