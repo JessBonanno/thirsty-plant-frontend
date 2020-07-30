@@ -99,13 +99,9 @@ const Dashboard = () => {
     }
   }, [response]);
 
-  console.log(plants);
-
-  const sortedPlants = plants.sort((a, b) => b.nickname - a.nickname);
-  console.log(sortedPlants);
-
   return (
     <>
+      <AddButton handleAddModalOpen={handleAddModalOpen} />
       <AddPlantModal
         className={classes.modal}
         setIsReloading={setIsReloading}

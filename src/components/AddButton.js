@@ -1,11 +1,9 @@
 import React from 'react';
 import './AddButton.css';
-import { makeStyles } from '@material-ui/styles';
 import theme from './ui/Theme';
 
-const useStyles = makeStyles(theme => ({}));
-
-const AddButton = () => {
+const AddButton = props => {
+  const { handleAddModalOpen } = props;
   return (
     <div
       className="add-button-background bg-red-400 p-2"
@@ -14,6 +12,7 @@ const AddButton = () => {
         backgroundColor: theme.palette.common.yellow,
         zIndex: 3200,
       }}
+      onClick={handleAddModalOpen}
     >
       <div
         className="add-button w-8 h-8"
