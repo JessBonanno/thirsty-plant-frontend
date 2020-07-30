@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import axios from 'axios';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 import { useHistory } from 'react-router-dom';
 import Input from './Input.js';
 import * as Yup from 'yup';
@@ -149,14 +151,23 @@ function EditUser() {
       [e.target.name]: value,
     });
 
-    setFetchParams({
-      method: 'put',
-      url: `/users/${userId}`,
-      data: {
+    // setFetchParams({
+    //   method: 'put',
+    //   url: `/users/${userId}`,
+    //   data: {
+    //     newPassword: formState.newPassword,
+    //     password: formState.password,
+    //   },
+    // });
+    const token = localStorage.getItem('token');
+    console.log(token);
+    axiosWithAuth()
+      .put(`https://bw-water-my-plants.herokuapp.com/api/users/${userId}`, {
         newPassword: formState.newPassword,
         password: formState.password,
-      },
-    });
+      })
+      .then(res => console.log(response))
+      .catch(err => console.log(err));
     setPasswordSaveLoading(false);
   };
 
@@ -224,6 +235,7 @@ function EditUser() {
                     variant="outlined"
                     label="Password"
                     name="password"
+                    type="password"
                     value={formState.password}
                     onChange={changeHandler}
                   />
@@ -235,6 +247,7 @@ function EditUser() {
                     variant="outlined"
                     label="New Password"
                     name="newPassword"
+                    type="password"
                     onChange={changeHandler}
                   />
                 </Grid>
@@ -245,6 +258,7 @@ function EditUser() {
                       variant="outlined"
                       name="confirmedNewPassword"
                       label="Confirm New Password"
+                      type="password"
                       value={formState.confirmedNewPassword}
                       onChange={changeHandler}
                     />
