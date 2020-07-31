@@ -13,6 +13,7 @@ import AddPlantModal from '../AddPlantModal';
 // context
 import { PlantContext } from '../../contexts/PlantContext';
 import AddButton from '../AddButton';
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -87,18 +88,25 @@ const Dashboard = () => {
   useEffect(() => {
     setIsReloading(true);
     const userId = localStorage.getItem('userId');
-    setFetchParams({
-      method: 'get',
-      url: `/users/${userId}/plants`,
-    });
-  }, [response]);
+    // setFetchParams({
+    //   method: 'get',
+    //   url: `/users/${userId}/plants`,
+    // });
+    axiosWithAuth()
+      .get(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`
+      )
+      .then(res => {
+        setPlants(res.data.plants);
+        setIsReloading(false);
+      });
+  }, []);
 
-  useEffect(() => {
-    if (response !== null) {
-      setPlants(response.plants);
-      setIsReloading(false);
-    }
-  }, [response]);
+  // useEffect(() => {
+  //   if (response !== null) {
+  //     setPlants(response.plants);
+  //   }
+  // }, [response]);
 
   return (
     <>

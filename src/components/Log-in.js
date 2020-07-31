@@ -188,28 +188,20 @@ function Login() {
   };
 
   const login = async () => {
-    const res = await axios
-      .post(
+    try {
+      const res = await axios.post(
         'https://bw-water-my-plants.herokuapp.com/api/users/login',
         formState
-      )
-      .then(res => {
-        console.log('login response:', res);
-        localStorage.setItem('token', res.data.token);
-        setUserId(res.data.user.id);
-        localStorage.setItem('userId', res.data.user.id);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-        if (err) {
-          setLoginError(
-            'Username and password not recognized, please try again'
-          );
-        }
-      });
-    return res;
+      );
+
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userId', res.data.user.id);
+      setUserId(res.data.user.id);
+      setLoading(false);
+      setLoading(false);
+    } catch (err) {
+      setLoginError('Username and password not recognized, please try again');
+    }
   };
 
   async function formSubmit(e) {
@@ -218,6 +210,7 @@ function Login() {
     try {
       await login();
       history.push('/dashboard');
+      // history.push('/dashboard');
     } catch (err) {
       console.log(err);
     }
