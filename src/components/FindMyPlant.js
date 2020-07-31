@@ -13,7 +13,10 @@ const useStyles = makeStyles(theme => ({}));
 
 const FindMyPlant = () => {
   const classes = useStyles();
-  const { uploading, handleUpload } = useContext(PlantContext);
+  const { uploading, setDetails, details, classifyPlant } = useContext(
+    PlantContext
+  );
+
   return (
     <>
       <Typography variant="h3">Find my Plant</Typography>
@@ -32,7 +35,7 @@ const FindMyPlant = () => {
           id="raised-button-file"
           multiple
           type="file"
-          onChange={handleUpload}
+          onChange={classifyPlant}
         />
         <label htmlFor="raised-button-file">
           <Button
@@ -52,6 +55,25 @@ const FindMyPlant = () => {
             )}
           </Button>
         </label>
+        {details.map(detail => {
+          return (
+            <>
+              <div>
+                {detail.plant_name}{' '}
+                <img src={detail.similar_images[0].url} alt="" />{' '}
+              </div>
+              <Typography variant="h3">
+                {detail.plant_details.structured_name.genus}{' '}
+                {detail.plant_details.structured_name.species}
+              </Typography>
+              <p>{detail.plant_details.taxonomy.class}</p>
+              <p>{detail.plant_details.taxonomy.family}</p>
+              <p>{detail.plant_details.taxonomy.kingdom}</p>
+              <p>{detail.plant_details.taxonomy.phylum}</p>
+              <p>{detail.plant_details.taxonomy.order}</p>
+            </>
+          );
+        })}
       </Grid>
     </>
   );

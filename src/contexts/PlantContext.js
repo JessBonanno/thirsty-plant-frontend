@@ -20,41 +20,61 @@ export const PlantProvider = ({ children }) => {
   const [userId, setUserId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [state, setState] = useState({ file: '', base64: '' });
+  const [details, setDetails] = useState([]);
 
   let image;
 
-  const handleImageChange = e => {
+  const getDetails = async e => {
     e.preventDefault();
+
     let file = e.target.files[0];
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setState({
-        file: file,
-        base64: reader.result,
-      });
+      const base64 = reader.result;
+      const data = {
+        api_key: 'ZtqRxsEZKiqQUTQIKlDllMfN2qpMbsK678l28YscBKNuE54JW8',
+        images: [base64],
+        modifiers: ['crops_fast', 'similar_images'],
+        plant_language: 'en',
+        plant_details: [
+          'common_names',
+          'url',
+          'name_authority',
+          'wiki_description',
+          'taxonomy',
+          'synonyms',
+          'species',
+        ],
+      };
+
+      fetch('https://api.plant.id/v2/identify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          setDetails(data.suggestions);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     };
   };
 
-  const getInfo = () => {
-    axios
-      .post('https://api.plant.id/v2/identify', {
-        headers: {
-          'Api-Key': 'ZtqRxsEZKiqQUTQIKlDllMfN2qpMbsK678l28YscBKNuE54JW8',
-        },
-        images: [state.base64],
-      })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => console.log(err));
-  };
+  function classifyPlant(e) {
+    getDetails(e);
+  }
 
   const handleUpload = async e => {
     setUploading(true);
     console.log('test:');
     image = e.target.files[0];
+
     const data = new FormData();
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
@@ -64,11 +84,11 @@ export const PlantProvider = ({ children }) => {
       `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
       data
     );
-    console.log(state.base64);
 
     setImageUrl(res.data.url);
     setUploading(false);
   };
+
   const handleAddModalClose = () => {
     setAddModalOpen(false);
   };
@@ -112,7 +132,12 @@ export const PlantProvider = ({ children }) => {
         setUserId,
         submitted,
         setSubmitted,
-      }}>
+        classifyPlant,
+        getDetails,
+        setDetails,
+        details,
+      }}
+    >
       {children}
     </PlantContext.Provider>
   );
