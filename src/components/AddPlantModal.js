@@ -13,6 +13,8 @@ import theme from '../components/ui/Theme';
 // context
 import { PlantContext } from '../contexts/PlantContext';
 
+import { axiosWithAuth } from '../utils/axiosWithAuth';
+
 const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
@@ -51,7 +53,7 @@ const inputProps = {
 };
 
 export default function TransitionsModal(props) {
-  const { setIsReloading } = props;
+  const { setIsReloading, setPlants } = props;
   const classes = useStyles();
 
   const [plantData, setPlantData] = useState({
@@ -68,8 +70,7 @@ export default function TransitionsModal(props) {
     addModalOpen,
     handleClose,
     setAddModalOpen,
-    fetchParams,
-    setFetchParams,
+
     // userId,
   } = useContext(PlantContext);
 
@@ -81,25 +82,56 @@ export default function TransitionsModal(props) {
     });
   };
 
-  const handleSubmit = async e => {
-    const userId = localStorage.getItem('userId');
-    await setFetchParams({
-      ...fetchParams,
-      method: 'post',
-      url: `/users/${userId}/plants`,
-      data: { ...plantData, imageUrl: imageUrl },
-    });
+  const userId = localStorage.getItem('userId');
 
-    setAddModalOpen(false);
+  async function addPlant() {
+    try {
+      const res = await axiosWithAuth().post(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`,
+        {
+          ...plantData,
+          imageUrl: imageUrl,
+        }
+      );
+
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+      setIsReloading(false);
+    }
+  }
+
+  async function getPlants() {
+    try {
+      const res = await axiosWithAuth().get(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`
+      );
+      console.log(res);
+      setPlants(res.data.plants);
+    } catch (err) {
+      console.log(err);
+      setIsReloading(false);
+    }
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      await addPlant();
+      setAddModalOpen(false);
+      setIsReloading(true);
+      await getPlants();
+      setIsReloading(false);
+    } catch (err) {
+      console.log(err);
+    }
 
     // Get the updated list of plants to populate the plants list
-    setIsReloading(true);
-    await setFetchParams({
-      ...fetchParams,
-      method: 'get',
-      url: `/users/${userId}/plants`,
-    });
-    setIsReloading(false);
+    // await setFetchParams({
+    //   ...fetchParams,
+    //   method: 'get',
+    //   url: `/users/${userId}/plants`,
+    // });
   };
 
   return (

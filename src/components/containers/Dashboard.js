@@ -74,13 +74,9 @@ const Dashboard = () => {
   // }, []);
 
   const classes = useStyles();
-  const {
-    matchesXS,
-    matchesSM,
-    handleAddModalOpen,
-    response,
-    setFetchParams,
-  } = useContext(PlantContext);
+  const { matchesXS, matchesSM, handleAddModalOpen, response } = useContext(
+    PlantContext
+  );
 
   const [plants, setPlants] = useState([]);
   const [isReloading, setIsReloading] = useState(false);
@@ -110,6 +106,7 @@ const Dashboard = () => {
       <AddPlantModal
         className={classes.modal}
         setIsReloading={setIsReloading}
+        setPlants={setPlants}
       />
       <Grid
         container
@@ -200,6 +197,8 @@ const Dashboard = () => {
                     lastWatered={item.lastWatered}
                     h2oFrequency={item.h2oFrequency}
                     id={item.id}
+                    setPlants={setPlants}
+                    setIsReloading={setIsReloading}
                   />
                 </Grid>
               ))

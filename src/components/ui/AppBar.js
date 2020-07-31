@@ -104,7 +104,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://watermyplantsjuly2020.netlify.app/"
+                      href="https://watermyplants.netlify.app/"
                     >
                       Home
                     </a>
@@ -135,7 +135,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://watermyplantsjuly2020.netlify.app/about.html"
+                      href="https://watermyplants.netlify.app/about.html"
                     >
                       About Us
                     </a>
@@ -151,7 +151,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://watermyplantsjuly2020.netlify.app/guide.html"
+                      href="https://watermyplants.netlify.app/guide.html"
                     >
                       Learn
                     </a>

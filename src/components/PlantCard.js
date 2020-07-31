@@ -19,6 +19,7 @@ import EditPlantModal from '../components/EditPlantModal';
 
 // context
 import { PlantContext } from '../contexts/PlantContext';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
   root: {
@@ -36,11 +37,21 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
-  const { id, nickname, species, imageUrl, lastWatered, h2oFrequency } = props;
-  const { fetchParams, setFetchParams, useFetch } = useContext(PlantContext);
+  const {
+    id,
+    nickname,
+    species,
+    imageUrl,
+    lastWatered,
+    h2oFrequency,
+    setPlants,
+    setIsReloading,
+  } = props;
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const userId = localStorage.getItem('userId');
 
   const classes = useStyles();
 
@@ -53,21 +64,50 @@ const PlantCard = props => {
     setDialogOpen(true);
   };
 
-  console.log(dialogOpen);
+  async function submitWatering() {
+    try {
+      await waterPlant();
+      await getPlants();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-  const waterPlant = () => {
+  async function waterPlant() {
     const wateringDate = new Date(Date.now()).toISOString();
-    setFetchParams({
-      method: 'put',
-      url: `/plants/${id}`,
-      data: { lastWatered: wateringDate },
-    });
-  };
+    try {
+      const res = await axiosWithAuth().put(
+        `https://bw-water-my-plants.herokuapp.com/api/plants/${id}`,
+        {
+          lastWatered: wateringDate,
+        }
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getPlants() {
+    try {
+      const res = await axiosWithAuth().get(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`
+      );
+      console.log(res);
+      setPlants(res.data.plants);
+    } catch (err) {
+      console.log(err);
+      setIsReloading(false);
+    }
+  }
+
   const getWateringDate = moment(lastWatered, 'YYYMMDD').add(
     h2oFrequency,
     'days'
   );
+  console.log(getWateringDate);
   const nextWatering = moment(getWateringDate).format('ll');
+  console.log(nextWatering);
 
   return (
     <>
@@ -193,7 +233,7 @@ const PlantCard = props => {
                         <Grid item>
                           <IconButton
                             style={{ padding: 5 }}
-                            onClick={waterPlant}
+                            onClick={submitWatering}
                           >
                             <InvertColorsTwoToneIcon
                               style={{ color: theme.palette.common.blue }}
