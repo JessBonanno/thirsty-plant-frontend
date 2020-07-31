@@ -24,6 +24,7 @@ export const PlantProvider = ({ children }) => {
   let image;
   const handleUpload = async e => {
     setUploading(true);
+    console.log('test:');
     image = e.target.files[0];
     const data = new FormData();
     data.append('file', image);
@@ -66,6 +67,7 @@ export const PlantProvider = ({ children }) => {
         setImageUrl,
         handleUpload,
         uploading,
+        setUploading,
         handleAddModalClose,
         handleAddModalOpen,
         addModalOpen,
@@ -80,8 +82,7 @@ export const PlantProvider = ({ children }) => {
         setUserId,
         submitted,
         setSubmitted,
-      }}
-    >
+      }}>
       {children}
     </PlantContext.Provider>
   );
