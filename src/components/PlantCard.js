@@ -98,7 +98,7 @@ const PlantCard = props => {
     }
   }
 
-  const getWateringDate = moment(lastWatered, 'YYYMMDD').add(
+  const getWateringDate = moment(lastWatered, 'YYYYMMDD').add(
     h2oFrequency,
     'days'
   );
