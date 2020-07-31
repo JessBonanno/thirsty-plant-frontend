@@ -375,12 +375,13 @@ export default function TransitionsModal(props) {
                         style={{
                           alignSelf: 'flex-end',
                           marginTop: 2.5,
+                          width: 200,
                         }}
                       >
                         <input
                           accept="image/*"
                           className={classes.input}
-                          style={{ display: 'none' }}
+                          style={{ display: 'none', width: '100%' }}
                           id="raised-button-file"
                           multiple
                           type="file"
@@ -394,6 +395,7 @@ export default function TransitionsModal(props) {
                             style={{
                               backgroundColor: theme.palette.common.yellow,
                               height: 50,
+                              width: '100%',
                             }}
                           >
                             {uploading ? (
