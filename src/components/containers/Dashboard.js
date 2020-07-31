@@ -127,19 +127,7 @@ const Dashboard = () => {
       getPlants();
     }
   };
-  // let plantCount = [];
-  // function handleEmptyResults() {
-  //   if (plants.length === 0 || plants === []) {
-  //     plantCount = getPlants();
-  //     if (plantCount === undefined || plantCount.length > 0) {
-  //       setNoResults(false);
-  //     } else {
-  //       setNoResults(true);
-  //     }
-  //   }
-  // }
 
-  console.log(noResults);
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />

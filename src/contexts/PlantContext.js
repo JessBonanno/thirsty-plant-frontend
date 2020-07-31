@@ -15,7 +15,7 @@ export const PlantProvider = ({ children }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
-  const [dialogOpen, setDialogOpen] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userId, setUserId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -43,13 +43,6 @@ export const PlantProvider = ({ children }) => {
     setAddModalOpen(true);
   };
 
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
   const handleEditModalOpen = () => {
     setEditModalOpen(true);
   };
@@ -74,19 +67,18 @@ export const PlantProvider = ({ children }) => {
         handleAddModalOpen,
         addModalOpen,
         setAddModalOpen,
-        handleDialogClose,
         dialogOpen,
         setDialogOpen,
         editModalOpen,
         setEditModalOpen,
         handleEdiModalClose,
         handleEditModalOpen,
-        handleDialogOpen,
         userId,
         setUserId,
         submitted,
         setSubmitted,
-      }}>
+      }}
+    >
       {children}
     </PlantContext.Provider>
   );
