@@ -37,19 +37,24 @@ export const PlantProvider = ({ children }) => {
     };
   };
 
+  const getInfo = () => {
+    axios
+      .post('https://api.plant.id/v2/identify', {
+        headers: {
+          'Api-Key': 'ZtqRxsEZKiqQUTQIKlDllMfN2qpMbsK678l28YscBKNuE54JW8',
+        },
+        images: [state.base64],
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  };
+
   const handleUpload = async e => {
     setUploading(true);
     console.log('test:');
     image = e.target.files[0];
-    let file = e.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setState({
-        file: file,
-        base64: reader.result,
-      });
-    };
     const data = new FormData();
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
@@ -59,12 +64,11 @@ export const PlantProvider = ({ children }) => {
       `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
       data
     );
+    console.log(state.base64);
 
     setImageUrl(res.data.url);
     setUploading(false);
   };
-  console.log(state.base64);
-
   const handleAddModalClose = () => {
     setAddModalOpen(false);
   };
