@@ -20,12 +20,21 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <div className='App'>
+      <div className="App">
         <Switch>
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/signup' component={Signup} />
-          <PrivateRoute exact path='/settings' component={EditUser} />
-          <PrivateRoute exact path='/dashboard' component={Dashboard} />
+          <Route
+            exact
+            path="/"
+            component={() => {
+              window.location.href =
+                'https://watermyplantsjuly2020.netlify.app/';
+              return null;
+            }}
+          ></Route>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <PrivateRoute exact path="/settings" component={EditUser} />
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
         </Switch>
       </div>
       <Hidden mdUp>
