@@ -9,7 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Hidden from '@material-ui/core/Hidden';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import theme from '../components/ui/Theme';
+
 // context
 import { PlantContext } from '../contexts/PlantContext';
 
@@ -67,10 +69,12 @@ export default function TransitionsModal(props) {
   const {
     matchesSM,
     imageUrl,
+    setImageUrl,
     handleUpload,
     addModalOpen,
     handleClose,
     setAddModalOpen,
+    uploading,
 
     // userId,
   } = useContext(PlantContext);
@@ -120,6 +124,7 @@ export default function TransitionsModal(props) {
     try {
       await addPlant();
       setAddModalOpen(false);
+      setImageUrl('');
       setIsReloading(true);
       await getPlants();
       setIsReloading(false);
@@ -325,11 +330,17 @@ export default function TransitionsModal(props) {
                               className={classes.button}
                               style={{
                                 backgroundColor: theme.palette.common.yellow,
+                                width: 200,
+                                height: 50,
                               }}
                             >
-                              <Typography variant="button">
-                                Upload Image
-                              </Typography>
+                              {uploading ? (
+                                <CircularProgress style={{ color: 'white' }} />
+                              ) : (
+                                <Typography variant="button">
+                                  Upload Image
+                                </Typography>
+                              )}
                             </Button>
                           </label>
                         </Grid>
@@ -382,11 +393,16 @@ export default function TransitionsModal(props) {
                             className={classes.button}
                             style={{
                               backgroundColor: theme.palette.common.yellow,
+                              height: 50,
                             }}
                           >
-                            <Typography variant="button">
-                              Upload Image
-                            </Typography>
+                            {uploading ? (
+                              <CircularProgress style={{ color: 'white' }} />
+                            ) : (
+                              <Typography variant="button">
+                                Upload Image
+                              </Typography>
+                            )}
                           </Button>
                         </label>
                       </Grid>
