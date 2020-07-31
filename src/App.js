@@ -23,12 +23,9 @@ function App() {
       <div className='App'>
         <Switch>
           <Route exact path='/login' component={Login} />
-          <Route exact path='/Signup' component={Signup} />
+          <Route exact path='/signup' component={Signup} />
           <PrivateRoute exact path='/settings' component={EditUser} />
-          <PrivateRoute
-           exact path='/dashboard'
-            component={localStorage.getItem('userId') && Dashboard}
-          />
+          <PrivateRoute exact path='/dashboard' component={Dashboard} />
         </Switch>
       </div>
       <Hidden mdUp>
