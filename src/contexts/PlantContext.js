@@ -59,6 +59,7 @@ export const PlantProvider = ({ children }) => {
         .then(data => {
           console.log('Success:', data);
           setDetails(data.suggestions);
+          console.log(base64);
         })
         .catch(error => {
           console.error('Error:', error);

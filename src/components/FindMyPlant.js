@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import makeStyles from '@material-ui/styles/makeStyles';
 import theme from './ui/Theme';
+import FindMyPlantCard from './FindMyPlantCard';
 
 // local imports
 import { PlantContext } from '../contexts/PlantContext';
@@ -58,6 +59,11 @@ const FindMyPlant = () => {
         {details.map(detail => {
           return (
             <>
+              <FindMyPlantCard
+                name={detail.plant_name}
+                image={detail.similar_images[0].url}
+                species={detail.plant_details.structured_name.species}
+              />
               <div>
                 {detail.plant_name}{' '}
                 <img src={detail.similar_images[0].url} alt="" />{' '}
