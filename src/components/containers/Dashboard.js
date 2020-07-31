@@ -1,6 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react';
-import axios from 'axios';
-import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -74,9 +72,7 @@ const Dashboard = () => {
   // }, []);
 
   const classes = useStyles();
-  const { matchesXS, matchesSM, handleAddModalOpen, response } = useContext(
-    PlantContext
-  );
+  const { matchesXS, matchesSM, handleAddModalOpen } = useContext(PlantContext);
 
   const [plants, setPlants] = useState([]);
   const [isReloading, setIsReloading] = useState(false);
@@ -94,12 +90,6 @@ const Dashboard = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   if (response !== null) {
-  //     setPlants(response.plants);
-  //   }
-  // }, [response]);
-
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />
@@ -110,17 +100,15 @@ const Dashboard = () => {
       />
       <Grid
         container
-        direction="column"
-        alignItems="center"
-        className={classes.dashContainer}
-      >
+        direction='column'
+        alignItems='center'
+        className={classes.dashContainer}>
         {/* ----- Page Header ---- */}
         <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
           <Typography
-            variant="h2"
+            variant='h2'
             className={classes.dashboardHeader}
-            style={{ fontSize: '2rem' }}
-          >
+            style={{ fontSize: '2rem' }}>
             My Plants
           </Typography>
         </Grid>
@@ -129,19 +117,18 @@ const Dashboard = () => {
           item
           container
           direction={matchesXS ? 'column' : 'row'}
-          justify="space-between"
+          justify='space-between'
           alignItems={matchesXS ? 'center' : undefined}
           className={classes.toolsContainer}
           style={{
             padding: 15,
-          }}
-        >
+          }}>
           {plants && plants.length !== 0 && (
             <>
               <Grid item>
                 <Button
-                  variant="contained"
-                  color="secondary"
+                  variant='contained'
+                  color='secondary'
                   style={{
                     color: 'white',
                     marginBottom: matchesXS ? '1em' : undefined,
@@ -149,8 +136,7 @@ const Dashboard = () => {
                     borderRadius: 0,
                     display: matchesXS ? 'none' : 'block',
                   }}
-                  onClick={handleAddModalOpen}
-                >
+                  onClick={handleAddModalOpen}>
                   Add New Plant
                 </Button>
               </Grid>
@@ -160,7 +146,7 @@ const Dashboard = () => {
                     <SearchIcon />
                   </div>
                   <InputBase
-                    placeholder="Search…"
+                    placeholder='Search…'
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput,
@@ -176,19 +162,18 @@ const Dashboard = () => {
           )}
         </Grid>
         {isReloading ? (
-          <Typography variant="h3">Fetching plant data...</Typography>
+          <Typography variant='h3'>Fetching plant data...</Typography>
         ) : (
           <Grid
             item
             container
-            direction="row"
-            justify="center"
-            className={classes.cardsContainer}
-          >
+            direction='row'
+            justify='center'
+            className={classes.cardsContainer}>
             {plants && plants.length !== 0 ? (
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
-                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
+                <Grid item xs={12} sm={6} md={4} lg={3} align='center'>
                   <PlantCard
                     key={item.id}
                     nickname={item.nickname}
@@ -205,20 +190,19 @@ const Dashboard = () => {
             ) : (
               <Grid item>
                 <Typography
-                  variant="h3"
-                  align="center"
+                  variant='h3'
+                  align='center'
                   style={{
                     margin: matchesSM ? '0.5em 0' : '1em 0',
                     padding: matchesSM ? '1em' : '2em',
                     fontSize: matchesSM && '2.2rem',
-                  }}
-                >
+                  }}>
                   Get started, add your first plant now!
                 </Typography>
-                <Grid item align="center">
+                <Grid item align='center'>
                   <Button
-                    variant="contained"
-                    color="secondary"
+                    variant='contained'
+                    color='secondary'
                     style={{
                       color: 'white',
                       marginBottom: matchesXS ? '1em' : undefined,
@@ -226,8 +210,7 @@ const Dashboard = () => {
                       borderRadius: 0,
                       // display: matchesXS ? 'none' : 'block',
                     }}
-                    onClick={handleAddModalOpen}
-                  >
+                    onClick={handleAddModalOpen}>
                     Add New Plant
                   </Button>
                 </Grid>

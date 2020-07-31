@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -13,15 +13,12 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { TweenMax, Power3 } from 'gsap';
 
-// api imports
-import { PlantContext } from '../contexts/PlantContext';
-
 // local imports
 import Terms from './Terms';
 import signUp from '../assets/images/green-gradient-background.svg';
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -93,7 +90,6 @@ function Signup() {
   let gsapAnimationForm = useRef(null);
   const classes = useStyles();
   const history = useHistory();
-  const { setUserId } = useContext(PlantContext);
   const [loading, setLoading] = useState(false);
   const [signInError, setSignInError] = useState('');
   const defaultState = {
@@ -115,7 +111,6 @@ function Signup() {
     terms: '',
   });
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     TweenMax.to(gsapAnimationForm, 5, {
@@ -155,6 +150,7 @@ function Signup() {
     formSchema.isValid(formState).then(valid => {
       setButtonDisabled(!valid);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState]);
 
   const handleClose = (event, reason) => {
@@ -170,31 +166,30 @@ function Signup() {
         open={openSnackbar}
         autoHideDuration={10000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert severity="error">
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity='error'>
           <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
             <div>
-              <Typography variant="p">{signInError}</Typography>
+              <Typography variant='p'>{signInError}</Typography>
             </div>
             <div>
               {' '}
-              {errors && <Typography variant="p">{errors.email}</Typography>}
+              {errors && <Typography variant='p'>{errors.email}</Typography>}
             </div>
 
             <div>
-              {errors && <Typography variant="p">{errors.username}</Typography>}
+              {errors && <Typography variant='p'>{errors.username}</Typography>}
             </div>
             <div>
-              {errors && <Typography variant="p">{errors.password}</Typography>}
+              {errors && <Typography variant='p'>{errors.password}</Typography>}
             </div>
             <div>
               {errors && (
-                <Typography variant="p">{errors.phoneNumber}</Typography>
+                <Typography variant='p'>{errors.phoneNumber}</Typography>
               )}
             </div>
             <div>
-              {errors && <Typography variant="p">{errors.confirm}</Typography>}
+              {errors && <Typography variant='p'>{errors.confirm}</Typography>}
             </div>
           </div>
         </Alert>
@@ -269,7 +264,6 @@ function Signup() {
       console.log(res);
       localStorage.setItem('token', res.data.token);
       // localStorage.setItem('userId', res.data.user.id);
-      setLoggedIn(true);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -307,99 +301,96 @@ function Signup() {
         className={classes.form}
         ref={el => {
           gsapAnimationForm = el;
-        }}
-      >
+        }}>
         <Paper className={classes.paper}>
           <Grid
             container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
+            direction='column'
+            justify='center'
+            alignItems='center'>
             <Grid item>
               <Typography
-                variant="h5"
+                variant='h5'
                 className={classes.text}
-                style={{ marginBottom: '1.5em' }}
-              >
+                style={{ marginBottom: '1.5em' }}>
                 Sign Up
               </Typography>
             </Grid>
 
             <Grid item style={{ width: '100%' }}>
               <form>
-                <Grid container direction="column" style={{ width: '100%' }}>
+                <Grid container direction='column' style={{ width: '100%' }}>
                   <Grid item className={classes.formGridItem}>
                     <TextField
-                      variant="outlined"
+                      variant='outlined'
                       className={classes.textInput}
-                      placeholder="Email"
-                      type="text"
+                      placeholder='Email'
+                      type='text'
                       onChange={changeHandler}
-                      name="email"
+                      name='email'
                       value={formState.email}
                       error={errors.email}
                     />
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
-                      variant="outlined"
+                      variant='outlined'
                       className={classes.textInput}
-                      label="Username"
-                      placeholder="Username"
-                      type="username"
+                      label='Username'
+                      placeholder='Username'
+                      type='username'
                       onChange={changeHandler}
-                      name="username"
+                      name='username'
                       value={formState.username}
                       error={errors.username}
                     />
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
-                      variant="outlined"
+                      variant='outlined'
                       className={classes.textInput}
-                      label="Password"
-                      placeholder="Password"
-                      type="password"
+                      label='Password'
+                      placeholder='Password'
+                      type='password'
                       onChange={changeHandler}
-                      name="password"
+                      name='password'
                       value={formState.password}
                       error={errors.password}
                     />
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
-                      variant="outlined"
+                      variant='outlined'
                       className={classes.textInput}
-                      label="Confirm Password"
-                      placeholder="Confirm Password"
-                      type="password"
+                      label='Confirm Password'
+                      placeholder='Confirm Password'
+                      type='password'
                       onChange={changeHandler}
-                      name="confirm"
+                      name='confirm'
                       value={formState.confirm}
                       errors={errors}
                     />
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <TextField
-                      variant="outlined"
+                      variant='outlined'
                       className={classes.textInput}
-                      label="Phone Number"
-                      placeholder="Phone Number"
-                      type="tel"
+                      label='Phone Number'
+                      placeholder='Phone Number'
+                      type='tel'
                       onChange={changeHandler}
-                      name="phoneNumber"
+                      name='phoneNumber'
                       value={formState.phoneNumber}
                       error={errors.phoneNumber}
                     />
                   </Grid>
                   <Grid item>
-                    <label htmlFor="terms">
-                      <Grid container alignItems="center">
+                    <label htmlFor='terms'>
+                      <Grid container alignItems='center'>
                         <Grid item>
                           <input
-                            name="terms"
-                            type="checkbox"
+                            name='terms'
+                            type='checkbox'
                             onChange={changeHandler}
                             errors={errors}
                           />
@@ -412,17 +403,16 @@ function Signup() {
                   </Grid>
                   <Grid item className={classes.formGridItem}>
                     <Button
-                      variant="contained"
-                      color="secondary"
+                      variant='contained'
+                      color='secondary'
                       style={{ color: 'white', width: '100%' }}
                       onClick={formSubmit}
                       className={classes.button}
-                      disabled={buttonDisabled}
-                    >
+                      disabled={buttonDisabled}>
                       {loading ? (
                         <CircularProgress style={{ color: 'white' }} />
                       ) : (
-                        <Typography variant="button">Sign Up</Typography>
+                        <Typography variant='button'>Sign Up</Typography>
                       )}
                     </Button>
                   </Grid>
@@ -430,12 +420,11 @@ function Signup() {
               </form>
             </Grid>
             <Grid item>
-              <Typography variant="subtitle2">
+              <Typography variant='subtitle2'>
                 Need to{' '}
                 <Link
-                  to="/login"
-                  style={{ color: '#109fff', textDecoration: 'none' }}
-                >
+                  to='/login'
+                  style={{ color: '#109fff', textDecoration: 'none' }}>
                   Log in
                 </Link>
                 ?

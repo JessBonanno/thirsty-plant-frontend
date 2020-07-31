@@ -8,10 +8,7 @@ export const axiosWithAuth = () => {
   //  get the token from localStorage
   const token = window.localStorage.getItem('token');
   // create a new instance of axios with the config object
-  const cloudinaryAPI = axios.create({
-    timeout: 10000,
-    baseURL: `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
-  });
+
   const backendAPI = axios.create({
     timeout: 10000,
     headers: {

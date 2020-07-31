@@ -1,21 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import { useHistory } from 'react-router-dom';
-import Input from './Input.js';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import theme from './ui/Theme';
 import { CircularProgress } from '@material-ui/core';
-// Local imports
-import { PlantContext } from '../contexts/PlantContext';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -80,6 +74,7 @@ function EditUser() {
   }
   useEffect(() => {
     getUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const phoneRegex = RegExp(
@@ -144,6 +139,7 @@ function EditUser() {
   }
   useEffect(() => {
     getUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function phoneSubmit(e) {

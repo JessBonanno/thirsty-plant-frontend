@@ -33,7 +33,6 @@ export default function DeleteDialog({
   setPlants,
   setIsReloading,
 }) {
-  console.log('id: ', id);
   const { handleDialogClose } = useContext(PlantContext);
   const userId = localStorage.getItem('userId');
 

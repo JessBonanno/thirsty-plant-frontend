@@ -11,7 +11,6 @@ import { PlantContext } from '../contexts/PlantContext';
 const PrivateRoute = ({ component: Component, ...rest }) => {
   // const { userId } = useContext(PlantContext);
   const token = window.localStorage.getItem('token');
-  console.log(token);
   return (
     <Route
       {...rest}

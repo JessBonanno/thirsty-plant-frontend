@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,8 +17,6 @@ import theme from '../components/ui/Theme';
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
 
-// context
-import { PlantContext } from '../contexts/PlantContext';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
@@ -60,7 +58,6 @@ const PlantCard = props => {
   };
 
   const handleDialogOpen = () => {
-    console.log('test');
     setDialogOpen(true);
   };
 
@@ -105,9 +102,7 @@ const PlantCard = props => {
     h2oFrequency,
     'days'
   );
-  console.log(getWateringDate);
   const nextWatering = moment(getWateringDate).format('ll');
-  console.log(nextWatering);
 
   return (
     <>
