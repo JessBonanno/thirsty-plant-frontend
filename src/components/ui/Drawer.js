@@ -20,6 +20,7 @@ import { PlantContext } from '../../contexts/PlantContext';
  */
 const FooterDrawer = () => {
   const { pathname } = useLocation();
+  const userId = localStorage.getItem('userId');
   const useStyles = makeStyles(theme => ({
     list: {
       width: 250,
@@ -186,54 +187,65 @@ const FooterDrawer = () => {
         </IconButton>
       </ListItem>
       <List>
-        <ListItem button component={Link} to='/login'>
-          <ListItemText>
-            <Typography
-              variant='p'
-              primary='Settings'
-              style={{
-                fontFamily: 'Raleway',
-              }}>
-              Login
-            </Typography>
-          </ListItemText>
-        </ListItem>
-        <ListItem button component={Link} to='/signup'>
-          <ListItemText>
-            <Typography
-              variant='p'
-              primary='Settings'
-              style={{
-                fontFamily: 'Raleway',
-              }}>
-              Sign Up
-            </Typography>
-          </ListItemText>
-        </ListItem>
-        <ListItem button component={Link} to='/settings'>
-          <ListItemText>
-            <Typography
-              variant='p'
-              primary='Settings'
-              style={{
-                fontFamily: 'Raleway',
-              }}>
-              Settings
-            </Typography>
-          </ListItemText>
-        </ListItem>
-        <ListItem button component={Link} to='/login' onClick={handleLogout}>
-          <ListItemText>
-            <Typography
-              variant='p'
-              primary='Settings'
-              style={{
-                fontFamily: 'Raleway',
-              }}>
-              Logout
-            </Typography>
-          </ListItemText>
-        </ListItem>
+        {!userId ? (
+          <>
+            <ListItem button component={Link} to='/login'>
+              <ListItemText>
+                <Typography
+                  variant='p'
+                  primary='Settings'
+                  style={{
+                    fontFamily: 'Raleway',
+                  }}>
+                  Login
+                </Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem button component={Link} to='/signup'>
+              <ListItemText>
+                <Typography
+                  variant='p'
+                  primary='Settings'
+                  style={{
+                    fontFamily: 'Raleway',
+                  }}>
+                  Sign Up
+                </Typography>
+              </ListItemText>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem button component={Link} to='/settings'>
+              <ListItemText>
+                <Typography
+                  variant='p'
+                  primary='Settings'
+                  style={{
+                    fontFamily: 'Raleway',
+                  }}>
+                  Settings
+                </Typography>
+              </ListItemText>
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to='/login'
+              onClick={handleLogout}>
+              <ListItemText>
+                <Typography
+                  variant='p'
+                  primary='Settings'
+                  style={{
+                    fontFamily: 'Raleway',
+                  }}>
+                  Logout
+                </Typography>
+              </ListItemText>
+            </ListItem>
+          </>
+        )}
       </List>
     </div>
   );

@@ -245,7 +245,7 @@ function Signup() {
         `https://bw-water-my-plants.herokuapp.com/api/users`,
         formState
       );
-      console.log(res);
+      console.log('signup response:', res);
       localStorage.setItem('userId', res.data.newUser.id);
     } catch (err) {
       setLoading(false);
@@ -261,7 +261,7 @@ function Signup() {
         formState
       );
 
-      console.log(res);
+      console.log('login response:', res);
       localStorage.setItem('token', res.data.token);
       // localStorage.setItem('userId', res.data.user.id);
       setLoading(false);

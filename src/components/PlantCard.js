@@ -207,7 +207,9 @@ const PlantCard = props => {
                     Next watering:
                   </Typography>
                   <Typography variant='body1' color='textSecondary'>
-                    {nextWatering}
+                    {nextWatering !== 'Invalid date'
+                      ? nextWatering
+                      : 'Water to start tracking'}
                   </Typography>
                   <Grid container justify='space-between' alignItems='center'>
                     <Grid item style={{ width: '70%' }}>
@@ -215,7 +217,9 @@ const PlantCard = props => {
                         Last watering:
                       </Typography>
                       <Typography variant='body1' color='textSecondary'>
-                        {moment(lastWatered).format('lll')}
+                        {moment(lastWatered).format('lll') !== 'Invalid date'
+                          ? moment(lastWatered).format('lll')
+                          : 'Never watered'}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>

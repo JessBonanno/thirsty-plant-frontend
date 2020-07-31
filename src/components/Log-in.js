@@ -190,7 +190,7 @@ function Login() {
         'https://bw-water-my-plants.herokuapp.com/api/users/login',
         formState
       );
-
+      console.log('login response:', res);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userId', res.data.user.id);
       setLoading(false);

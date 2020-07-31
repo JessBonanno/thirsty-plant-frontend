@@ -142,6 +142,7 @@ export default function TransitionsModal(props) {
         species: '',
         nickname: '',
         h2oFrequency: '',
+        imageUrl: '',
       });
 
       setIsReloading(true);
