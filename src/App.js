@@ -24,7 +24,10 @@ function App() {
         <Route path='/login' component={Login} />
         <Route path='/Signup' component={Signup} />
         <PrivateRoute path='/settings' component={EditUser} />
-        <PrivateRoute path='/dashboard' component={Dashboard} />
+        <PrivateRoute
+          path='/dashboard'
+          component={localStorage.getItem('userId') && Dashboard}
+        />
       </div>
       <Hidden mdUp>
         <Footer />

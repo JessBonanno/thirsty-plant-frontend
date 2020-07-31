@@ -33,11 +33,10 @@ const useStyles = makeStyles(theme => ({
 export default function DenseAppBar() {
   const { pathname } = useLocation();
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
   const userId = localStorage.getItem('userId');
 
   const handleAccountsClick = e => {
-    console.log(e.currentTarget);
     setAnchorEl(e.currentTarget);
   };
 
@@ -153,100 +152,112 @@ export default function DenseAppBar() {
                     </a>
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Button
-                    component={Link}
-                    to='/login'
-                    color='inherit'
-                    style={{
-                      color:
-                        pathname === '/login' || pathname === '/signup'
-                          ? theme.palette.common.lightGreen
-                          : 'white',
-                    }}>
-                    Login
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    component={Link}
-                    to='/signup'
-                    color='inherit'
-                    style={{
-                      color:
-                        pathname === '/login' || pathname === '/signup'
-                          ? theme.palette.common.lightGreen
-                          : 'white',
-                    }}>
-                    Sign Up
-                  </Button>
-                </Grid>
 
-                <Grid item>
-                  <IconButton
-                    id='popoverAnchor'
-                    style={{
-                      color:
-                        pathname === '/login' || pathname === '/signup'
-                          ? theme.palette.common.lightGreen
-                          : 'white',
-                    }}
-                    onClick={handleAccountsClick}>
-                    <AccountCircleTwoToneIcon />
-                  </IconButton>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                    onClose={handleClose}>
-                    <List
-                      dense={true}
-                      style={{
-                        backgroundColor: theme.palette.primary.main,
-                        color: 'white',
-                        borderRadius: 0,
-                        width: 150,
-                      }}>
-                      <ListItem component={Link} to='/settings'>
-                        <ListItemText>
-                          <Typography
-                            variant='p'
-                            style={{
-                              fontFamily: 'Raleway',
-                              fontSize: '1.2rem',
-                              color: 'white',
-                              textDecoration: 'none',
-                            }}>
-                            Settings
-                          </Typography>
-                        </ListItemText>
-                      </ListItem>
-                      <Divider />
-                      <ListItem component={Link} to='/' onClick={handleLogout}>
-                        <ListItemText>
-                          <Typography
-                            variant='p'
-                            style={{
-                              fontFamily: 'Raleway',
-                              fontSize: '1.2rem',
-                              color: 'white',
-                              textDecoration: 'none',
-                            }}>
-                            Logout
-                          </Typography>
-                        </ListItemText>
-                      </ListItem>
-                    </List>
-                  </Popover>
-                </Grid>
+                {!userId ? (
+                  <>
+                    <Grid item>
+                      <Button
+                        component={Link}
+                        to='/login'
+                        color='inherit'
+                        style={{
+                          color:
+                            pathname === '/login' || pathname === '/signup'
+                              ? theme.palette.common.lightGreen
+                              : 'white',
+                        }}>
+                        Login
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        component={Link}
+                        to='/signup'
+                        color='inherit'
+                        style={{
+                          color:
+                            pathname === '/login' || pathname === '/signup'
+                              ? theme.palette.common.lightGreen
+                              : 'white',
+                        }}>
+                        Sign Up
+                      </Button>
+                    </Grid>
+                  </>
+                ) : (
+                  <>
+                    <Grid item>
+                      <IconButton
+                        id='popoverAnchor'
+                        style={{
+                          color:
+                            pathname === '/login' || pathname === '/signup'
+                              ? theme.palette.common.lightGreen
+                              : 'white',
+                        }}
+                        onClick={handleAccountsClick}>
+                        <AccountCircleTwoToneIcon />
+                      </IconButton>
+                      <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                        }}
+                        onClose={handleClose}>
+                        <List
+                          dense={true}
+                          style={{
+                            backgroundColor: theme.palette.primary.main,
+                            color: 'white',
+                            borderRadius: 0,
+                            width: 150,
+                          }}>
+                          <ListItem component={Link} to='/settings'>
+                            <ListItemText>
+                              <Typography
+                                onClick={handleClose}
+                                variant='p'
+                                style={{
+                                  fontFamily: 'Raleway',
+                                  fontSize: '1.2rem',
+                                  color: 'white',
+                                  textDecoration: 'none',
+                                }}>
+                                Settings
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                          <Divider />
+                          <ListItem
+                            component={Link}
+                            to='/'
+                            onClick={handleLogout}>
+                            <ListItemText>
+                              <Typography
+                                onClick={handleClose}
+                                variant='p'
+                                style={{
+                                  fontFamily: 'Raleway',
+                                  fontSize: '1.2rem',
+                                  color: 'white',
+                                  textDecoration: 'none',
+                                }}>
+                                Logout
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                        </List>
+                      </Popover>
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
           </Grid>
