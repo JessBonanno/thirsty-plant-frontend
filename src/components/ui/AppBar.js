@@ -43,7 +43,7 @@ export default function DenseAppBar() {
   };
 
   const popover = (
-    <PopupState variant='popover' popupId='demo-popup-popover'>
+    <PopupState variant="popover" popupId="demo-popup-popover">
       {popupState => (
         <div>
           <IconButton
@@ -55,7 +55,8 @@ export default function DenseAppBar() {
             }}
             // variant='contained'
             // color='primary'
-            {...bindTrigger(popupState)}>
+            {...bindTrigger(popupState)}
+          >
             <AccountCircleTwoToneIcon />
           </IconButton>
           <Popover
@@ -67,7 +68,8 @@ export default function DenseAppBar() {
             transformOrigin={{
               vertical: 'top',
               horizontal: 'center',
-            }}>
+            }}
+          >
             <Box
               p={2}
               style={{
@@ -76,7 +78,8 @@ export default function DenseAppBar() {
                     ? 'white'
                     : theme.palette.common.lightGreen,
                 padding: 0,
-              }}>
+              }}
+            >
               <List
                 dense={true}
                 style={{
@@ -87,32 +90,35 @@ export default function DenseAppBar() {
                       : 'white',
                   borderRadius: 0,
                   width: 150,
-                }}>
-                <ListItem component={Link} to='/settings'>
+                }}
+              >
+                <ListItem component={Link} to="/settings">
                   <ListItemText>
                     <Typography
-                      variant='p'
+                      variant="p"
                       style={{
                         fontFamily: 'Raleway',
                         fontSize: '1.2rem',
                         color: 'white',
                         textDecoration: 'none',
-                      }}>
+                      }}
+                    >
                       Settings
                     </Typography>
                   </ListItemText>
                 </ListItem>
                 <Divider />
-                <ListItem component={Link} to='/' onClick={handleLogout}>
+                <ListItem component={Link} to="/" onClick={handleLogout}>
                   <ListItemText>
                     <Typography
-                      variant='p'
+                      variant="p"
                       style={{
                         fontFamily: 'Raleway',
                         fontSize: '1.2rem',
                         color: 'white',
                         textDecoration: 'none',
-                      }}>
+                      }}
+                    >
                       Logout
                     </Typography>
                   </ListItemText>
@@ -127,15 +133,16 @@ export default function DenseAppBar() {
   return (
     <div className={classes.root}>
       <AppBar
-        position='static'
+        position="static"
         style={{
           backgroundColor:
             (pathname === '/login' || pathname === '/signup') && 'white',
-        }}>
-        <Toolbar variant='dense'>
-          <Grid container justify='space-between'>
+        }}
+      >
+        <Toolbar variant="dense">
+          <Grid container justify="space-between">
             <Grid item>
-              <Grid container alignItems='center' style={{ marginTop: 5 }}>
+              <Grid container alignItems="center" style={{ marginTop: 5 }}>
                 <Grid item>
                   <img
                     src={
@@ -143,21 +150,22 @@ export default function DenseAppBar() {
                         ? require('../../assets/images/logo.png')
                         : require('../../assets/images/logo-white.png')
                     }
-                    alt='logo'
+                    alt="logo"
                     style={{ height: 30, width: 30, marginRight: 10 }}
                   />
                 </Grid>
 
                 <Grid item>
                   <Typography
-                    variant='h6'
-                    color='inherit'
+                    variant="h6"
+                    color="inherit"
                     style={{
                       color:
                         pathname === '/login' || pathname === '/signup'
                           ? theme.palette.common.lightGreen
                           : 'white',
-                    }}>
+                    }}
+                  >
                     Water My Plants
                   </Typography>
                 </Grid>
@@ -166,7 +174,7 @@ export default function DenseAppBar() {
             <Grid item>
               <Grid container>
                 <Grid item>
-                  <Button color='inherit'>
+                  <Button color="inherit">
                     <a
                       style={{
                         textDecoration: 'none',
@@ -175,7 +183,8 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href='https://watermyplantsjuly2020.netlify.app/'>
+                      href="https://watermyplantsjuly2020.netlify.app/"
+                    >
                       Home
                     </a>
                   </Button>
@@ -183,19 +192,35 @@ export default function DenseAppBar() {
                 <Grid item>
                   <Button
                     component={Link}
-                    to='/dashboard'
-                    color='inherit'
+                    to="/dashboard"
+                    color="inherit"
                     style={{
                       color:
                         pathname === '/login' || pathname === '/signup'
                           ? theme.palette.common.lightGreen
                           : 'white',
-                    }}>
+                    }}
+                  >
                     Dashboard
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button color='inherit'>
+                  <Button
+                    component={Link}
+                    to="/find-my-plant"
+                    color="inherit"
+                    style={{
+                      color:
+                        pathname === '/login' || pathname === '/signup'
+                          ? theme.palette.common.lightGreen
+                          : 'white',
+                    }}
+                  >
+                    Find My Plant
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button color="inherit">
                     <a
                       style={{
                         textDecoration: 'none',
@@ -204,13 +229,14 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href='https://watermyplantsjuly2020.netlify.app/about.html'>
+                      href="https://watermyplantsjuly2020.netlify.app/about.html"
+                    >
                       About Us
                     </a>
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button color='inherit'>
+                  <Button color="inherit">
                     <a
                       style={{
                         textDecoration: 'none',
@@ -219,7 +245,8 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href='https://watermyplantsjuly2020.netlify.app/guide.html'>
+                      href="https://watermyplantsjuly2020.netlify.app/guide.html"
+                    >
                       Learn
                     </a>
                   </Button>
@@ -230,28 +257,30 @@ export default function DenseAppBar() {
                     <Grid item>
                       <Button
                         component={Link}
-                        to='/login'
-                        color='inherit'
+                        to="/login"
+                        color="inherit"
                         style={{
                           color:
                             pathname === '/login' || pathname === '/signup'
                               ? theme.palette.common.lightGreen
                               : 'white',
-                        }}>
+                        }}
+                      >
                         Login
                       </Button>
                     </Grid>
                     <Grid item>
                       <Button
                         component={Link}
-                        to='/signup'
-                        color='inherit'
+                        to="/signup"
+                        color="inherit"
                         style={{
                           color:
                             pathname === '/login' || pathname === '/signup'
                               ? theme.palette.common.lightGreen
                               : 'white',
-                        }}>
+                        }}
+                      >
                         Sign Up
                       </Button>
                     </Grid>
