@@ -16,6 +16,7 @@ import theme from '../components/ui/Theme';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
+import placeholderImage from '../assets/images/placholder-plant.jpg';
 
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
@@ -110,7 +111,7 @@ const PlantCard = props => {
         id={id}
         nickname={nickname}
         species={species}
-        currentImageUrl={imageUrl}
+        currentImageUrl={imageUrl === '' ? placeholderImage : imageUrl}
         h2oFrequency={h2oFrequency}
         editModalOpen={editModalOpen}
         setEditModalOpen={setEditModalOpen}
@@ -129,27 +130,29 @@ const PlantCard = props => {
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
-              justify='space-between'
-              alignItems='center'
+              justify="space-between"
+              alignItems="center"
               className={classes.cardHeaderContainer}
-              style={{ padding: '0 1em' }}>
+              style={{ padding: '0 1em' }}
+            >
               <Grid item>
-                <Typography gutterBottom variant='h4'>
+                <Typography gutterBottom variant="h4">
                   {nickname}
                 </Typography>
               </Grid>
               <Grid item>
                 <IconButton
                   style={{ marginBottom: '.25em' }}
-                  onClick={handleDialogOpen}>
+                  onClick={handleDialogOpen}
+                >
                   <DeleteTwoToneIcon style={{ color: 'red' }} />
                 </IconButton>
               </Grid>
             </Grid>
             <CardMedia
               className={classes.media}
-              image={imageUrl}
-              title='Contemplative Reptile'
+              image={imageUrl === '' ? placeholderImage : imageUrl}
+              title="Contemplative Reptile"
               style={{
                 marginBottom: '1em',
                 height: 167,
@@ -159,25 +162,29 @@ const PlantCard = props => {
             <Grid
               item
               container
-              justify='space-between'
+              justify="space-between"
               style={{ padding: '0 1em' }}
-              className={classes.bottomContainer}>
+              className={classes.bottomContainer}
+            >
               <Grid
                 item
                 container
-                align='left'
+                align="left"
                 className={classes.bottomInfo}
-                direction='column'>
+                direction="column"
+              >
                 <Grid
                   container
-                  direction='row'
-                  justify='space-between'
-                  alignItems='center'>
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
+                >
                   <Grid item style={{ margin: 0, maxWidth: '70%' }}>
                     <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0 }}>
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
                       {species}
                     </Typography>
                   </Grid>
@@ -187,19 +194,22 @@ const PlantCard = props => {
                       marginLeft: 'auto',
                       marginTop: 'auto',
                       maxWidth: '25%',
-                    }}>
-                    <Grid container direction='row' alignItems='center'>
+                    }}
+                  >
+                    <Grid container direction="row" alignItems="center">
                       <Grid item>
                         <IconButton
                           style={{ marginBottom: '.25em', paddingRight: 10 }}
-                          onClick={handleEditModalOpen}>
+                          onClick={handleEditModalOpen}
+                        >
                           <EditTwoToneIcon />
                         </IconButton>
                       </Grid>
                       <Grid item style={{ marginLeft: 'auto' }}>
                         <Typography
-                          variant='iconButtonText'
-                          className={classes.iconButtonText}>
+                          variant="iconButtonText"
+                          className={classes.iconButtonText}
+                        >
                           Edit
                         </Typography>
                       </Grid>
@@ -207,37 +217,41 @@ const PlantCard = props => {
                   </Grid>
                 </Grid>
                 <Grid item style={{ margin: 0, padding: '1em 0' }}>
-                  <Typography variant='h6' color='textSecondary'>
+                  <Typography variant="h6" color="textSecondary">
                     Next watering:
                   </Typography>
-                  <Typography variant='body1' color='textSecondary'>
+                  <Typography variant="body1" color="textSecondary">
                     {nextWatering !== 'Invalid date'
                       ? nextWatering
                       : 'Water to start tracking'}
                   </Typography>
-                  <Grid container justify='space-between' alignItems='center'>
+                  <Grid container justify="space-between" alignItems="center">
                     <Grid item style={{ width: '70%' }}>
-                      <Typography variant='h6' color='textSecondary'>
+                      <Typography variant="h6" color="textSecondary">
                         Last watering:
                       </Typography>
-                      <Typography variant='body1' color='textSecondary'>
+                      <Typography variant="body1" color="textSecondary">
                         {moment(lastWatered).format('lll') !==
                         'Invalid date' ? (
                           moment(lastWatered).format('lll')
                         ) : (
                           <>
                             Never watered{'   '}
-                            <i class='fas fa-skull-crossbones' style={{color: 'rgba(0, 0, 0, 0.54)'}}></i>
+                            <i
+                              class="fas fa-skull-crossbones"
+                              style={{ color: 'rgba(0, 0, 0, 0.54)' }}
+                            ></i>
                           </>
                         )}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
-                      <Grid container direction='column' alignItems='center'>
+                      <Grid container direction="column" alignItems="center">
                         <Grid item>
                           <IconButton
                             style={{ padding: 5 }}
-                            onClick={submitWatering}>
+                            onClick={submitWatering}
+                          >
                             <InvertColorsTwoToneIcon
                               style={{ color: theme.palette.common.blue }}
                             />
@@ -245,8 +259,9 @@ const PlantCard = props => {
                         </Grid>
                         <Grid item>
                           <Typography
-                            variant='iconButtonText'
-                            className={classes.iconButtonText}>
+                            variant="iconButtonText"
+                            className={classes.iconButtonText}
+                          >
                             Water Now
                           </Typography>
                         </Grid>
