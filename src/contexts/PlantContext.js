@@ -19,9 +19,12 @@ export const PlantProvider = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userId, setUserId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   let image;
   const handleUpload = async e => {
+    setUploading(true);
+    console.log('test:');
     image = e.target.files[0];
     const data = new FormData();
     data.append('file', image);
@@ -33,8 +36,8 @@ export const PlantProvider = ({ children }) => {
       data
     );
 
-    const file = await res;
     setImageUrl(res.data.url);
+    setUploading(false);
   };
   const handleAddModalClose = () => {
     setAddModalOpen(false);
@@ -63,6 +66,8 @@ export const PlantProvider = ({ children }) => {
         imageUrl,
         setImageUrl,
         handleUpload,
+        uploading,
+        setUploading,
         handleAddModalClose,
         handleAddModalOpen,
         addModalOpen,
@@ -77,8 +82,7 @@ export const PlantProvider = ({ children }) => {
         setUserId,
         submitted,
         setSubmitted,
-      }}
-    >
+      }}>
       {children}
     </PlantContext.Provider>
   );
