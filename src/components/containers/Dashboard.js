@@ -76,8 +76,19 @@ const Dashboard = () => {
 
   const [plants, setPlants] = useState([]);
   const [isReloading, setIsReloading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPlants, setFilteredPlants] = useState([]);
+  const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
+    if (searchTerm === '') {
+      getPlants();
+    }
+
+    // handleEmptyResults();
+  }, [searchTerm]);
+
+  const getPlants = () => {
     setIsReloading(true);
     const userId = localStorage.getItem('userId');
     axiosWithAuth()
@@ -88,8 +99,47 @@ const Dashboard = () => {
         setPlants(res.data.plants);
         setIsReloading(false);
       });
-  }, []);
+  };
 
+  const handleSearchTerm = e => {
+    setSearchTerm(e.target.value);
+    console.log(searchTerm);
+    // search();
+  };
+
+  useEffect(() => {
+    search();
+  }, [searchTerm]);
+
+  const search = async () => {
+    const cleaned = searchTerm.toLowerCase();
+    if (plants) {
+      const newPlants = await setPlants(
+        plants.filter(plant => {
+          return (
+            plant.nickname.toLowerCase().includes(cleaned) ||
+            plant.species.toLowerCase().includes(cleaned)
+          );
+        })
+      );
+      return newPlants;
+    } else {
+      getPlants();
+    }
+  };
+  // let plantCount = [];
+  // function handleEmptyResults() {
+  //   if (plants.length === 0 || plants === []) {
+  //     plantCount = getPlants();
+  //     if (plantCount === undefined || plantCount.length > 0) {
+  //       setNoResults(false);
+  //     } else {
+  //       setNoResults(true);
+  //     }
+  //   }
+  // }
+
+  console.log(noResults);
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />
@@ -100,15 +150,17 @@ const Dashboard = () => {
       />
       <Grid
         container
-        direction='column'
-        alignItems='center'
-        className={classes.dashContainer}>
+        direction="column"
+        alignItems="center"
+        className={classes.dashContainer}
+      >
         {/* ----- Page Header ---- */}
         <Grid item style={{ margin: '1em', marginRight: 'auto' }}>
           <Typography
-            variant='h2'
+            variant="h2"
             className={classes.dashboardHeader}
-            style={{ fontSize: '2rem' }}>
+            style={{ fontSize: '2rem' }}
+          >
             My Plants
           </Typography>
         </Grid>
@@ -117,18 +169,19 @@ const Dashboard = () => {
           item
           container
           direction={matchesXS ? 'column' : 'row'}
-          justify='space-between'
+          justify="space-between"
           alignItems={matchesXS ? 'center' : undefined}
           className={classes.toolsContainer}
           style={{
             padding: 15,
-          }}>
+          }}
+        >
           {plants && plants.length !== 0 && (
             <>
               <Grid item>
                 <Button
-                  variant='contained'
-                  color='secondary'
+                  variant="contained"
+                  color="secondary"
                   style={{
                     color: 'white',
                     marginBottom: matchesXS ? '1em' : undefined,
@@ -136,44 +189,49 @@ const Dashboard = () => {
                     borderRadius: 0,
                     display: matchesXS ? 'none' : 'block',
                   }}
-                  onClick={handleAddModalOpen}>
+                  onClick={handleAddModalOpen}
+                >
                   Add New Plant
                 </Button>
               </Grid>
               <Grid item>
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
+                <form onSubmit={() => search}>
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      style={{
+                        margin: 0,
+                      }}
+                      inputProps={{ 'aria-label': 'search' }}
+                      onChange={handleSearchTerm}
+                    />
                   </div>
-                  <InputBase
-                    placeholder='Search…'
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    style={{
-                      margin: 0,
-                    }}
-                    inputProps={{ 'aria-label': 'search' }}
-                  />
-                </div>
+                </form>
               </Grid>
             </>
           )}
         </Grid>
         {isReloading ? (
-          <Typography variant='h3'>Fetching plant data...</Typography>
+          <Typography variant="h3">Fetching plant data...</Typography>
         ) : (
           <Grid
             item
             container
-            direction='row'
-            justify='center'
-            className={classes.cardsContainer}>
+            direction="row"
+            justify="center"
+            className={classes.cardsContainer}
+          >
             {plants && plants.length !== 0 ? (
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
-                <Grid item xs={12} sm={6} md={4} lg={3} align='center'>
+                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
                   <PlantCard
                     key={item.id}
                     nickname={item.nickname}
@@ -187,22 +245,88 @@ const Dashboard = () => {
                   />
                 </Grid>
               ))
+            ) : searchTerm !== '' ? (
+              <>
+                <Grid
+                  item
+                  container
+                  direction={matchesXS ? 'column' : 'row'}
+                  justify="space-between"
+                  alignItems={matchesXS ? 'center' : undefined}
+                  className={classes.toolsContainer}
+                  style={{
+                    padding: 15,
+                  }}
+                >
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{
+                        color: 'white',
+                        marginBottom: matchesXS ? '1em' : undefined,
+                        width: matchesXS && '100%',
+                        borderRadius: 0,
+                        display: matchesXS ? 'none' : 'block',
+                      }}
+                      onClick={handleAddModalOpen}
+                    >
+                      Add New Plant
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <form onSubmit={() => search}>
+                      <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                          <SearchIcon />
+                        </div>
+                        <InputBase
+                          placeholder="Search…"
+                          classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                          }}
+                          style={{
+                            margin: 0,
+                          }}
+                          inputProps={{ 'aria-label': 'search' }}
+                          onChange={handleSearchTerm}
+                        />
+                      </div>
+                    </form>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="h3"
+                    align="center"
+                    style={{
+                      margin: matchesSM ? '0.5em 0' : '1em 0',
+                      padding: matchesSM ? '1em' : '2em',
+                      fontSize: matchesSM && '2.2rem',
+                    }}
+                  >
+                    No search results, please try again
+                  </Typography>
+                </Grid>
+              </>
             ) : (
               <Grid item>
                 <Typography
-                  variant='h3'
-                  align='center'
+                  variant="h3"
+                  align="center"
                   style={{
                     margin: matchesSM ? '0.5em 0' : '1em 0',
                     padding: matchesSM ? '1em' : '2em',
                     fontSize: matchesSM && '2.2rem',
-                  }}>
+                  }}
+                >
                   Get started, add your first plant now!
                 </Typography>
-                <Grid item align='center'>
+                <Grid item align="center">
                   <Button
-                    variant='contained'
-                    color='secondary'
+                    variant="contained"
+                    color="secondary"
                     style={{
                       color: 'white',
                       marginBottom: matchesXS ? '1em' : undefined,
@@ -210,7 +334,8 @@ const Dashboard = () => {
                       borderRadius: 0,
                       // display: matchesXS ? 'none' : 'block',
                     }}
-                    onClick={handleAddModalOpen}>
+                    onClick={handleAddModalOpen}
+                  >
                     Add New Plant
                   </Button>
                 </Grid>
