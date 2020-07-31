@@ -124,6 +124,9 @@ const PlantCard = props => {
         id={id}
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
+        setPlants={setPlants}
+        setIsReloading={setIsReloading}
+
       />
       <Card className={classes.root} disableRipple>
         <CardActionArea>

@@ -125,13 +125,6 @@ export default function TransitionsModal(props) {
     } catch (err) {
       console.log(err);
     }
-
-    // Get the updated list of plants to populate the plants list
-    // await setFetchParams({
-    //   ...fetchParams,
-    //   method: 'get',
-    //   url: `/users/${userId}/plants`,
-    // });
   };
 
   return (

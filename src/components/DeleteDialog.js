@@ -10,10 +10,11 @@ import Slide from '@material-ui/core/Slide';
 import { PlantContext } from '../contexts/PlantContext';
 
 // api imports
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // transition function from material ui
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 /**
@@ -25,21 +26,50 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @returns {jsx}
  */
 
-export default function DeleteDialog({ id, dialogOpen, setDialogOpen }) {
+export default function DeleteDialog({
+  id,
+  dialogOpen,
+  setDialogOpen,
+  setPlants,
+  setIsReloading,
+}) {
   console.log('id: ', id);
-  const { fetchParams, setFetchParams, handleDialogClose } = useContext(
-    PlantContext
-  );
+  const { handleDialogClose } = useContext(PlantContext);
+  const userId = localStorage.getItem('userId');
 
-  const handleDeletePlant = e => {
+  async function deletePlant() {
+    try {
+      const res = await axiosWithAuth().delete(
+        `https://bw-water-my-plants.herokuapp.com/api/plants/${id}`
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+      setDialogOpen(false);
+    }
+  }
+  async function getPlants() {
+    try {
+      const res = await axiosWithAuth().get(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`
+      );
+      console.log(res);
+      setPlants(res.data.plants);
+    } catch (err) {
+      console.log(err);
+      setIsReloading(false);
+    }
+  }
+
+  const handleDeletePlant = async e => {
     e.preventDefault();
-    setFetchParams({
-      ...fetchParams,
-      // temporary fake url until we get the endpoint from backend
-      url: `/plants/${id}`,
-      method: 'delete',
-    });
-    setDialogOpen(false);
+    try {
+      await deletePlant();
+      setDialogOpen(false);
+      await getPlants();
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <Dialog
@@ -48,20 +78,19 @@ export default function DeleteDialog({ id, dialogOpen, setDialogOpen }) {
       TransitionComponent={Transition}
       keepMounted
       onClose={handleDialogClose}
-      aria-labelledby="delete-plant-dialog"
-      aria-describedby="delete-plant-dialog"
-    >
-      <DialogTitle id="dialog-title">{"Don't kale my vibe!"}</DialogTitle>
+      aria-labelledby='delete-plant-dialog'
+      aria-describedby='delete-plant-dialog'>
+      <DialogTitle id='dialog-title'>{"Don't kale my vibe!"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="dialog-description">
+        <DialogContentText id='dialog-description'>
           Are you sure you want to delete this plant?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDialogClose} color="primary">
+        <Button onClick={handleDialogClose} color='primary'>
           Cancel
         </Button>
-        <Button onClick={handleDeletePlant} color="primary">
+        <Button onClick={handleDeletePlant} color='primary'>
           Delete
         </Button>
       </DialogActions>
