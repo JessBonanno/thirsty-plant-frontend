@@ -196,7 +196,6 @@ function Login() {
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userId', res.data.user.id);
-      setUserId(res.data.user.id);
       setLoading(false);
       setLoading(false);
     } catch (err) {

@@ -88,10 +88,6 @@ const Dashboard = () => {
   useEffect(() => {
     setIsReloading(true);
     const userId = localStorage.getItem('userId');
-    // setFetchParams({
-    //   method: 'get',
-    //   url: `/users/${userId}/plants`,
-    // });
     axiosWithAuth()
       .get(
         `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`

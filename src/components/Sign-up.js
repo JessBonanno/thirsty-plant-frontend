@@ -251,7 +251,7 @@ function Signup() {
         formState
       );
       console.log(res);
-      setUserId(res.data.newUser.id);
+      localStorage.setItem('userId', res.data.newUser.id);
     } catch (err) {
       setLoading(false);
       console.log(err);
@@ -268,7 +268,7 @@ function Signup() {
 
       console.log(res);
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('userId', res.data.user.id);
+      // localStorage.setItem('userId', res.data.user.id);
       setLoggedIn(true);
       setLoading(false);
     } catch (err) {
