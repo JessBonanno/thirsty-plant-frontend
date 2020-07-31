@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,8 +17,7 @@ import theme from '../components/ui/Theme';
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
 
-// context
-import { PlantContext } from '../contexts/PlantContext';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
   root: {
@@ -36,11 +35,21 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
-  const { id, nickname, species, imageUrl, lastWatered, h2oFrequency } = props;
-  const { fetchParams, setFetchParams, useFetch } = useContext(PlantContext);
+  const {
+    id,
+    nickname,
+    species,
+    imageUrl,
+    lastWatered,
+    h2oFrequency,
+    setPlants,
+    setIsReloading,
+  } = props;
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const userId = localStorage.getItem('userId');
 
   const classes = useStyles();
 
@@ -49,21 +58,47 @@ const PlantCard = props => {
   };
 
   const handleDialogOpen = () => {
-    console.log('test');
     setDialogOpen(true);
   };
 
-  console.log(dialogOpen);
+  async function submitWatering() {
+    try {
+      await waterPlant();
+      await getPlants();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-  const waterPlant = () => {
+  async function waterPlant() {
     const wateringDate = new Date(Date.now()).toISOString();
-    setFetchParams({
-      method: 'put',
-      url: `/plants/${id}`,
-      data: { lastWatered: wateringDate },
-    });
-  };
-  const getWateringDate = moment(lastWatered, 'YYYMMDD').add(
+    try {
+      const res = await axiosWithAuth().put(
+        `https://bw-water-my-plants.herokuapp.com/api/plants/${id}`,
+        {
+          lastWatered: wateringDate,
+        }
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getPlants() {
+    try {
+      const res = await axiosWithAuth().get(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`
+      );
+      console.log(res);
+      setPlants(res.data.plants);
+    } catch (err) {
+      console.log(err);
+      setIsReloading(false);
+    }
+  }
+
+  const getWateringDate = moment(lastWatered, 'YYYYMMDD').add(
     h2oFrequency,
     'days'
   );
@@ -79,32 +114,34 @@ const PlantCard = props => {
         h2oFrequency={h2oFrequency}
         editModalOpen={editModalOpen}
         setEditModalOpen={setEditModalOpen}
+        setPlants={setPlants}
+        setIsReloading={setIsReloading}
       />
       <DeleteDialog
         id={id}
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
+        setPlants={setPlants}
+        setIsReloading={setIsReloading}
       />
       <Card className={classes.root} disableRipple>
         <CardActionArea>
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
-              justify="space-between"
-              alignItems="center"
+              justify='space-between'
+              alignItems='center'
               className={classes.cardHeaderContainer}
-              style={{ padding: '0 1em' }}
-            >
+              style={{ padding: '0 1em' }}>
               <Grid item>
-                <Typography gutterBottom variant="h4">
+                <Typography gutterBottom variant='h4'>
                   {nickname}
                 </Typography>
               </Grid>
               <Grid item>
                 <IconButton
                   style={{ marginBottom: '.25em' }}
-                  onClick={handleDialogOpen}
-                >
+                  onClick={handleDialogOpen}>
                   <DeleteTwoToneIcon style={{ color: 'red' }} />
                 </IconButton>
               </Grid>
@@ -112,35 +149,35 @@ const PlantCard = props => {
             <CardMedia
               className={classes.media}
               image={imageUrl}
-              title="Contemplative Reptile"
-              style={{ marginBottom: '1em', height: 167 }}
+              title='Contemplative Reptile'
+              style={{
+                marginBottom: '1em',
+                height: 167,
+                backgroundSize: 'contain',
+              }}
             />
             <Grid
               item
               container
-              justify="space-between"
+              justify='space-between'
               style={{ padding: '0 1em' }}
-              className={classes.bottomContainer}
-            >
+              className={classes.bottomContainer}>
               <Grid
                 item
                 container
-                align="left"
+                align='left'
                 className={classes.bottomInfo}
-                direction="column"
-              >
+                direction='column'>
                 <Grid
                   container
-                  direction="row"
-                  justify="space-between"
-                  alignItems="center"
-                >
+                  direction='row'
+                  justify='space-between'
+                  alignItems='center'>
                   <Grid item style={{ margin: 0, maxWidth: '70%' }}>
                     <Typography
-                      variant="h5"
-                      color="textSecondary"
-                      style={{ margin: 0 }}
-                    >
+                      variant='h5'
+                      color='textSecondary'
+                      style={{ margin: 0 }}>
                       {species}
                     </Typography>
                   </Grid>
@@ -150,22 +187,19 @@ const PlantCard = props => {
                       marginLeft: 'auto',
                       marginTop: 'auto',
                       maxWidth: '25%',
-                    }}
-                  >
-                    <Grid container direction="row" alignItems="center">
+                    }}>
+                    <Grid container direction='row' alignItems='center'>
                       <Grid item>
                         <IconButton
                           style={{ marginBottom: '.25em', paddingRight: 10 }}
-                          onClick={handleEditModalOpen}
-                        >
+                          onClick={handleEditModalOpen}>
                           <EditTwoToneIcon />
                         </IconButton>
                       </Grid>
                       <Grid item style={{ marginLeft: 'auto' }}>
                         <Typography
-                          variant="iconButtonText"
-                          className={classes.iconButtonText}
-                        >
+                          variant='iconButtonText'
+                          className={classes.iconButtonText}>
                           Edit
                         </Typography>
                       </Grid>
@@ -173,28 +207,31 @@ const PlantCard = props => {
                   </Grid>
                 </Grid>
                 <Grid item style={{ margin: 0, padding: '1em 0' }}>
-                  <Typography variant="h6" color="textSecondary">
+                  <Typography variant='h6' color='textSecondary'>
                     Next watering:
                   </Typography>
-                  <Typography variant="body1" color="textSecondary">
-                    {nextWatering}
+                  <Typography variant='body1' color='textSecondary'>
+                    {nextWatering !== 'Invalid date'
+                      ? nextWatering
+                      : 'Water to start tracking'}
                   </Typography>
-                  <Grid container justify="space-between" alignItems="center">
+                  <Grid container justify='space-between' alignItems='center'>
                     <Grid item style={{ width: '70%' }}>
-                      <Typography variant="h6" color="textSecondary">
+                      <Typography variant='h6' color='textSecondary'>
                         Last watering:
                       </Typography>
-                      <Typography variant="body1" color="textSecondary">
-                        {moment(lastWatered).format('lll')}
+                      <Typography variant='body1' color='textSecondary'>
+                        {moment(lastWatered).format('lll') !== 'Invalid date'
+                          ? moment(lastWatered).format('lll')
+                          : 'Never watered'}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
-                      <Grid container direction="column" alignItems="center">
+                      <Grid container direction='column' alignItems='center'>
                         <Grid item>
                           <IconButton
                             style={{ padding: 5 }}
-                            onClick={waterPlant}
-                          >
+                            onClick={submitWatering}>
                             <InvertColorsTwoToneIcon
                               style={{ color: theme.palette.common.blue }}
                             />
@@ -202,9 +239,8 @@ const PlantCard = props => {
                         </Grid>
                         <Grid item>
                           <Typography
-                            variant="iconButtonText"
-                            className={classes.iconButtonText}
-                          >
+                            variant='iconButtonText'
+                            className={classes.iconButtonText}>
                             Water Now
                           </Typography>
                         </Grid>

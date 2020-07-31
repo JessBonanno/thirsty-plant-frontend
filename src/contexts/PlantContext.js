@@ -2,8 +2,6 @@ import React, { createContext, useState } from 'react';
 import theme from '../components/ui/Theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
-import useFetch from '../hooks/useFetch';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 export const PlantContext = createContext({});
 
@@ -13,12 +11,6 @@ export const PlantProvider = ({ children }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
-  //   useFetch param state
-  const [fetchParams, setFetchParams] = useState({
-    method: '',
-    url: ' ',
-    data: '',
-  });
 
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -30,7 +22,6 @@ export const PlantProvider = ({ children }) => {
 
   let image;
   const handleUpload = async e => {
-    console.log('handleUpload run');
     image = e.target.files[0];
     const data = new FormData();
     data.append('file', image);
@@ -44,7 +35,6 @@ export const PlantProvider = ({ children }) => {
 
     const file = await res;
     setImageUrl(res.data.url);
-    console.log('imageUrl from handleUpload: ', imageUrl);
   };
   const handleAddModalClose = () => {
     setAddModalOpen(false);
@@ -68,13 +58,6 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
-  const { response, isLoading, setIsLoading, error } = useFetch({
-    api: axiosWithAuth(),
-    method: fetchParams.method,
-    url: fetchParams.url,
-    data: fetchParams.data,
-  });
-
   return (
     <PlantContext.Provider
       value={{
@@ -82,8 +65,6 @@ export const PlantProvider = ({ children }) => {
         matchesSM,
         matchesMD,
         matchesLG,
-        fetchParams,
-        setFetchParams,
         drawerOpen,
         setDrawerOpen,
         imageUrl,
@@ -101,17 +82,11 @@ export const PlantProvider = ({ children }) => {
         handleEdiModalClose,
         handleEditModalOpen,
         handleDialogOpen,
-        response,
-        error,
-        isLoading,
-        setIsLoading,
-        useFetch,
         userId,
         setUserId,
         submitted,
         setSubmitted,
-      }}
-    >
+      }}>
       {children}
     </PlantContext.Provider>
   );

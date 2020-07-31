@@ -1,24 +1,18 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import { useHistory } from 'react-router-dom';
-import Input from './Input.js';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import theme from './ui/Theme';
 import { CircularProgress } from '@material-ui/core';
-// Local imports
-import { PlantContext } from '../contexts/PlantContext';
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -49,16 +43,7 @@ function EditUser() {
   const [openPhoneSnackbar, setOpenPhoneSnackbar] = useState(false);
   const [openPasswordSnackbar, setOpenPasswordSnackbar] = useState(false);
 
-  const history = useHistory();
-  const {
-    fetchParams,
-    setFetchParams,
-    response,
-    setResponse,
-    isLoading,
-  } = useContext(PlantContext);
   const classes = useStyles();
-  let gsapAnimationChangePass = useRef(null);
   const defaultState = {
     phoneNumber: '',
     password: '',
@@ -73,21 +58,24 @@ function EditUser() {
   });
   const userId = localStorage.getItem('userId');
 
-  useEffect(() => {
-    setFetchParams({
-      method: 'get',
-      url: `/users/${userId}`,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (response !== null && response.user) {
+  async function getUser() {
+    try {
+      const res = await axiosWithAuth().get(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}`
+      );
       setFormState({
-        ...formState,
-        phoneNumber: response.user.phoneNumber,
+        ...defaultState,
+        phoneNumber: res.data.user.phoneNumber,
       });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
-  }, [response]);
+  }
+  useEffect(() => {
+    getUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const phoneRegex = RegExp(
     /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
@@ -126,32 +114,35 @@ function EditUser() {
       );
   };
 
-  const phoneSubmit = e => {
-    e.preventDefault();
-
-    const value =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setFormState({
-      ...formState,
-      [e.target.name]: value,
-    });
+  async function editPhone() {
     setPhoneSaveLoading(true);
     const phoneNumber = formState.phoneNumber.replace(
       /(\d{3})(\d{3})(\d{4})/,
       '($1)-$2-$3'
     );
-    setFetchParams({
-      method: 'put',
-      url: `/users/${userId}`,
-      data: {
-        phoneNumber: phoneNumber,
-      },
-    });
-    setOpenPhoneSnackbar(true);
-    setPhoneSaveLoading(false);
-  };
+    setPhoneSaveLoading(true);
+    try {
+      const res = await axiosWithAuth().put(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}`,
+        {
+          phoneNumber: phoneNumber,
+        }
+      );
+      setFormState({
+        ...defaultState,
+        phoneNumber: res.data.user.phoneNumber,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const passwordSubmit = e => {
+  async function phoneSubmit(e) {
     e.preventDefault();
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -160,29 +151,51 @@ function EditUser() {
       [e.target.name]: value,
     });
 
+    try {
+      await editPhone();
+      setOpenPhoneSnackbar(true);
+      setPhoneSaveLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function editPassword() {
     setPasswordSaveLoading(true);
-    const token = localStorage.getItem('token');
-    console.log(token);
-    axiosWithAuth()
-      .put(`https://bw-water-my-plants.herokuapp.com/api/users/${userId}`, {
-        newPassword: formState.newPassword,
-        password: formState.password,
-      })
-      .then(res => {
-        console.log(response);
-        setPasswordSaveLoading(false);
-        setFormState({
-          ...formState,
-          password: '',
-          newPassword: '',
-          confirmedNewPassword: '',
-        });
-        setOpenPasswordSnackbar(true);
-      })
-      .catch(err => console.log(err));
-  };
 
-  console.log(passwordSaveLoading);
+    try {
+      const res = await axiosWithAuth().put(
+        `https://bw-water-my-plants.herokuapp.com/api/users/${userId}`,
+        {
+          newPassword: formState.newPassword,
+          password: formState.password,
+        }
+      );
+      setFormState({
+        ...defaultState,
+        phoneNumber: res.data.user.phoneNumber,
+      });
+
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function passwordSubmit(e) {
+    e.preventDefault();
+    const value =
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormState({
+      ...formState,
+      [e.target.name]: value,
+    });
+    try {
+      await editPassword();
+      setPasswordSaveLoading(false);
+      setOpenPasswordSnackbar(true);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const changeHandler = e => {
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -208,11 +221,10 @@ function EditUser() {
         open={openPasswordSnackbar}
         autoHideDuration={3000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert severity="success">
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity='success'>
           <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
-            <Typography variant="p">Password changed successfully</Typography>
+            <Typography variant='p'>Password changed successfully</Typography>
           </div>
         </Alert>
       </Snackbar>
@@ -225,11 +237,10 @@ function EditUser() {
         open={openPhoneSnackbar}
         autoHideDuration={3000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert severity="success">
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert severity='success'>
           <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
-            <Typography variant="p">
+            <Typography variant='p'>
               Phone number changed successfully
             </Typography>
           </div>
@@ -242,59 +253,58 @@ function EditUser() {
     <>
       {phoneSnackbar}
       {passwordSnackbar}
-      <Grid container direction="column" className={classes.settingsContainer}>
+      <Grid container direction='column' className={classes.settingsContainer}>
         <Grid item className={classes.title}>
-          <Typography variant="h2" style={{ marginBottom: '1em' }}>
+          <Typography variant='h2' style={{ marginBottom: '1em' }}>
             Account Settings
           </Typography>
           <Grid item className={classes.phoneContainer}>
-            <Typography className={classes.inputHelperText} variant="subtitle1">
+            <Typography className={classes.inputHelperText} variant='subtitle1'>
               Edit Phone Number
             </Typography>
-            <Grid container alignItems="center" direction="row">
+            <Grid container alignItems='center' direction='row'>
               <Grid item>
                 <TextField
                   className={classes.formField}
-                  variant="outlined"
-                  name="phoneNumber"
-                  label="Phone Number"
+                  variant='outlined'
+                  name='phoneNumber'
+                  label='Phone Number'
                   value={formState.phoneNumber}
                   onChange={changeHandler}
                 />
               </Grid>
               <Grid item>
                 <Button
-                  variant="contained"
+                  variant='contained'
                   style={{
                     backgroundColor: theme.palette.common.yellow,
                   }}
                   className={classes.button}
-                  onClick={phoneSubmit}
-                >
+                  onClick={phoneSubmit}>
                   {phoneSaveLoading ? (
                     <CircularProgress style={{ color: 'white' }} />
                   ) : (
-                    <Typography variant="button">Save</Typography>
+                    <Typography variant='button'>Save</Typography>
                   )}
                 </Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid item className={classes.passwordContainer}>
-            <Typography className={classes.inputHelperText} variant="subtitle1">
+            <Typography className={classes.inputHelperText} variant='subtitle1'>
               Edit Password
             </Typography>
 
-            <Grid container direction="row">
-              <Grid item container direction="column">
+            <Grid container direction='row'>
+              <Grid item container direction='column'>
                 <Grid item>
                   {' '}
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="Password"
-                    name="password"
-                    type="password"
+                    variant='outlined'
+                    label='Password'
+                    name='password'
+                    type='password'
                     value={formState.password}
                     onChange={changeHandler}
                   />
@@ -303,39 +313,38 @@ function EditUser() {
                   {' '}
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="New Password"
-                    name="newPassword"
-                    type="password"
+                    variant='outlined'
+                    label='New Password'
+                    name='newPassword'
+                    type='password'
                     value={formState.newPassword}
                     onChange={changeHandler}
                   />
                 </Grid>
-                <Grid container alignItems="center" direction="row">
+                <Grid container alignItems='center' direction='row'>
                   <Grid item>
                     <TextField
                       className={classes.formField}
-                      variant="outlined"
-                      name="confirmedNewPassword"
-                      label="Confirm New Password"
-                      type="password"
+                      variant='outlined'
+                      name='confirmedNewPassword'
+                      label='Confirm New Password'
+                      type='password'
                       value={formState.confirmedNewPassword}
                       onChange={changeHandler}
                     />
                   </Grid>
                   <Grid item>
                     <Button
-                      variant="contained"
+                      variant='contained'
                       style={{
                         backgroundColor: theme.palette.common.yellow,
                       }}
                       className={classes.button}
-                      onClick={passwordSubmit}
-                    >
+                      onClick={passwordSubmit}>
                       {passwordSaveLoading ? (
                         <CircularProgress style={{ color: 'white' }} />
                       ) : (
-                        <Typography variant="button">Save</Typography>
+                        <Typography variant='button'>Save</Typography>
                       )}
                     </Button>
                   </Grid>
