@@ -53,8 +53,6 @@ export default function DenseAppBar() {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            // variant='contained'
-            // color='primary'
             {...bindTrigger(popupState)}>
             <AccountCircleTwoToneIcon />
           </IconButton>

@@ -14,7 +14,6 @@ export const axiosWithAuth = () => {
     headers: {
       token: token,
     },
-    // temporary fake url until we get the real one from backend
     baseURL: 'https://bw-water-my-plants.herokuapp.com/api',
   });
   return backendAPI;

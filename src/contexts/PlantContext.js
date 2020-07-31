@@ -20,12 +20,36 @@ export const PlantProvider = ({ children }) => {
   const [userId, setUserId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [state, setState] = useState({ file: '', base64: '' });
 
   let image;
+
+  const handleImageChange = e => {
+    e.preventDefault();
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setState({
+        file: file,
+        base64: reader.result,
+      });
+    };
+  };
+
   const handleUpload = async e => {
     setUploading(true);
     console.log('test:');
     image = e.target.files[0];
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setState({
+        file: file,
+        base64: reader.result,
+      });
+    };
     const data = new FormData();
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
@@ -39,6 +63,8 @@ export const PlantProvider = ({ children }) => {
     setImageUrl(res.data.url);
     setUploading(false);
   };
+  console.log(state.base64);
+
   const handleAddModalClose = () => {
     setAddModalOpen(false);
   };
