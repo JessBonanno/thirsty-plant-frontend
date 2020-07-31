@@ -9,8 +9,8 @@ import { PlantContext } from '../contexts/PlantContext';
  * @returns {jsx}
  */
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  // const { userId } = useContext(PlantContext);
-  const token = window.localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
   return (
     <Route
       {...rest}
@@ -18,7 +18,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         if (token) {
           return <Component {...props} />;
         } else {
-          return <Redirect to="/login" />;
+          return <Redirect to='/login' />;
         }
       }}
     />
