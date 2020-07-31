@@ -251,7 +251,7 @@ function Signup() {
         formState
       );
 
-      setUserId(res.id);
+      setUserId(res.data.user.id);
     } catch (err) {
       setLoading(false);
       console.log(err);

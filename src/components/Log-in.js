@@ -210,7 +210,6 @@ function Login() {
     try {
       await login();
       history.push('/dashboard');
-      // history.push('/dashboard');
     } catch (err) {
       console.log(err);
     }
