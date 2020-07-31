@@ -13,12 +13,6 @@ export const PlantProvider = ({ children }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
-  //   useFetch param state
-  const [fetchParams, setFetchParams] = useState({
-    method: '',
-    url: ' ',
-    data: '',
-  });
 
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -68,13 +62,6 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(false);
   };
 
-  const { response, isLoading, setIsLoading, error } = useFetch({
-    api: axiosWithAuth(),
-    method: fetchParams.method,
-    url: fetchParams.url,
-    data: fetchParams.data,
-  });
-
   return (
     <PlantContext.Provider
       value={{
@@ -82,8 +69,6 @@ export const PlantProvider = ({ children }) => {
         matchesSM,
         matchesMD,
         matchesLG,
-        fetchParams,
-        setFetchParams,
         drawerOpen,
         setDrawerOpen,
         imageUrl,
@@ -101,17 +86,12 @@ export const PlantProvider = ({ children }) => {
         handleEdiModalClose,
         handleEditModalOpen,
         handleDialogOpen,
-        response,
-        error,
-        isLoading,
-        setIsLoading,
         useFetch,
         userId,
         setUserId,
         submitted,
         setSubmitted,
-      }}
-    >
+      }}>
       {children}
     </PlantContext.Provider>
   );
