@@ -34,6 +34,7 @@ export default function DenseAppBar() {
   const { pathname } = useLocation();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const userId = localStorage.getItem('userId');
 
   const handleAccountsClick = e => {
     setAnchorEl(e.currentTarget);
@@ -54,16 +55,15 @@ export default function DenseAppBar() {
   return (
     <div className={classes.root}>
       <AppBar
-        position="static"
+        position='static'
         style={{
           backgroundColor:
             (pathname === '/login' || pathname === '/signup') && 'white',
-        }}
-      >
-        <Toolbar variant="dense">
-          <Grid container justify="space-between">
+        }}>
+        <Toolbar variant='dense'>
+          <Grid container justify='space-between'>
             <Grid item>
-              <Grid container alignItems="center" style={{ marginTop: 5 }}>
+              <Grid container alignItems='center' style={{ marginTop: 5 }}>
                 <Grid item>
                   <img
                     src={
@@ -71,22 +71,21 @@ export default function DenseAppBar() {
                         ? require('../../assets/images/logo.png')
                         : require('../../assets/images/logo-white.png')
                     }
-                    alt="logo"
+                    alt='logo'
                     style={{ height: 30, width: 30, marginRight: 10 }}
                   />
                 </Grid>
 
                 <Grid item>
                   <Typography
-                    variant="h6"
-                    color="inherit"
+                    variant='h6'
+                    color='inherit'
                     style={{
                       color:
                         pathname === '/login' || pathname === '/signup'
                           ? theme.palette.common.lightGreen
                           : 'white',
-                    }}
-                  >
+                    }}>
                     Water My Plants
                   </Typography>
                 </Grid>
@@ -95,7 +94,7 @@ export default function DenseAppBar() {
             <Grid item>
               <Grid container>
                 <Grid item>
-                  <Button color="inherit">
+                  <Button color='inherit'>
                     <a
                       style={{
                         textDecoration: 'none',
@@ -104,8 +103,7 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://watermyplants.netlify.app/"
-                    >
+                      href='https://watermyplants.netlify.app/'>
                       Home
                     </a>
                   </Button>
@@ -113,20 +111,19 @@ export default function DenseAppBar() {
                 <Grid item>
                   <Button
                     component={Link}
-                    to="/dashboard"
-                    color="inherit"
+                    to='/dashboard'
+                    color='inherit'
                     style={{
                       color:
                         pathname === '/login' || pathname === '/signup'
                           ? theme.palette.common.lightGreen
                           : 'white',
-                    }}
-                  >
+                    }}>
                     Dashboard
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button color="inherit">
+                  <Button color='inherit'>
                     <a
                       style={{
                         textDecoration: 'none',
@@ -135,14 +132,13 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://watermyplants.netlify.app/about.html"
-                    >
+                      href='https://watermyplants.netlify.app/about.html'>
                       About Us
                     </a>
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button color="inherit">
+                  <Button color='inherit'>
                     <a
                       style={{
                         textDecoration: 'none',
@@ -151,111 +147,114 @@ export default function DenseAppBar() {
                             ? theme.palette.common.lightGreen
                             : 'white',
                       }}
-                      href="https://watermyplants.netlify.app/guide.html"
-                    >
+                      href='https://watermyplants.netlify.app/guide.html'>
                       Learn
                     </a>
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Button
-                    component={Link}
-                    to="/login"
-                    color="inherit"
-                    style={{
-                      color:
-                        pathname === '/login' || pathname === '/signup'
-                          ? theme.palette.common.lightGreen
-                          : 'white',
-                    }}
-                  >
-                    Login
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    component={Link}
-                    to="/signup"
-                    color="inherit"
-                    style={{
-                      color:
-                        pathname === '/login' || pathname === '/signup'
-                          ? theme.palette.common.lightGreen
-                          : 'white',
-                    }}
-                  >
-                    Sign Up
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    style={{
-                      color:
-                        pathname === '/login' || pathname === '/signup'
-                          ? theme.palette.common.lightGreen
-                          : 'white',
-                    }}
-                    onClick={handleAccountsClick}
-                  >
-                    <AccountCircleTwoToneIcon />
-                  </IconButton>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                    onClose={handleClose}
-                  >
-                    <List
-                      dense={true}
-                      style={{
-                        backgroundColor: theme.palette.primary.main,
-                        color: 'white',
-                        borderRadius: 0,
-                        width: 150,
-                      }}
-                    >
-                      <ListItem component={Link} to="/settings">
-                        <ListItemText>
-                          <Typography
-                            variant="p"
-                            style={{
-                              fontFamily: 'Raleway',
-                              fontSize: '1.2rem',
-                              color: 'white',
-                              textDecoration: 'none',
-                            }}
-                          >
-                            Settings
-                          </Typography>
-                        </ListItemText>
-                      </ListItem>
-                      <Divider />
-                      <ListItem component={Link} to="/" onClick={handleLogout}>
-                        <ListItemText>
-                          <Typography
-                            variant="p"
-                            style={{
-                              fontFamily: 'Raleway',
-                              fontSize: '1.2rem',
-                              color: 'white',
-                              textDecoration: 'none',
-                            }}
-                          >
-                            Logout
-                          </Typography>
-                        </ListItemText>
-                      </ListItem>
-                    </List>
-                  </Popover>
-                </Grid>
+                {userId ? (
+                  <>
+                    <Grid item>
+                      <IconButton
+                        style={{
+                          color:
+                            pathname === '/login' || pathname === '/signup'
+                              ? theme.palette.common.lightGreen
+                              : 'white',
+                        }}
+                        onClick={handleAccountsClick}>
+                        <AccountCircleTwoToneIcon />
+                      </IconButton>
+                      <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                        }}
+                        onClose={handleClose}>
+                        <List
+                          dense={true}
+                          style={{
+                            backgroundColor: theme.palette.primary.main,
+                            color: 'white',
+                            borderRadius: 0,
+                            width: 150,
+                          }}>
+                          <ListItem component={Link} to='/settings'>
+                            <ListItemText>
+                              <Typography
+                                variant='p'
+                                style={{
+                                  fontFamily: 'Raleway',
+                                  fontSize: '1.2rem',
+                                  color: 'white',
+                                  textDecoration: 'none',
+                                }}>
+                                Settings
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                          <Divider />
+                          <ListItem
+                            component={Link}
+                            to='/'
+                            onClick={handleLogout}>
+                            <ListItemText>
+                              <Typography
+                                variant='p'
+                                style={{
+                                  fontFamily: 'Raleway',
+                                  fontSize: '1.2rem',
+                                  color: 'white',
+                                  textDecoration: 'none',
+                                }}>
+                                Logout
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                        </List>
+                      </Popover>
+                    </Grid>
+                  </>
+                ) : (
+                  <>
+                    {' '}
+                    <Grid item>
+                      <Button
+                        component={Link}
+                        to='/login'
+                        color='inherit'
+                        style={{
+                          color:
+                            pathname === '/login' || pathname === '/signup'
+                              ? theme.palette.common.lightGreen
+                              : 'white',
+                        }}>
+                        Login
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        component={Link}
+                        to='/signup'
+                        color='inherit'
+                        style={{
+                          color:
+                            pathname === '/login' || pathname === '/signup'
+                              ? theme.palette.common.lightGreen
+                              : 'white',
+                        }}>
+                        Sign Up
+                      </Button>
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Grid>
           </Grid>
