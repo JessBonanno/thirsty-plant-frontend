@@ -13,6 +13,7 @@ import EditUser from './components/EditUser.js';
 import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
 import PrivateRoute from './utils/PrivateRoute';
+import FindMyPlant from './components/FindMyPlant';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <PrivateRoute exact path="/settings" component={EditUser} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <Route path="/find-my-plant" component={FindMyPlant} />
         </Switch>
       </div>
       <Hidden mdUp>
