@@ -221,9 +221,15 @@ const PlantCard = props => {
                         Last watering:
                       </Typography>
                       <Typography variant='body1' color='textSecondary'>
-                        {moment(lastWatered).format('lll') !== 'Invalid date'
-                          ? moment(lastWatered).format('lll')
-                          : 'Never watered'}
+                        {moment(lastWatered).format('lll') !==
+                        'Invalid date' ? (
+                          moment(lastWatered).format('lll')
+                        ) : (
+                          <>
+                            Never watered{'   '}
+                            <i class='fas fa-skull-crossbones' style={{color: 'rgba(0, 0, 0, 0.54)'}}></i>
+                          </>
+                        )}
                       </Typography>
                     </Grid>
                     <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
