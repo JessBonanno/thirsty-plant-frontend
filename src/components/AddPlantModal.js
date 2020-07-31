@@ -60,6 +60,7 @@ export default function TransitionsModal(props) {
     nickname: '',
     species: '',
     h2oFrequency: '',
+    imageUrl: '',
     // token: localStorage.getItem('token'),
   });
 
