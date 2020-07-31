@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import theme from '../components/ui/Theme';
 import Hidden from '@material-ui/core/Hidden';
+import CircularProgress from '@material-ui/core/CircularProgress';
 // context
 import { PlantContext } from '../contexts/PlantContext';
 
@@ -74,8 +75,11 @@ export default function TransitionsModal(props) {
   } = props;
 
   const classes = useStyles();
-  const { matchesSM, handleEditModalClose } = useContext(PlantContext);
+  const { matchesSM, handleEditModalClose, uploading } = useContext(
+    PlantContext
+  );
 
+  console.log(uploading);
   const [formState, setFormState] = useState({
     species,
     nickname,
@@ -346,11 +350,17 @@ export default function TransitionsModal(props) {
                               className={classes.button}
                               style={{
                                 backgroundColor: theme.palette.common.yellow,
+                                width: 200,
+                                height: 50,
                               }}
                             >
-                              <Typography variant="button">
-                                Upload Image
-                              </Typography>
+                              {uploading ? (
+                                <CircularProgress style={{ color: 'white' }} />
+                              ) : (
+                                <Typography variant="button">
+                                  Upload Image
+                                </Typography>
+                              )}
                             </Button>
                           </label>
                         </Grid>
@@ -385,12 +395,13 @@ export default function TransitionsModal(props) {
                         style={{
                           alignSelf: 'flex-end',
                           marginTop: 2.5,
+                          width: 200,
                         }}
                       >
                         <input
                           accept="image/*"
                           className={classes.input}
-                          style={{ display: 'none' }}
+                          style={{ display: 'none', width: '100%' }}
                           id="raised-button-file"
                           multiple
                           type="file"
@@ -403,11 +414,17 @@ export default function TransitionsModal(props) {
                             className={classes.button}
                             style={{
                               backgroundColor: theme.palette.common.yellow,
+                              height: 50,
+                              width: '100%',
                             }}
                           >
-                            <Typography variant="button">
-                              Upload Image
-                            </Typography>
+                            {uploading ? (
+                              <CircularProgress style={{ color: 'white' }} />
+                            ) : (
+                              <Typography variant="button">
+                                Upload Image
+                              </Typography>
+                            )}
                           </Button>
                         </label>
                       </Grid>
