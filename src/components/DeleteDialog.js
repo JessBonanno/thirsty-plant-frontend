@@ -14,7 +14,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 // transition function from material ui
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 /**
@@ -33,7 +33,11 @@ export default function DeleteDialog({
   setPlants,
   setIsReloading,
 }) {
-  const { handleDialogClose } = useContext(PlantContext);
+  const handleDialogClose = () => {
+    console.log('test');
+    setDialogOpen(false);
+  };
+
   const userId = localStorage.getItem('userId');
 
   async function deletePlant() {
@@ -59,6 +63,7 @@ export default function DeleteDialog({
       setIsReloading(false);
     }
   }
+  console.log(dialogOpen);
 
   const handleDeletePlant = async e => {
     e.preventDefault();
@@ -77,19 +82,20 @@ export default function DeleteDialog({
       TransitionComponent={Transition}
       keepMounted
       onClose={handleDialogClose}
-      aria-labelledby='delete-plant-dialog'
-      aria-describedby='delete-plant-dialog'>
-      <DialogTitle id='dialog-title'>{"Don't kale my vibe!"}</DialogTitle>
+      aria-labelledby="delete-plant-dialog"
+      aria-describedby="delete-plant-dialog"
+    >
+      <DialogTitle id="dialog-title">{"Don't kale my vibe!"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id='dialog-description'>
+        <DialogContentText id="dialog-description">
           Are you sure you want to delete this plant?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDialogClose} color='primary'>
+        <Button onClick={handleDialogClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleDeletePlant} color='primary'>
+        <Button onClick={handleDeletePlant} color="primary">
           Delete
         </Button>
       </DialogActions>
