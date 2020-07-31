@@ -150,7 +150,11 @@ const PlantCard = props => {
               className={classes.media}
               image={imageUrl}
               title='Contemplative Reptile'
-              style={{ marginBottom: '1em', height: 167 }}
+              style={{
+                marginBottom: '1em',
+                height: 167,
+                backgroundSize: 'contain',
+              }}
             />
             <Grid
               item
