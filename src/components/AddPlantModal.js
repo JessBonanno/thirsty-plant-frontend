@@ -26,10 +26,10 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: '50px',
     width: 654,
-    height: 500,
+    // height: 500,
     outline: 'none',
     [theme.breakpoints.down('sm')]: {
-      height: 550,
+      // height: 550,
       width: 400,
       padding: 20,
     },
@@ -284,35 +284,55 @@ export default function TransitionsModal(props) {
                     <Hidden mdUp>
                       <Grid
                         item
-                        className="uploadButton"
-                        style={{
-                          alignSelf: 'center',
-                          marginTop: '2.5em',
-                        }}
+                        container
+                        direction="column"
+                        className={classes.imageUpload}
                       >
-                        <input
-                          accept="image/*"
-                          className={classes.input}
-                          style={{ display: 'none' }}
-                          id="raised-button-file"
-                          multiple
-                          type="file"
-                          onChange={handleUpload}
-                        />
-                        <label htmlFor="raised-button-file">
-                          <Button
-                            variant="contained"
-                            component="span"
-                            className={classes.button}
+                        <Grid item align="center">
+                          <div
                             style={{
-                              backgroundColor: theme.palette.common.yellow,
+                              backgroundImage: `url(${imageUrl})`,
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundPosition: 'center',
+                              height: 100,
+                              // width: 150,
+                              margin: 'auto',
                             }}
-                          >
-                            <Typography variant="button">
-                              Upload Image
-                            </Typography>
-                          </Button>
-                        </label>
+                          ></div>
+                        </Grid>
+                        <Grid
+                          item
+                          className="uploadButton"
+                          style={{
+                            alignSelf: 'center',
+                            marginTop: '2.5em',
+                          }}
+                        >
+                          <input
+                            accept="image/*"
+                            className={classes.input}
+                            style={{ display: 'none' }}
+                            id="raised-button-file"
+                            multiple
+                            type="file"
+                            onChange={handleUpload}
+                          />
+                          <label htmlFor="raised-button-file">
+                            <Button
+                              variant="contained"
+                              component="span"
+                              className={classes.button}
+                              style={{
+                                backgroundColor: theme.palette.common.yellow,
+                              }}
+                            >
+                              <Typography variant="button">
+                                Upload Image
+                              </Typography>
+                            </Button>
+                          </label>
+                        </Grid>
                       </Grid>
                     </Hidden>
                   </Grid>
