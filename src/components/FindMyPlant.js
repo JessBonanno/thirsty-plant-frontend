@@ -16,7 +16,7 @@ const FindMyPlant = () => {
   const { uploading, handleUpload } = useContext(PlantContext);
   return (
     <>
-      <h1>Find my Plant</h1>
+      <Typography variant="h3">Find my Plant</Typography>
       <Grid
         item
         className="uploadButton"
