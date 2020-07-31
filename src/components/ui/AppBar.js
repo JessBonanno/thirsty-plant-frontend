@@ -35,6 +35,7 @@ export default function DenseAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
 
   const handleAccountsClick = e => {
     setAnchorEl(e.currentTarget);
@@ -153,7 +154,7 @@ export default function DenseAppBar() {
                   </Button>
                 </Grid>
 
-                {!userId ? (
+                {!token ? (
                   <>
                     <Grid item>
                       <Button

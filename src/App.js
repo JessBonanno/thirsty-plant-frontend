@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Hidden from '@material-ui/core/Hidden';
 import './App.css';
 
@@ -21,13 +21,15 @@ function App() {
         <AppBar style={{ margin: 0 }} />
       </Hidden>
       <div className='App'>
-        <Route path='/login' component={Login} />
-        <Route path='/Signup' component={Signup} />
-        <PrivateRoute path='/settings' component={EditUser} />
-        <PrivateRoute
-          path='/dashboard'
-          component={localStorage.getItem('userId') && Dashboard}
-        />
+        <Switch>
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/Signup' component={Signup} />
+          <PrivateRoute exact path='/settings' component={EditUser} />
+          <PrivateRoute
+           exact path='/dashboard'
+            component={localStorage.getItem('userId') && Dashboard}
+          />
+        </Switch>
       </div>
       <Hidden mdUp>
         <Footer />
