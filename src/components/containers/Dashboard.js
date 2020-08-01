@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -7,7 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
 // local components
 import PlantCard from '../PlantCard';
-import AddPlantModal from '../AddPlantModal';
+// import AddPlantModal from '../AddPlantModal';
 // context
 import { PlantContext } from '../../contexts/PlantContext';
 import AddButton from '../AddButton';
@@ -70,12 +71,17 @@ const Dashboard = () => {
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   // }, []);
-
+  const history = useHistory();
   const classes = useStyles();
-  const { matchesXS, matchesSM, handleAddModalOpen } = useContext(PlantContext);
+  const {
+    matchesXS,
+    matchesSM,
+    plants,
+    setPlants,
+    isReloading,
+    setIsReloading,
+  } = useContext(PlantContext);
 
-  const [plants, setPlants] = useState([]);
-  const [isReloading, setIsReloading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPlants, setFilteredPlants] = useState([]);
   const [noResults, setNoResults] = useState(false);
@@ -87,6 +93,10 @@ const Dashboard = () => {
 
     // handleEmptyResults();
   }, [searchTerm]);
+
+  const handleAddModalOpen = () => {
+    history.push('/add-plant');
+  };
 
   const getPlants = () => {
     setIsReloading(true);
@@ -131,11 +141,6 @@ const Dashboard = () => {
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />
-      <AddPlantModal
-        className={classes.modal}
-        setIsReloading={setIsReloading}
-        setPlants={setPlants}
-      />
       <Grid
         container
         direction="column"

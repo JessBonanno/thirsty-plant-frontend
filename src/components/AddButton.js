@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './AddButton.css';
 import theme from './ui/Theme';
+import { PlantContext } from '../contexts/PlantContext';
 
 const AddButton = props => {
+  const { addModalOpen, editModalOpen, editing } = useContext(PlantContext);
+
   const { handleAddModalOpen } = props;
   return (
     <div
@@ -11,6 +14,7 @@ const AddButton = props => {
         padding: '0.5rem',
         backgroundColor: theme.palette.common.yellow,
         zIndex: 3200,
+        display: addModalOpen || editing ? 'none' : undefined,
       }}
       onClick={handleAddModalOpen}
     >

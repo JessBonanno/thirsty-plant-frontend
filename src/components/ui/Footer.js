@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
   appBar: {
     top: 'auto',
     bottom: 0,
+    zIndex: 2000,
   },
   grow: {
     flexGrow: 1,
