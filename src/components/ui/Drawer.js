@@ -40,6 +40,10 @@ const FooterDrawer = () => {
         pathname === '/login' || pathname === '/signup'
           ? theme.palette.common.lightGreen
           : 'white',
+
+      [theme.breakpoints.down('xs')]: {
+        marginTop: '1em',
+      },
     },
   }));
 
