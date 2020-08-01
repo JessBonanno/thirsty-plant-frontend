@@ -58,6 +58,7 @@ const useStyles = makeStyles(theme => ({
       },
     },
   },
+  cardsContainer: {},
 }));
 
 // const array = [1, 2, 3, 4, 5, 6];
@@ -68,9 +69,9 @@ const useStyles = makeStyles(theme => ({
  */
 const Dashboard = () => {
   // this ensures page always renders at the top
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const history = useHistory();
   const classes = useStyles();
   const {
@@ -83,8 +84,6 @@ const Dashboard = () => {
   } = useContext(PlantContext);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredPlants, setFilteredPlants] = useState([]);
-  const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
     if (searchTerm === '') {
@@ -166,7 +165,7 @@ const Dashboard = () => {
           alignItems={matchesXS ? 'center' : undefined}
           className={classes.toolsContainer}
           style={{
-            padding: 15,
+            padding: matchesXS ? 0 : 15,
           }}
         >
           {plants && plants.length !== 0 && (
@@ -218,13 +217,21 @@ const Dashboard = () => {
             item
             container
             direction="row"
-            justify="center"
+            justify={matchesXS ? 'flex-start' : 'center'}
             className={classes.cardsContainer}
           >
             {plants && plants.length !== 0 ? (
               plants.map(item => (
                 // 12 is full width, 6 half width, etc...
-                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  align="center"
+                  style={{ width: matchesXS && '100%' }}
+                >
                   <PlantCard
                     key={item.id}
                     nickname={item.nickname}

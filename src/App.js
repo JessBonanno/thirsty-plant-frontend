@@ -22,7 +22,13 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <div className="App" style={{ padding: '0 0 100px' }}>
+      <div
+        className="App"
+        style={{
+          padding: '0 0 100px',
+          // overflowX: 'hidden'
+        }}
+      >
         <Switch>
           <Route
             exact

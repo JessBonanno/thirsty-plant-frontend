@@ -56,22 +56,24 @@ const FindMyPlantCard = props => {
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
-              justify='space-between'
-              alignItems='center'
+              justify="space-between"
+              alignItems="center"
               className={classes.cardHeaderContainer}
-              style={{ padding: '0 1em' }}>
+              style={{ padding: '0 1em' }}
+            >
               <Grid item>
                 <Typography
                   gutterBottom
-                  variant='h4'
-                  style={{ fontSize: '1.4rem' }}>
+                  variant="h4"
+                  style={{ fontSize: '1.4rem' }}
+                >
                   {name}
                 </Typography>
               </Grid>
             </Grid>
             <CardMedia
               className={classes.media}
-              image={image}
+              image={image && image}
               title={name}
               style={{
                 marginBottom: '1em',
@@ -82,41 +84,49 @@ const FindMyPlantCard = props => {
             <Grid
               item
               container
-              justify='space-between'
+              justify="space-between"
               style={{ padding: '1.5em' }}
-              className={classes.bottomContainer}>
+              className={classes.bottomContainer}
+            >
               <Grid
                 item
                 container
-                align='left'
+                align="left"
                 className={classes.bottomInfo}
-                direction='column'>
-                {species && <>
-                  <Typography
-                    variant='h5'
-                    color='textSecondary'
-                    style={{ margin: 0 }}>
-                    <span
-                      style={{
-                        fontWeight: 'bold',
-                        color: theme.palette.common.green,
-                      }}>
-                      Species:
-                    </span>{' '}
-                    {species}
-                  </Typography>{' '}
-                </>}
-                {taxonomy && taxonomy.plantClass && (
+                direction="column"
+              >
+                {species && (
                   <>
                     <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0 }}>
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
                       <span
                         style={{
                           fontWeight: 'bold',
                           color: theme.palette.common.green,
-                        }}>
+                        }}
+                      >
+                        Species:
+                      </span>{' '}
+                      {species}
+                    </Typography>{' '}
+                  </>
+                )}
+                {taxonomy && taxonomy.plantClass && (
+                  <>
+                    <Typography
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          color: theme.palette.common.green,
+                        }}
+                      >
                         Class:
                       </span>{' '}
                       {taxonomy.plantClass}
@@ -126,14 +136,16 @@ const FindMyPlantCard = props => {
                 {taxonomy && taxonomy.family && (
                   <>
                     <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0 }}>
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
                       <span
                         style={{
                           fontWeight: 'bold',
                           color: theme.palette.common.green,
-                        }}>
+                        }}
+                      >
                         Family:
                       </span>{' '}
                       {taxonomy.family}
@@ -143,14 +155,16 @@ const FindMyPlantCard = props => {
                 {taxonomy && taxonomy.kingdom && (
                   <>
                     <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0 }}>
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
                       <span
                         style={{
                           fontWeight: 'bold',
                           color: theme.palette.common.green,
-                        }}>
+                        }}
+                      >
                         Kingdom:
                       </span>{' '}
                       {taxonomy.kingdom}
@@ -160,14 +174,16 @@ const FindMyPlantCard = props => {
                 {taxonomy && taxonomy.phylum && (
                   <>
                     <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0 }}>
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
                       <span
                         style={{
                           fontWeight: 'bold',
                           color: theme.palette.common.green,
-                        }}>
+                        }}
+                      >
                         Phylum:
                       </span>{' '}
                       {taxonomy.phylum}
@@ -177,14 +193,16 @@ const FindMyPlantCard = props => {
                 {taxonomy && taxonomy.order && (
                   <>
                     <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0 }}>
+                      variant="h5"
+                      color="textSecondary"
+                      style={{ margin: 0 }}
+                    >
                       <span
                         style={{
                           fontWeight: 'bold',
                           color: theme.palette.common.green,
-                        }}>
+                        }}
+                      >
                         Order:
                       </span>{' '}
                       {taxonomy.order}
