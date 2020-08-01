@@ -1,67 +1,55 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 import { PlantContext } from '../contexts/PlantContext';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Hidden from '@material-ui/core/Hidden';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import placeHolder from '../assets/images/placeholder-image.png';
+import placeHolder from '../assets/images/placeholder.jpg';
 import theme from '../components/ui/Theme';
 
 const useStyles = makeStyles(theme => ({
+  addEditContainer: {},
   bodyOuterContainer: {
-    width: '100%',
+    // width: '50%',
+    marginTop: '3em',
+
+    [theme.breakpoints.down('xs')]: {
+      marginTop: 0,
+      // width: '100%',
+    },
   },
   bodyContainer: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       padding: '.5em',
     },
   },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalHeader: {
-    ...theme.typography.modalHeader,
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    outline: 'none',
-    border: 0,
-    width: 630,
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      height: '100vh',
-    },
+  header: {
+    ...theme.typography.header,
   },
   formField: {
     margin: '1em 0',
-    [theme.breakpoints.down('sm')]: {
+    width: 300,
+    [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
   },
   inputOuterContainer: {
     padding: '0 2em',
     // margin: '2em 1em',
-    boxShadow: '0',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       padding: '1em',
       margin: 0,
     },
   },
   buttonsOuterContainer: {
-    margin: '2em',
-    [theme.breakpoints.down('sm')]: {
+    margin: '2em 1em',
+
+    [theme.breakpoints.down('xs')]: {
       margin: '1em',
     },
   },
@@ -69,13 +57,14 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   mainButtonsContainer: {
-    [theme.breakpoints.down('sm')]: {
+    padding: '0 1em',
+    [theme.breakpoints.down('xs')]: {
       marginTop: '1em',
       padding: '0 2em',
     },
   },
   imageDiv: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       margin: '1em',
     },
   },
@@ -85,30 +74,29 @@ export default function AddEditModal(props) {
   const classes = useStyles();
 
   const {
-    matchesSM,
+    matchesXS,
     imageUrl,
     setImageUrl,
-    addModalOpen,
     setAddModalOpen,
-    handleClose,
     uploading,
     setUploading,
-    handleEditModalClose,
     editing,
     setEditing,
+    setPlants,
+    setIsReloading,
+    isReloading,
+    plants,
   } = useContext(PlantContext);
 
   const {
-    setIsReloading,
-    setPlants,
-    id,
     nickname,
     species,
     currentImageUrl,
-    editModalOpen,
     setEditModalOpen,
     h2oFrequency,
   } = props;
+
+  const { id } = useParams();
 
   const [open, setOpen] = useState(false);
   const [plantData, setPlantData] = useState({
@@ -118,19 +106,36 @@ export default function AddEditModal(props) {
     imageUrl: '',
   });
 
+  const plant = plants.filter(plant => plant.id === Number(id))[0];
+
   const [formState, setFormState] = useState({
-    species,
-    nickname,
-    h2oFrequency,
-    imageUrl: currentImageUrl,
+    species: '',
+    nickname: '',
+    h2oFrequency: '',
+    imageUrl: '',
   });
 
+  console.log(plant);
+  console.log(plants);
+
+  console.log(id);
   const handleChange = e => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    if (plant) {
+      setFormState({
+        species: plant.species,
+        nickname: plant.nickname,
+        h2oFrequency: plant.h2oFrequency,
+        imageUrl: plant.imageUrl,
+      });
+    }
+  }, [plant]);
 
   const userId = localStorage.getItem('userId');
 
@@ -228,248 +233,241 @@ export default function AddEditModal(props) {
   console.log(editing);
 
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={editing ? editModalOpen : addModalOpen}
-        onClose={editing ? handleEditModalClose : handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-          style: {
-            opacity: '0.3',
-            border: 'none',
-          },
+    <Grid
+      container
+      direction="column"
+      // alignItems="flex-start"
+      className={classes.addEditContainer}
+    >
+      <Grid
+        item
+        style={{
+          backgroundColor: theme.palette.common.green,
+          color: 'white',
+          width: '100%',
+          padding: '1em',
         }}
       >
-        <Fade in={editing ? editModalOpen : addModalOpen}>
-          <div className={classes.paper}>
+        <Typography variant="header" className={classes.header}>
+          {editing ? 'Edit' : 'Add'} Plant
+        </Typography>
+      </Grid>
+      <Grid item className={classes.bodyOuterContainer}>
+        <Grid
+          container
+          direction={matchesXS ? 'column' : 'row'}
+          className={classes.bodyContainer}
+          spacing={0}
+        >
+          <Grid
+            item
+            className={classes.inputOuterContainer}
+            // style={{ width: matchesXS ? undefined : '49%' }}
+            lg={3}
+            md={4}
+            sm={6}
+            xs={12}
+          >
             <Grid
               container
+              className={classes.inputContainer}
               direction="column"
-              alignItems="center"
-              className={classes.addEditContainer}
+            >
+              <Grid item>
+                {editing ? (
+                  <TextField
+                    className={classes.formField}
+                    variant="outlined"
+                    label="Plant name"
+                    name="nickname"
+                    value={formState.nickname}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <TextField
+                    inputProps={{
+                      maxLength: 15,
+                    }}
+                    className={classes.formField}
+                    variant="outlined"
+                    label="Plant name"
+                    name="nickname"
+                    onChange={handleChange}
+                  />
+                )}
+              </Grid>
+              <Grid item classsName={classes.input}>
+                {editing ? (
+                  <TextField
+                    className={classes.formField}
+                    variant="outlined"
+                    label="Species name"
+                    name="species"
+                    value={formState.species}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <TextField
+                    className={classes.formField}
+                    variant="outlined"
+                    label="Species name"
+                    name="species"
+                    onChange={handleChange}
+                  />
+                )}
+              </Grid>
+              <Grid item classsName={classes.input}>
+                {editing ? (
+                  <TextField
+                    className={classes.formField}
+                    variant="outlined"
+                    label="Time between waterings"
+                    name="h2oFrequency"
+                    value={formState.h2oFrequency}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <TextField
+                    className={classes.formField}
+                    variant="outlined"
+                    label="Time between waterings"
+                    name="h2oFrequency"
+                    onChange={handleChange}
+                  />
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid
+            lg={3}
+            md={3}
+            sm={6}
+            xs={12}
+            item
+            className={classes.image}
+            align="center"
+            // style={{ width: matchesXS ? undefined : '49%' }}
+          >
+            <div
+              className={classes.imageDiv}
+              style={{
+                backgroundImage: editing
+                  ? formState.imageUrl
+                    ? `url(${formState.imageUrl})`
+                    : `url(${placeHolder})`
+                  : imageUrl
+                  ? `url(${imageUrl})`
+                  : `url(${placeHolder})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                height: matchesXS ? 100 : 200,
+                // width: 200,
+                margin: matchesXS ? '1em' : '4em 0 1em',
+                // border: editing
+                //   ? (formState.imageUrl && 'none') ||
+                //     (imageUrl && 'none')
+                //   : '1px solid lightgray',
+              }}
+            ></div>
+          </Grid>
+        </Grid>
+        <Grid item className={classes.buttonsOuterContainer}>
+          <Grid
+            container
+            direction={matchesXS ? 'column-reverse' : 'row'}
+            spacing={2}
+            className={classes.buttonsContainer}
+          >
+            <Grid
+              item
+              className={classes.mainButtonsOuterContainer}
+              lg={3}
+              md={4}
+              sm={6}
+              xs={12}
             >
               <Grid
-                item
-                style={{
-                  backgroundColor: theme.palette.common.green,
-                  color: 'white',
-                  width: '100%',
-                  padding: '1em',
-                }}
+                container
+                direction="row"
+                justify={matchesXS ? 'space-evenly' : 'flex-start'}
+                className={classes.mainButtonsContainer}
               >
-                <Typography
-                  variant="modalHeader"
-                  className={classes.modalHeader}
-                >
-                  {editing ? 'Edit' : 'Add'} Plant
-                </Typography>
-              </Grid>
-              <Grid item className={classes.bodyOuterContainer}>
-                <Grid
-                  container
-                  direction={matchesSM ? 'column' : 'row'}
-                  justify="space-between"
-                  className={classes.bodyContainer}
-                >
-                  <Grid
-                    item
-                    className={classes.inputOuterContainer}
-                    style={{ width: matchesSM ? undefined : '49%' }}
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: theme.palette.common.lightPink,
+                    }}
+                    className={classes.button}
+                    onClick={() => {
+                      if (editing) {
+                        setEditModalOpen(false);
+                        setEditing(false);
+                      } else {
+                        setAddModalOpen(false);
+                      }
+                    }}
                   >
-                    <Grid
-                      container
-                      className={classes.inputContainer}
-                      direction="column"
-                    >
-                      <Grid item>
-                        {editing ? (
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Plant name"
-                            name="nickname"
-                            value={formState.nickname}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          <TextField
-                            inputProps={{
-                              maxLength: 15,
-                            }}
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Plant name"
-                            name="nickname"
-                            onChange={handleChange}
-                          />
-                        )}
-                      </Grid>
-                      <Grid item classsName={classes.input}>
-                        {editing ? (
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Species name"
-                            name="species"
-                            value={formState.species}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Species name"
-                            name="species"
-                            onChange={handleChange}
-                          />
-                        )}
-                      </Grid>
-                      <Grid item classsName={classes.input}>
-                        {editing ? (
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Time between waterings"
-                            name="h2oFrequency"
-                            value={formState.h2oFrequency}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          <TextField
-                            className={classes.formField}
-                            variant="outlined"
-                            label="Time between waterings"
-                            name="h2oFrequency"
-                            onChange={handleChange}
-                          />
-                        )}
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid
-                    item
-                    className={classes.image}
-                    align="center"
-                    style={{ width: matchesSM ? undefined : '49%' }}
-                  >
-                    <div
-                      className={classes.imageDiv}
-                      style={{
-                        backgroundImage: editing
-                          ? `url(${formState.imageUrl})`
-                          : `url(${imageUrl})`,
-                        backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
-                        height: 200,
-                        // width: 200,
-                        margin: matchesSM ? '1em' : '4em 0 1em',
-                        border: editing
-                          ? (formState.imageUrl && 'none') ||
-                            (imageUrl && 'none')
-                          : '1px solid lightgray',
-                      }}
-                    ></div>
-                  </Grid>
+                    <Typography variant="button">Cancel</Typography>
+                  </Button>
                 </Grid>
-                <Grid item className={classes.buttonsOuterContainer}>
-                  <Grid
-                    container
-                    direction={matchesSM ? 'column' : 'row-reverse'}
-                    justify="space-between"
-                    className={classes.buttonsContainer}
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: theme.palette.common.green,
+                      marginLeft: matchesXS ? 0 : '1em',
+                    }}
+                    className={classes.button}
+                    onClick={editing ? handleEditSubmit : handleNewPlantSubmit}
                   >
-                    <Grid
-                      item
-                      className={classes.uploadButton}
-                      align="center"
-                      style={{ width: matchesSM ? undefined : '49%' }}
-                    >
-                      <input
-                        accept="image/*"
-                        className={classes.input}
-                        style={{ display: 'none' }}
-                        id="raised-button-file"
-                        multiple
-                        type="file"
-                        onChange={handleUpload}
-                      />
-                      <label htmlFor="raised-button-file">
-                        <Button
-                          variant="contained"
-                          component="span"
-                          className={classes.button}
-                          style={{
-                            backgroundColor: theme.palette.common.yellow,
-                            width: 200,
-                            height: 50,
-                          }}
-                        >
-                          {uploading ? (
-                            <CircularProgress style={{ color: 'white' }} />
-                          ) : (
-                            <Typography variant="button">
-                              Upload Image
-                            </Typography>
-                          )}
-                        </Button>
-                      </label>
-                    </Grid>
-                    <Grid item className={classes.mainButtonsOuterContainer}>
-                      <Grid
-                        container
-                        direction="row"
-                        justify={matchesSM ? 'space-around' : 'space-between'}
-                        className={classes.mainButtonsContainer}
-                      >
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: theme.palette.common.lightPink,
-                            }}
-                            className={classes.button}
-                            onClick={() => {
-                              if (editing) {
-                                setEditModalOpen(false);
-                                setEditing(false);
-                              } else {
-                                setAddModalOpen(false);
-                              }
-                            }}
-                          >
-                            <Typography variant="button">Cancel</Typography>
-                          </Button>
-                        </Grid>
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            style={{
-                              backgroundColor: theme.palette.common.green,
-                              marginLeft: matchesSM ? 0 : '1em',
-                            }}
-                            className={classes.button}
-                            onClick={
-                              editing ? handleEditSubmit : handleNewPlantSubmit
-                            }
-                          >
-                            <Typography variant="button">Submit</Typography>
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
+                    <Typography variant="button">Submit</Typography>
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>
-          </div>
-        </Fade>
-      </Modal>
-    </div>
+            <Grid
+              item
+              lg={3}
+              md={3}
+              sm={6}
+              xs={12}
+              className={classes.uploadButton}
+              align="center"
+              // style={{ width: matchesXS ? undefined : '49%' }}
+            >
+              <input
+                accept="image/*"
+                className={classes.input}
+                style={{ display: 'none' }}
+                id="raised-button-file"
+                multiple
+                type="file"
+                onChange={handleUpload}
+              />
+              <label htmlFor="raised-button-file">
+                <Button
+                  variant="contained"
+                  component="span"
+                  className={classes.button}
+                  style={{
+                    backgroundColor: theme.palette.common.yellow,
+                    width: 200,
+                    height: 50,
+                  }}
+                >
+                  {uploading ? (
+                    <CircularProgress style={{ color: 'white' }} />
+                  ) : (
+                    <Typography variant="button">Upload Image</Typography>
+                  )}
+                </Button>
+              </label>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }

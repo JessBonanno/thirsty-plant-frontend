@@ -131,7 +131,7 @@ export default createMuiTheme({
       color: black,
       fontStyle: 'none',
     },
-    modalHeader: {
+    header: {
       fontFamily: ralewayFont,
       fontSize: '2rem',
       color: 'white',

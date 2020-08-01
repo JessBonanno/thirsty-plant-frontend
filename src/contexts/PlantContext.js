@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import theme from '../components/ui/Theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
@@ -12,6 +13,8 @@ export const PlantProvider = ({ children }) => {
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
 
+  const history = useHistory();
+
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
@@ -22,7 +25,10 @@ export const PlantProvider = ({ children }) => {
   const [uploading, setUploading] = useState(false);
   const [details, setDetails] = useState([]);
   const [finding, setFinding] = useState(false);
+  const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [plants, setPlants] = useState([]);
+  const [isReloading, setIsReloading] = useState(false);
 
   let image;
 
@@ -97,9 +103,6 @@ export const PlantProvider = ({ children }) => {
   const handleAddModalClose = () => {
     setAddModalOpen(false);
   };
-  const handleAddModalOpen = () => {
-    setAddModalOpen(true);
-  };
 
   const handleEditModalOpen = () => {
     setEditModalOpen(true);
@@ -112,6 +115,10 @@ export const PlantProvider = ({ children }) => {
   return (
     <PlantContext.Provider
       value={{
+        plants,
+        setPlants,
+        isReloading,
+        setIsReloading,
         matchesXS,
         matchesSM,
         matchesMD,
@@ -126,7 +133,6 @@ export const PlantProvider = ({ children }) => {
         uploading,
         setUploading,
         handleAddModalClose,
-        handleAddModalOpen,
         addModalOpen,
         setAddModalOpen,
         dialogOpen,
