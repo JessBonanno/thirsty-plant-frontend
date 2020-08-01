@@ -13,21 +13,71 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Hidden from '@material-ui/core/Hidden';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import placeHolder from '../assets/images/placeholder-image.png';
 import theme from '../components/ui/Theme';
 
 const useStyles = makeStyles(theme => ({
+  bodyOuterContainer: {
+    width: '100%',
+  },
+  bodyContainer: {
+    [theme.breakpoints.down('sm')]: {
+      padding: '.5em',
+    },
+  },
   modal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  modalHeader: {
+    ...theme.typography.modalHeader,
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     outline: 'none',
     border: 0,
+    width: 630,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      height: '100vh',
+    },
   },
-  buttonsContainer: {},
+  formField: {
+    margin: '1em 0',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+  },
+  inputOuterContainer: {
+    padding: '0 2em',
+    margin: '2em 1em',
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
+      margin: 0,
+    },
+  },
+  buttonsOuterContainer: {
+    margin: '2em',
+    [theme.breakpoints.down('sm')]: {
+      margin: '1em',
+    },
+  },
+  buttonsContainer: {
+    width: '100%',
+  },
+  mainButtonsContainer: {
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '1em',
+      padding: '0 2em',
+    },
+  },
+  imageDiv: {
+    [theme.breakpoints.down('sm')]: {
+      margin: '1em',
+    },
+  },
 }));
 
 export default function AddEditModal(props) {
@@ -202,18 +252,28 @@ export default function AddEditModal(props) {
                   backgroundColor: theme.palette.common.green,
                   color: 'white',
                   width: '100%',
+                  padding: '1em',
                 }}
               >
-                <Typography>{editing ? 'Edit' : 'Add'} Plant</Typography>
+                <Typography
+                  variant="modalHeader"
+                  className={classes.modalHeader}
+                >
+                  {editing ? 'Edit' : 'Add'} Plant
+                </Typography>
               </Grid>
               <Grid item className={classes.bodyOuterContainer}>
                 <Grid
                   container
                   direction={matchesSM ? 'column' : 'row'}
-                  justify={matchesSM && 'space-between'}
+                  justify="space-between"
                   className={classes.bodyContainer}
                 >
-                  <Grid item className={classes.inputOuterContainer}>
+                  <Grid
+                    item
+                    className={classes.inputOuterContainer}
+                    style={{ width: matchesSM ? undefined : '49%' }}
+                  >
                     <Grid
                       container
                       className={classes.inputContainer}
@@ -242,7 +302,7 @@ export default function AddEditModal(props) {
                           />
                         )}
                       </Grid>
-                      <Grid item>
+                      <Grid item classsName={classes.input}>
                         {editing ? (
                           <TextField
                             className={classes.formField}
@@ -262,7 +322,7 @@ export default function AddEditModal(props) {
                           />
                         )}
                       </Grid>
-                      <Grid item>
+                      <Grid item classsName={classes.input}>
                         {editing ? (
                           <TextField
                             className={classes.formField}
@@ -284,8 +344,14 @@ export default function AddEditModal(props) {
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item className={classes.image}>
+                  <Grid
+                    item
+                    className={classes.image}
+                    align="center"
+                    style={{ width: matchesSM ? undefined : '49%' }}
+                  >
                     <div
+                      className={classes.imageDiv}
                       style={{
                         backgroundImage: editing
                           ? `url(${formState.imageUrl})`
@@ -293,8 +359,13 @@ export default function AddEditModal(props) {
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center',
-                        height: 100,
-                        margin: 'auto',
+                        height: 200,
+                        // width: 200,
+                        margin: matchesSM ? '1em' : '4em 0 2em',
+                        border: editing
+                          ? (formState.imageUrl && 'none') ||
+                            (imageUrl && 'none')
+                          : '1px solid lightgray',
                       }}
                     ></div>
                   </Grid>
@@ -303,10 +374,15 @@ export default function AddEditModal(props) {
                   <Grid
                     container
                     direction={matchesSM ? 'column' : 'row-reverse'}
-                    justify={matchesSM && 'space-between'}
+                    justify="space-between"
                     className={classes.buttonsContainer}
                   >
-                    <Grid item className={classes.uploadButton}>
+                    <Grid
+                      item
+                      className={classes.uploadButton}
+                      align="center"
+                      style={{ width: matchesSM ? undefined : '49%' }}
+                    >
                       <input
                         accept="image/*"
                         className={classes.input}
@@ -341,7 +417,7 @@ export default function AddEditModal(props) {
                       <Grid
                         container
                         direction="row"
-                        justify="space-between"
+                        justify={matchesSM ? 'space-around' : 'space-between'}
                         className={classes.mainButtonsContainer}
                       >
                         <Grid item>
