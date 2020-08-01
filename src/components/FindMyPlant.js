@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import makeStyles from '@material-ui/styles/makeStyles';
 import theme from './ui/Theme';
 import FindMyPlantCard from './FindMyPlantCard';
-import placeholder from '../assets/images/no_image_to_show_.webp';
+import placeholder from '../assets/images/no-image-placeholder.jpg';
 import { data } from '../assets/data/plants.js';
 
 // local imports
