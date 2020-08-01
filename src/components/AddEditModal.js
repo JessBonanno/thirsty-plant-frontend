@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
@@ -71,13 +71,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AddEditModal(props) {
+  const history = useHistory();
   const classes = useStyles();
 
   const {
     matchesXS,
     imageUrl,
     setImageUrl,
-    setAddModalOpen,
     uploading,
     setUploading,
     editing,
@@ -88,17 +88,10 @@ export default function AddEditModal(props) {
     plants,
   } = useContext(PlantContext);
 
-  const {
-    nickname,
-    species,
-    currentImageUrl,
-    setEditModalOpen,
-    h2oFrequency,
-  } = props;
+  const { nickname, species, currentImageUrl, h2oFrequency } = props;
 
   const { id } = useParams();
 
-  const [open, setOpen] = useState(false);
   const [plantData, setPlantData] = useState({
     nickname: '',
     species: '',
@@ -120,6 +113,11 @@ export default function AddEditModal(props) {
 
   console.log(id);
   const handleChange = e => {
+    setPlantData({
+      ...plantData,
+      [e.target.name]: e.target.value,
+    });
+
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
@@ -152,7 +150,9 @@ export default function AddEditModal(props) {
       data
     );
     const url = await res.data.url;
+    setImageUrl(url);
     setFormState({ ...formState, imageUrl: url });
+
     setUploading(false);
   };
 
@@ -189,11 +189,11 @@ export default function AddEditModal(props) {
     e.preventDefault();
     try {
       await addPlant();
-      setAddModalOpen(false);
       setImageUrl('');
       setIsReloading(true);
       await getPlants();
       setIsReloading(false);
+      history.push('/dashboard');
     } catch (err) {
       console.log(err);
     }
@@ -215,7 +215,6 @@ export default function AddEditModal(props) {
   const handleEditSubmit = async e => {
     try {
       await editPlant();
-      setEditModalOpen(false);
       setFormState({
         species: '',
         nickname: '',
@@ -225,6 +224,7 @@ export default function AddEditModal(props) {
       setIsReloading(true);
       await getPlants();
       setIsReloading(false);
+      history.push('/dashboard');
     } catch (err) {
       console.log(err);
     }
@@ -402,10 +402,10 @@ export default function AddEditModal(props) {
                     className={classes.button}
                     onClick={() => {
                       if (editing) {
-                        setEditModalOpen(false);
                         setEditing(false);
+                        history.push('/dashboard');
                       } else {
-                        setAddModalOpen(false);
+                        history.push('/dashboard');
                       }
                     }}
                   >
