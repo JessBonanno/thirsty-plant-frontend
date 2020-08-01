@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
       width: '100%',
       height: '100%',
       margin: 0,
-      paddingBottom: '6em',
+      paddingBottom: '8em',
     },
   },
   text: {

@@ -2,7 +2,13 @@ html,
 body {
   margin: 0;
   height: 100vh;
+  overflow-x: hidden;
 }
+
+body {
+  position: relative;
+}
+
 .without-padding input {
   padding: 5px;
   height: 30px;

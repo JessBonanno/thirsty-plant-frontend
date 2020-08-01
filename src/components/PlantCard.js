@@ -27,7 +27,11 @@ const useStyles = makeStyles({
   root: {
     width: 325,
     minHeight: 275,
-    margin: '1em',
+    margin: '1em 0',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      overflowX: 'hidden',
+    },
   },
   media: {
     height: 140,
@@ -46,7 +50,6 @@ const PlantCard = props => {
     PlantContext
   );
 
-  const [editModalOpen, setEditModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const userId = localStorage.getItem('userId');
