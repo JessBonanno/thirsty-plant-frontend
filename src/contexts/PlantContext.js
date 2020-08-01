@@ -21,6 +21,7 @@ export const PlantProvider = ({ children }) => {
   const [submitted, setSubmitted] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [details, setDetails] = useState([]);
+  const [finding, setFinding] = useState(false);
 
   let image;
 
@@ -60,15 +61,17 @@ export const PlantProvider = ({ children }) => {
           console.log('Success:', data);
           setDetails(data.suggestions);
           console.log(base64);
+          setFinding(false);
         })
         .catch(error => {
           console.error('Error:', error);
+          setFinding(false);
         });
     };
   };
 
-  function classifyPlant(e) {
-    getDetails(e);
+  async function classifyPlant(e) {
+    await getDetails(e);
   }
 
   const handleUpload = async e => {
@@ -113,6 +116,8 @@ export const PlantProvider = ({ children }) => {
         matchesMD,
         matchesLG,
         drawerOpen,
+        finding,
+        setFinding,
         setDrawerOpen,
         imageUrl,
         setImageUrl,

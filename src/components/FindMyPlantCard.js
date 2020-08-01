@@ -36,7 +36,16 @@ const useStyles = makeStyles({
 });
 
 const FindMyPlantCard = props => {
-  const { image, name, species } = props;
+  const {
+    image,
+    name,
+    species,
+    plantClass,
+    kingdom,
+    phylum,
+    order,
+    family,
+  } = props;
 
   const classes = useStyles();
 
@@ -53,7 +62,11 @@ const FindMyPlantCard = props => {
               style={{ padding: '0 1em' }}
             >
               <Grid item>
-                <Typography gutterBottom variant="h4">
+                <Typography
+                  gutterBottom
+                  variant="h4"
+                  style={{ fontSize: '1.4rem' }}
+                >
                   {name}
                 </Typography>
               </Grid>
@@ -72,7 +85,7 @@ const FindMyPlantCard = props => {
               item
               container
               justify="space-between"
-              style={{ padding: '0 1em' }}
+              style={{ padding: '1.5em' }}
               className={classes.bottomContainer}
             >
               <Grid
@@ -82,50 +95,96 @@ const FindMyPlantCard = props => {
                 className={classes.bottomInfo}
                 direction="column"
               >
-                <Grid
-                  container
-                  direction="row"
-                  justify="space-between"
-                  alignItems="center"
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  style={{ margin: 0 }}
                 >
-                  <Grid item style={{ margin: 0, maxWidth: '70%' }}>
-                    <Typography
-                      variant="h5"
-                      color="textSecondary"
-                      style={{ margin: 0 }}
-                    >
-                      {species}
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
+                  <span
                     style={{
-                      marginLeft: 'auto',
-                      marginTop: 'auto',
-                      maxWidth: '25%',
+                      fontWeight: 'bold',
+                      color: theme.palette.common.green,
                     }}
-                  ></Grid>
-                </Grid>
-                <Grid item style={{ margin: 0, padding: '1em 0' }}>
-                  <Typography variant="h6" color="textSecondary">
-                    Next watering:
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                  ></Typography>
-                  <Grid container justify="space-between" alignItems="center">
-                    <Grid item style={{ width: '70%' }}>
-                      <Typography variant="h6" color="textSecondary">
-                        Last watering:
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        color="textSecondary"
-                      ></Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
+                  >
+                    Species:
+                  </span>{' '}
+                  {species}
+                </Typography>{' '}
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  style={{ margin: 0 }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 'bold',
+                      color: theme.palette.common.green,
+                    }}
+                  >
+                    Class:
+                  </span>{' '}
+                  {plantClass}
+                </Typography>{' '}
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  style={{ margin: 0 }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 'bold',
+                      color: theme.palette.common.green,
+                    }}
+                  >
+                    Family:
+                  </span>{' '}
+                  {family}
+                </Typography>{' '}
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  style={{ margin: 0 }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 'bold',
+                      color: theme.palette.common.green,
+                    }}
+                  >
+                    Kingdom:
+                  </span>{' '}
+                  {kingdom}
+                </Typography>{' '}
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  style={{ margin: 0 }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 'bold',
+                      color: theme.palette.common.green,
+                    }}
+                  >
+                    Phylum:
+                  </span>{' '}
+                  {phylum}
+                </Typography>{' '}
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  style={{ margin: 0 }}
+                >
+                  <span
+                    style={{
+                      fontWeight: 'bold',
+                      color: theme.palette.common.green,
+                    }}
+                  >
+                    Order:
+                  </span>{' '}
+                  {order}
+                </Typography>
               </Grid>
             </Grid>
           </CardContent>

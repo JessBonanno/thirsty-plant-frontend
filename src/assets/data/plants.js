@@ -1,4 +1,4 @@
-export const plants = {
+export const data = {
   id: 4586702,
   custom_id: null,
   meta_data: { latitude: null, longitude: null, datetime: '2020-07-31' },

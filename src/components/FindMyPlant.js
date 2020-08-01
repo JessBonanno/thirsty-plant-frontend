@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import makeStyles from '@material-ui/styles/makeStyles';
 import theme from './ui/Theme';
 import FindMyPlantCard from './FindMyPlantCard';
+import { data } from '../assets/data/plants.js';
 
 // local imports
 import { PlantContext } from '../contexts/PlantContext';
@@ -14,13 +15,26 @@ const useStyles = makeStyles(theme => ({}));
 
 const FindMyPlant = () => {
   const classes = useStyles();
-  const { uploading, setDetails, details, classifyPlant } = useContext(
-    PlantContext
-  );
+  const {
+    finding,
+    setFinding,
+    setDetails,
+    details,
+    classifyPlant,
+  } = useContext(PlantContext);
+
+  const startSearch = e => {
+    setFinding(true);
+    classifyPlant(e);
+  };
+
+  console.log(finding);
 
   return (
-    <>
-      <Typography variant="h3">Find my Plant</Typography>
+    <Grid container direction="column" style={{ padding: '2em' }}>
+      <Grid item>
+        <Typography variant="h3">Find my Plant</Typography>
+      </Grid>
       <Grid
         item
         className="uploadButton"
@@ -36,7 +50,7 @@ const FindMyPlant = () => {
           id="raised-button-file"
           multiple
           type="file"
-          onChange={classifyPlant}
+          onChange={startSearch}
         />
         <label htmlFor="raised-button-file">
           <Button
@@ -49,39 +63,42 @@ const FindMyPlant = () => {
               height: 50,
             }}
           >
-            {uploading ? (
+            {finding ? (
               <CircularProgress style={{ color: 'white' }} />
             ) : (
               <Typography variant="button">Upload Image</Typography>
             )}
           </Button>
         </label>
-        {details.map(detail => {
-          return (
-            <>
-              <FindMyPlantCard
-                name={detail.plant_name}
-                image={detail.similar_images[0].url}
-                species={detail.plant_details.structured_name.species}
-              />
-              <div>
-                {detail.plant_name}{' '}
-                <img src={detail.similar_images[0].url} alt="" />{' '}
-              </div>
-              <Typography variant="h3">
-                {detail.plant_details.structured_name.genus}{' '}
-                {detail.plant_details.structured_name.species}
-              </Typography>
-              <p>{detail.plant_details.taxonomy.class}</p>
-              <p>{detail.plant_details.taxonomy.family}</p>
-              <p>{detail.plant_details.taxonomy.kingdom}</p>
-              <p>{detail.plant_details.taxonomy.phylum}</p>
-              <p>{detail.plant_details.taxonomy.order}</p>
-            </>
-          );
-        })}
+        <Grid
+          item
+          container
+          direction="row"
+          justify="center"
+          className={classes.cardsContainer}
+          style={{ padding: '2em 0 0' }}
+        >
+          {details &&
+            details.length !== 0 &&
+            details.map(detail => {
+              return (
+                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
+                  <FindMyPlantCard
+                    name={detail.plant_name}
+                    image={detail.similar_images[0].url}
+                    species={detail.plant_details.structured_name.species}
+                    plantClass={detail.plant_details.taxonomy.class}
+                    family={detail.plant_details.taxonomy.family}
+                    kingdom={detail.plant_details.taxonomy.kingdom}
+                    phylum={detail.plant_details.taxonomy.phylum}
+                    order={detail.plant_details.taxonomy.order}
+                  />
+                </Grid>
+              );
+            })}
+        </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 
