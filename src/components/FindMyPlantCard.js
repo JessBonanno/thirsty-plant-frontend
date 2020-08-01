@@ -23,7 +23,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 const useStyles = makeStyles({
   root: {
     width: 325,
-    minHeight: 275,
+    minHeight: 400,
     margin: '1em',
   },
   media: {
@@ -40,13 +40,13 @@ const FindMyPlantCard = props => {
     image,
     name,
     species,
-    plantClass,
-    kingdom,
-    phylum,
-    order,
-    family,
+    taxonomy,
+    // plantClass,
+    // kingdom,
+    // phylum,
+    // order,
+    // family,
   } = props;
-
   const classes = useStyles();
 
   return (
@@ -56,17 +56,15 @@ const FindMyPlantCard = props => {
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
-              justify="space-between"
-              alignItems="center"
+              justify='space-between'
+              alignItems='center'
               className={classes.cardHeaderContainer}
-              style={{ padding: '0 1em' }}
-            >
+              style={{ padding: '0 1em' }}>
               <Grid item>
                 <Typography
                   gutterBottom
-                  variant="h4"
-                  style={{ fontSize: '1.4rem' }}
-                >
+                  variant='h4'
+                  style={{ fontSize: '1.4rem' }}>
                   {name}
                 </Typography>
               </Grid>
@@ -84,107 +82,115 @@ const FindMyPlantCard = props => {
             <Grid
               item
               container
-              justify="space-between"
+              justify='space-between'
               style={{ padding: '1.5em' }}
-              className={classes.bottomContainer}
-            >
+              className={classes.bottomContainer}>
               <Grid
                 item
                 container
-                align="left"
+                align='left'
                 className={classes.bottomInfo}
-                direction="column"
-              >
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  style={{ margin: 0 }}
-                >
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: theme.palette.common.green,
-                    }}
-                  >
-                    Species:
-                  </span>{' '}
-                  {species}
-                </Typography>{' '}
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  style={{ margin: 0 }}
-                >
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: theme.palette.common.green,
-                    }}
-                  >
-                    Class:
-                  </span>{' '}
-                  {plantClass}
-                </Typography>{' '}
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  style={{ margin: 0 }}
-                >
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: theme.palette.common.green,
-                    }}
-                  >
-                    Family:
-                  </span>{' '}
-                  {family}
-                </Typography>{' '}
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  style={{ margin: 0 }}
-                >
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: theme.palette.common.green,
-                    }}
-                  >
-                    Kingdom:
-                  </span>{' '}
-                  {kingdom}
-                </Typography>{' '}
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  style={{ margin: 0 }}
-                >
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: theme.palette.common.green,
-                    }}
-                  >
-                    Phylum:
-                  </span>{' '}
-                  {phylum}
-                </Typography>{' '}
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  style={{ margin: 0 }}
-                >
-                  <span
-                    style={{
-                      fontWeight: 'bold',
-                      color: theme.palette.common.green,
-                    }}
-                  >
-                    Order:
-                  </span>{' '}
-                  {order}
-                </Typography>
+                direction='column'>
+                {species && <>
+                  <Typography
+                    variant='h5'
+                    color='textSecondary'
+                    style={{ margin: 0 }}>
+                    <span
+                      style={{
+                        fontWeight: 'bold',
+                        color: theme.palette.common.green,
+                      }}>
+                      Species:
+                    </span>{' '}
+                    {species}
+                  </Typography>{' '}
+                </>}
+                {taxonomy && taxonomy.plantClass && (
+                  <>
+                    <Typography
+                      variant='h5'
+                      color='textSecondary'
+                      style={{ margin: 0 }}>
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          color: theme.palette.common.green,
+                        }}>
+                        Class:
+                      </span>{' '}
+                      {taxonomy.plantClass}
+                    </Typography>{' '}
+                  </>
+                )}
+                {taxonomy && taxonomy.family && (
+                  <>
+                    <Typography
+                      variant='h5'
+                      color='textSecondary'
+                      style={{ margin: 0 }}>
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          color: theme.palette.common.green,
+                        }}>
+                        Family:
+                      </span>{' '}
+                      {taxonomy.family}
+                    </Typography>{' '}
+                  </>
+                )}
+                {taxonomy && taxonomy.kingdom && (
+                  <>
+                    <Typography
+                      variant='h5'
+                      color='textSecondary'
+                      style={{ margin: 0 }}>
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          color: theme.palette.common.green,
+                        }}>
+                        Kingdom:
+                      </span>{' '}
+                      {taxonomy.kingdom}
+                    </Typography>{' '}
+                  </>
+                )}
+                {taxonomy && taxonomy.phylum && (
+                  <>
+                    <Typography
+                      variant='h5'
+                      color='textSecondary'
+                      style={{ margin: 0 }}>
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          color: theme.palette.common.green,
+                        }}>
+                        Phylum:
+                      </span>{' '}
+                      {taxonomy.phylum}
+                    </Typography>{' '}
+                  </>
+                )}
+                {taxonomy && taxonomy.order && (
+                  <>
+                    <Typography
+                      variant='h5'
+                      color='textSecondary'
+                      style={{ margin: 0 }}>
+                      <span
+                        style={{
+                          fontWeight: 'bold',
+                          color: theme.palette.common.green,
+                        }}>
+                        Order:
+                      </span>{' '}
+                      {taxonomy.order}
+                    </Typography>
+                  </>
+                )}
               </Grid>
             </Grid>
           </CardContent>
