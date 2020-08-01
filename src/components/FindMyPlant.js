@@ -6,6 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import makeStyles from '@material-ui/styles/makeStyles';
 import theme from './ui/Theme';
 import FindMyPlantCard from './FindMyPlantCard';
+import placeholder from '../assets/images/no_image_to_show_.webp';
 import { data } from '../assets/data/plants.js';
 
 // local imports
@@ -29,14 +30,14 @@ const FindMyPlant = () => {
     classifyPlant(e);
   };
 
-  console.log(finding);
+  console.log(details);
 
   return (
     <Grid
       container
       direction="column"
       alignItems={matchesSM ? 'center' : 'flex-start'}
-      style={{ padding: '2em' }}
+      style={{ padding: '2em', margin: '1em 0' }}
     >
       <Grid item>
         <Typography variant="h3">Find my Plant</Typography>
@@ -91,7 +92,11 @@ const FindMyPlant = () => {
                 <Grid item align="center">
                   <FindMyPlantCard
                     name={detail.plant_name}
-                    image={detail.similar_images[0].url}
+                    image={
+                      detail.similar_images.length > 0
+                        ? detail.similar_images[0].url
+                        : placeholder
+                    }
                     species={detail.plant_details.structured_name.species}
                     taxonomy={detail.plant_details.taxonomy}
                     // plantClass={detail.plant_details.taxonomy.class}
