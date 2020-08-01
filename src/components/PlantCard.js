@@ -15,12 +15,13 @@ import theme from '../components/ui/Theme';
 
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
-import EditPlantModal from '../components/EditPlantModal';
+// import EditPlantModal from '../components/EditPlantModal';
 import placeholderImage from '../assets/images/placholder-plant.jpg';
 
 import { PlantContext } from '../contexts/PlantContext';
 
 import { axiosWithAuth } from '../utils/axiosWithAuth';
+import AddEditModal from './AddEditModal';
 
 const useStyles = makeStyles({
   root: {
@@ -49,7 +50,7 @@ const PlantCard = props => {
     setIsReloading,
   } = props;
 
-  const { setContextEditModalOpen } = useContext(PlantContext);
+  const { setEditing, editing } = useContext(PlantContext);
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -60,7 +61,7 @@ const PlantCard = props => {
 
   const handleEditModalOpen = () => {
     setEditModalOpen(true);
-    setContextEditModalOpen(true);
+    setEditing(true);
   };
 
   const handleDialogOpen = () => {
@@ -112,7 +113,7 @@ const PlantCard = props => {
 
   return (
     <>
-      <EditPlantModal
+      <AddEditModal
         id={id}
         nickname={nickname}
         species={species}
@@ -120,7 +121,7 @@ const PlantCard = props => {
         h2oFrequency={h2oFrequency}
         editModalOpen={editModalOpen}
         setEditModalOpen={setEditModalOpen}
-        setContextEditModalOpen={setContextEditModalOpen}
+        setEditing={setEditing}
         setPlants={setPlants}
         setIsReloading={setIsReloading}
       />

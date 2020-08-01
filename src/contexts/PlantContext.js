@@ -22,7 +22,7 @@ export const PlantProvider = ({ children }) => {
   const [uploading, setUploading] = useState(false);
   const [details, setDetails] = useState([]);
   const [finding, setFinding] = useState(false);
-  const [contextEditModalOpen, setContextEditModalOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   let image;
 
@@ -141,8 +141,8 @@ export const PlantProvider = ({ children }) => {
         getDetails,
         setDetails,
         details,
-        contextEditModalOpen,
-        setContextEditModalOpen,
+        editing,
+        setEditing,
       }}
     >
       {children}

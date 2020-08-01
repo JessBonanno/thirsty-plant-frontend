@@ -7,11 +7,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
 // local components
 import PlantCard from '../PlantCard';
-import AddPlantModal from '../AddPlantModal';
+// import AddPlantModal from '../AddPlantModal';
 // context
 import { PlantContext } from '../../contexts/PlantContext';
 import AddButton from '../AddButton';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
+import AddEditModal from '../AddEditModal';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -131,7 +132,7 @@ const Dashboard = () => {
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />
-      <AddPlantModal
+      <AddEditModal
         className={classes.modal}
         setIsReloading={setIsReloading}
         setPlants={setPlants}
