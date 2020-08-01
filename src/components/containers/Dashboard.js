@@ -13,7 +13,6 @@ import PlantCard from '../PlantCard';
 import { PlantContext } from '../../contexts/PlantContext';
 import AddButton from '../AddButton';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
-import AddEditModal from '../AddEditModal';
 
 const useStyles = makeStyles(theme => ({
   modal: {

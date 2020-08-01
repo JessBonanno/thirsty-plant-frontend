@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { TweenMax, Power3 } from 'gsap';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import logo from '../assets/images/logo.png';
 import theme from './ui/Theme';
 
 // local imports
@@ -33,12 +34,12 @@ const useStyles = makeStyles(theme => ({
   signUpContainer: {
     backgroundImage: `url(${signUp})`,
     position: 'fixed',
-    minWidth: '100%',
+    width: '100%',
     height: '100vh',
     overflow: 'auto',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    paddingBottom: '5em',
+    paddingBottom: '4em',
   },
   form: {
     display: 'flex',
@@ -66,7 +67,8 @@ const useStyles = makeStyles(theme => ({
       width: 350,
     },
     [theme.breakpoints.down('xs')]: {
-      width: 350,
+      width: '100%',
+      height: '100%',
       margin: 0,
     },
   },
@@ -154,7 +156,6 @@ function Signup() {
     formSchema.isValid(formState).then(valid => {
       setButtonDisabled(!valid);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState]);
 
   const handleClose = (event, reason) => {
@@ -315,6 +316,9 @@ function Signup() {
             justify="center"
             alignItems="center"
           >
+            <Grid item>
+              <img src={logo} width="40" alt="" />
+            </Grid>
             <Grid item>
               <Typography
                 variant="h5"

@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function AddEditModal(props) {
+export default function AddEditPlants(props) {
   const history = useHistory();
   const classes = useStyles();
 

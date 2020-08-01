@@ -22,7 +22,6 @@ import placeholderImage from '../assets/images/placholder-plant.jpg';
 import { PlantContext } from '../contexts/PlantContext';
 
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import AddEditModal from './AddEditModal';
 
 const useStyles = makeStyles({
   root: {

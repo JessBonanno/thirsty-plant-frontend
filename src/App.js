@@ -14,7 +14,7 @@ import AppBar from './components/ui/AppBar';
 import Footer from './components/ui/Footer';
 import PrivateRoute from './utils/PrivateRoute';
 import FindMyPlant from './components/FindMyPlant';
-import AddEditModal from './components/AddEditModal';
+import AddEditPlants from './components/AddEditPlants';
 
 function App() {
   return (
@@ -37,8 +37,8 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <PrivateRoute exact path="/settings" component={EditUser} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/add-plant" component={AddEditModal} />
-          <PrivateRoute path="/edit-plant/:id" component={AddEditModal} />
+          <PrivateRoute path="/add-plant" component={AddEditPlants} />
+          <PrivateRoute path="/edit-plant/:id" component={AddEditPlants} />
           <Route path="/find-my-plant" component={FindMyPlant} />
         </Switch>
       </div>
