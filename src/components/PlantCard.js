@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,6 +17,8 @@ import theme from '../components/ui/Theme';
 import DeleteDialog from '../components/DeleteDialog';
 import EditPlantModal from '../components/EditPlantModal';
 import placeholderImage from '../assets/images/placholder-plant.jpg';
+
+import { PlantContext } from '../contexts/PlantContext';
 
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
@@ -47,6 +49,8 @@ const PlantCard = props => {
     setIsReloading,
   } = props;
 
+  const { setContextEditModalOpen } = useContext(PlantContext);
+
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -56,6 +60,7 @@ const PlantCard = props => {
 
   const handleEditModalOpen = () => {
     setEditModalOpen(true);
+    setContextEditModalOpen(true);
   };
 
   const handleDialogOpen = () => {
@@ -115,6 +120,7 @@ const PlantCard = props => {
         h2oFrequency={h2oFrequency}
         editModalOpen={editModalOpen}
         setEditModalOpen={setEditModalOpen}
+        setContextEditModalOpen={setContextEditModalOpen}
         setPlants={setPlants}
         setIsReloading={setIsReloading}
       />

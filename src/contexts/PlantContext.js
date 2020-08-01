@@ -22,6 +22,7 @@ export const PlantProvider = ({ children }) => {
   const [uploading, setUploading] = useState(false);
   const [details, setDetails] = useState([]);
   const [finding, setFinding] = useState(false);
+  const [contextEditModalOpen, setContextEditModalOpen] = useState(false);
 
   let image;
 
@@ -104,7 +105,7 @@ export const PlantProvider = ({ children }) => {
     setEditModalOpen(true);
   };
 
-  const handleEdiModalClose = () => {
+  const handleEditModalClose = () => {
     setEditModalOpen(false);
   };
 
@@ -130,9 +131,7 @@ export const PlantProvider = ({ children }) => {
         setAddModalOpen,
         dialogOpen,
         setDialogOpen,
-        editModalOpen,
-        setEditModalOpen,
-        handleEdiModalClose,
+        handleEditModalClose,
         handleEditModalOpen,
         userId,
         setUserId,
@@ -142,6 +141,8 @@ export const PlantProvider = ({ children }) => {
         getDetails,
         setDetails,
         details,
+        contextEditModalOpen,
+        setContextEditModalOpen,
       }}
     >
       {children}

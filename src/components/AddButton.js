@@ -4,7 +4,9 @@ import theme from './ui/Theme';
 import { PlantContext } from '../contexts/PlantContext';
 
 const AddButton = props => {
-  const { addModalOpen, editModalOpen } = useContext(PlantContext);
+  const { addModalOpen, editModalOpen, contextEditModalOpen } = useContext(
+    PlantContext
+  );
 
   const { handleAddModalOpen } = props;
   return (
@@ -14,7 +16,7 @@ const AddButton = props => {
         padding: '0.5rem',
         backgroundColor: theme.palette.common.yellow,
         zIndex: 3200,
-        display: addModalOpen || editModalOpen ? 'none' : undefined,
+        display: addModalOpen || contextEditModalOpen ? 'none' : undefined,
       }}
       onClick={handleAddModalOpen}
     >
