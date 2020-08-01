@@ -28,10 +28,8 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: '50px',
     width: 654,
-    // height: 500,
     outline: 'none',
     [theme.breakpoints.down('sm')]: {
-      // height: 550,
       width: 400,
       padding: 20,
     },
@@ -63,7 +61,6 @@ export default function TransitionsModal(props) {
     species: '',
     h2oFrequency: '',
     imageUrl: '',
-    // token: localStorage.getItem('token'),
   });
 
   const {
@@ -76,8 +73,9 @@ export default function TransitionsModal(props) {
     setAddModalOpen,
     uploading,
 
-    // userId,
   } = useContext(PlantContext);
+
+  
 
   const handleChange = e => {
     e.persist();
