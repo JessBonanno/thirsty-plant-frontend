@@ -21,7 +21,7 @@ function App() {
       <Hidden smDown>
         <AppBar style={{ margin: 0 }} />
       </Hidden>
-      <div className="App">
+      <div className="App" style={{ padding: '0 0 100px' }}>
         <Switch>
           <Route
             exact
