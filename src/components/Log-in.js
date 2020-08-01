@@ -79,7 +79,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
 }));
-
 const defaultState = { username: '', password: '' };
 function Login() {
   const classes = useStyles();
@@ -98,23 +97,19 @@ function Login() {
     username: Yup.string().required('username is required'),
     password: Yup.string().required('password is required'),
   });
-
   let gsapAnimationLogin = useRef(null);
-
   useEffect(() => {
     TweenMax.to(gsapAnimationLogin, 2, {
       opacity: 1,
       ease: Power3.easeOut,
     });
   }, []);
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpenSnackbar(false);
   };
-
   const snackbar = (
     <div className={classes.root}>
       <Snackbar
@@ -139,7 +134,6 @@ function Login() {
       </Snackbar>
     </div>
   );
-
   useEffect(() => {
     if (loginError !== '') {
       setOpenSnackbar(true);
@@ -181,13 +175,11 @@ function Login() {
         })
       );
   };
-
   const handleEnterPress = e => {
     if (e.keyCode === 13) {
       formSubmit(e);
     }
   };
-
   const changeHandler = e => {
     setLoginError('');
     const value =
@@ -198,7 +190,6 @@ function Login() {
     });
     validateChange(e);
   };
-
   const login = async () => {
     try {
       const res = await axios.post(
@@ -216,7 +207,6 @@ function Login() {
       setLoading(false);
     }
   };
-
   async function formSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -230,7 +220,6 @@ function Login() {
       console.log(err);
     }
   }
-
   return (
     <>
       <div className={classes.signUpContainer}>
@@ -258,7 +247,6 @@ function Login() {
                   Login
                 </Typography>
               </Grid>
-
               <Grid item style={{ width: '100%' }}>
                 <form>
                   <Grid container direction="column" style={{ width: '100%' }}>
@@ -291,7 +279,6 @@ function Login() {
                         // helperText={errors.password}
                       />
                     </Grid>
-
                     <Grid item className={classes.formGridItem}>
                       <Button
                         variant="contained"
@@ -330,5 +317,4 @@ function Login() {
     </>
   );
 }
-
 export default Login;

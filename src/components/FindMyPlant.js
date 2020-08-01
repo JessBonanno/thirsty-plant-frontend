@@ -82,22 +82,23 @@ const FindMyPlant = () => {
           direction="row"
           justify="center"
           className={classes.cardsContainer}
-          style={{ padding: '2em 0 0' }}
+          style={{ padding: '2em 0 ' }}
         >
           {details &&
             details.length !== 0 &&
             details.map(detail => {
               return (
-                <Grid item xs={12} sm={6} md={4} lg={3} align="center">
+                <Grid item align="center">
                   <FindMyPlantCard
                     name={detail.plant_name}
                     image={detail.similar_images[0].url}
                     species={detail.plant_details.structured_name.species}
-                    plantClass={detail.plant_details.taxonomy.class}
-                    family={detail.plant_details.taxonomy.family}
-                    kingdom={detail.plant_details.taxonomy.kingdom}
-                    phylum={detail.plant_details.taxonomy.phylum}
-                    order={detail.plant_details.taxonomy.order}
+                    taxonomy={detail.plant_details.taxonomy}
+                    // plantClass={detail.plant_details.taxonomy.class}
+                    // family={detail.plant_details.taxonomy.family}
+                    // kingdom={detail.plant_details.taxonomy.kingdom}
+                    // phylum={detail.plant_details.taxonomy.phylum}
+                    // order={detail.plant_details.taxonomy.order}
                   />
                 </Grid>
               );

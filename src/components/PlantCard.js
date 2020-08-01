@@ -125,7 +125,7 @@ const PlantCard = props => {
         setPlants={setPlants}
         setIsReloading={setIsReloading}
       />
-      <Card className={classes.root} disableRipple>
+      <Card className={classes.root} disableRipple raised={true}>
         <CardActionArea>
           <CardContent style={{ padding: 0 }}>
             <Grid
