@@ -4,6 +4,8 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import theme from './ui/Theme';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function TransitionsModal() {
+  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -323,6 +326,7 @@ export default function TransitionsModal() {
         BackdropProps={{
           timeout: 500,
         }}
+        style={{ width: matchesXS && '95%', margin: '0 auto' }}
       >
         <Fade in={open}>
           <div className={classes.paper}>

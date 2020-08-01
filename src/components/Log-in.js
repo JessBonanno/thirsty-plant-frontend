@@ -92,6 +92,7 @@ function Login() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [disabled, setDisabled] = useState(true);
 
   const formSchema = Yup.object().shape({
     username: Yup.string().required('username is required'),
@@ -157,6 +158,12 @@ function Login() {
     }
   }, [errors, loginError]);
 
+  useEffect(() => {
+    if (formState.username !== '' && formState.password !== '') {
+      setDisabled(false);
+    }
+  }, [formState.username, formState.password]);
+
   const validateChange = e => {
     e.persist();
     Yup.reach(formSchema, e.target.name)
@@ -204,7 +211,9 @@ function Login() {
       setLoading(false);
       setLoading(false);
     } catch (err) {
+      console.log(err.message);
       setLoginError('Username and password not recognized, please try again');
+      setLoading(false);
     }
   };
 
@@ -213,7 +222,10 @@ function Login() {
     setLoading(true);
     try {
       await login();
-      history.push('/dashboard');
+      if (localStorage.getItem('token')) {
+        history.push('/dashboard');
+      }
+      setDisabled(true);
     } catch (err) {
       console.log(err);
     }
@@ -245,13 +257,6 @@ function Login() {
                 >
                   Login
                 </Typography>
-                <div style={{ height: 50, paddingBottom: 5 }}>
-                  {loginError && (
-                    <Typography variant="caption">
-                      Username and password not recognized, please try again
-                    </Typography>
-                  )}
-                </div>
               </Grid>
 
               <Grid item style={{ width: '100%' }}>
@@ -294,6 +299,7 @@ function Login() {
                         style={{ color: 'white', width: '100%' }}
                         onClick={formSubmit}
                         className={classes.button}
+                        disabled={disabled}
                       >
                         {loading ? (
                           <CircularProgress style={{ color: 'white' }} />

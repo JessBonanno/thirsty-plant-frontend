@@ -21,6 +21,7 @@ const FindMyPlant = () => {
     setDetails,
     details,
     classifyPlant,
+    matchesSM,
   } = useContext(PlantContext);
 
   const startSearch = e => {
@@ -31,7 +32,12 @@ const FindMyPlant = () => {
   console.log(finding);
 
   return (
-    <Grid container direction="column" style={{ padding: '2em' }}>
+    <Grid
+      container
+      direction="column"
+      alignItems={matchesSM ? 'center' : 'flex-start'}
+      style={{ padding: '2em' }}
+    >
       <Grid item>
         <Typography variant="h3">Find my Plant</Typography>
       </Grid>

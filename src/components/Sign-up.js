@@ -12,6 +12,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { TweenMax, Power3 } from 'gsap';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import theme from './ui/Theme';
 
 // local imports
 import Terms from './Terms';
@@ -87,6 +89,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Signup() {
+  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
+
   let gsapAnimationForm = useRef(null);
   const classes = useStyles();
   const history = useHistory();
@@ -399,7 +403,7 @@ function Signup() {
                             errors={errors}
                           />
                         </Grid>
-                        <Grid item>
+                        <Grid item style={{ width: matchesXS && '95%' }}>
                           <Terms />
                         </Grid>
                       </Grid>
