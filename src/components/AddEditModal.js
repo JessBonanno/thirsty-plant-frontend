@@ -52,7 +52,8 @@ const useStyles = makeStyles(theme => ({
   },
   inputOuterContainer: {
     padding: '0 2em',
-    margin: '2em 1em',
+    // margin: '2em 1em',
+    boxShadow: '0',
     [theme.breakpoints.down('sm')]: {
       padding: '1em',
       margin: 0,
@@ -224,6 +225,8 @@ export default function AddEditModal(props) {
     }
   };
 
+  console.log(editing);
+
   return (
     <div>
       <Modal
@@ -236,6 +239,10 @@ export default function AddEditModal(props) {
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
+          style: {
+            opacity: '0.3',
+            border: 'none',
+          },
         }}
       >
         <Fade in={editing ? editModalOpen : addModalOpen}>
@@ -361,7 +368,7 @@ export default function AddEditModal(props) {
                         backgroundPosition: 'center',
                         height: 200,
                         // width: 200,
-                        margin: matchesSM ? '1em' : '4em 0 2em',
+                        margin: matchesSM ? '1em' : '4em 0 1em',
                         border: editing
                           ? (formState.imageUrl && 'none') ||
                             (imageUrl && 'none')
