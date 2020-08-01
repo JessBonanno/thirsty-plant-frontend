@@ -12,6 +12,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import GradientBackground from '../assets/images/green-gradient-background.svg';
 import PlantBackgroundImg from '../assets/images/plant-background.png';
 import Paper from '@material-ui/core/Paper';
+import logo from '../assets/images/logo.png';
 import { CircularProgress } from '@material-ui/core';
 import { TweenMax, Power3 } from 'gsap';
 // function for the snackbar
@@ -238,6 +239,7 @@ function Login() {
               alignItems="center"
               // style={{ border: '1px solid red' }}
             >
+              {' '}
               <Grid item>
                 <Typography
                   variant="h5"
@@ -309,6 +311,9 @@ function Login() {
                   </Link>
                   ?
                 </Typography>
+              </Grid>
+              <Grid item style={{ marginTop: '2em' }}>
+                <img src={logo} width="60" alt="" />
               </Grid>
             </Grid>
           </Paper>

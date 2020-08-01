@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,7 +16,7 @@ import theme from '../components/ui/Theme';
 
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
-import EditPlantModal from '../components/EditPlantModal';
+// import EditPlantModal from '../components/EditPlantModal';
 import placeholderImage from '../assets/images/placholder-plant.jpg';
 
 import { PlantContext } from '../contexts/PlantContext';
@@ -38,18 +39,12 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
-  const {
-    id,
-    nickname,
-    species,
-    imageUrl,
-    lastWatered,
-    h2oFrequency,
-    setPlants,
-    setIsReloading,
-  } = props;
+  const history = useHistory();
+  const { id, nickname, species, imageUrl, lastWatered, h2oFrequency } = props;
 
-  const { setContextEditModalOpen } = useContext(PlantContext);
+  const { setEditing, plants, setPlants, setIsReloading } = useContext(
+    PlantContext
+  );
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -58,9 +53,9 @@ const PlantCard = props => {
 
   const classes = useStyles();
 
-  const handleEditModalOpen = () => {
-    setEditModalOpen(true);
-    setContextEditModalOpen(true);
+  const handleEditModalOpen = id => {
+    setEditing(true);
+    history.push(`/edit-plant/${id}`);
   };
 
   const handleDialogOpen = () => {
@@ -112,18 +107,6 @@ const PlantCard = props => {
 
   return (
     <>
-      <EditPlantModal
-        id={id}
-        nickname={nickname}
-        species={species}
-        currentImageUrl={imageUrl === '' ? placeholderImage : imageUrl}
-        h2oFrequency={h2oFrequency}
-        editModalOpen={editModalOpen}
-        setEditModalOpen={setEditModalOpen}
-        setContextEditModalOpen={setContextEditModalOpen}
-        setPlants={setPlants}
-        setIsReloading={setIsReloading}
-      />
       <DeleteDialog
         id={id}
         dialogOpen={dialogOpen}
@@ -206,7 +189,7 @@ const PlantCard = props => {
                       <Grid item>
                         <IconButton
                           style={{ marginBottom: '.25em', paddingRight: 10 }}
-                          onClick={handleEditModalOpen}
+                          onClick={() => handleEditModalOpen(id)}
                         >
                           <EditTwoToneIcon />
                         </IconButton>
