@@ -79,7 +79,6 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
 }));
-
 const defaultState = { username: '', password: '' };
 function Login() {
   const classes = useStyles();
@@ -92,28 +91,24 @@ function Login() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
-
+  const [disabled, setDisabled] = useState(true);
   const formSchema = Yup.object().shape({
     username: Yup.string().required('username is required'),
     password: Yup.string().required('password is required'),
   });
-
   let gsapAnimationLogin = useRef(null);
-
   useEffect(() => {
     TweenMax.to(gsapAnimationLogin, 2, {
       opacity: 1,
       ease: Power3.easeOut,
     });
   }, []);
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpenSnackbar(false);
   };
-
   const snackbar = (
     <div className={classes.root}>
       <Snackbar
@@ -138,7 +133,6 @@ function Login() {
       </Snackbar>
     </div>
   );
-
   useEffect(() => {
     if (loginError !== '') {
       setOpenSnackbar(true);
@@ -156,7 +150,11 @@ function Login() {
       }
     }
   }, [errors, loginError]);
-
+  useEffect(() => {
+    if (formState.username !== '' && formState.password !== '') {
+      setDisabled(false);
+    }
+  }, [formState.username, formState.password]);
   const validateChange = e => {
     e.persist();
     Yup.reach(formSchema, e.target.name)
@@ -174,13 +172,11 @@ function Login() {
         })
       );
   };
-
   const handleEnterPress = e => {
     if (e.keyCode === 13) {
       formSubmit(e);
     }
   };
-
   const changeHandler = e => {
     setLoginError('');
     const value =
@@ -191,7 +187,6 @@ function Login() {
     });
     validateChange(e);
   };
-
   const login = async () => {
     try {
       const res = await axios.post(
@@ -204,21 +199,24 @@ function Login() {
       setLoading(false);
       setLoading(false);
     } catch (err) {
+      console.log(err.message);
       setLoginError('Username and password not recognized, please try again');
+      setLoading(false);
     }
   };
-
   async function formSubmit(e) {
     e.preventDefault();
     setLoading(true);
     try {
       await login();
-      history.push('/dashboard');
+      if (localStorage.getItem('token')) {
+        history.push('/dashboard');
+      }
+      setDisabled(true);
     } catch (err) {
       console.log(err);
     }
   }
-
   return (
     <>
       <div className={classes.signUpContainer}>
@@ -245,15 +243,7 @@ function Login() {
                 >
                   Login
                 </Typography>
-                <div style={{ height: 50, paddingBottom: 5 }}>
-                  {loginError && (
-                    <Typography variant="caption">
-                      Username and password not recognized, please try again
-                    </Typography>
-                  )}
-                </div>
               </Grid>
-
               <Grid item style={{ width: '100%' }}>
                 <form>
                   <Grid container direction="column" style={{ width: '100%' }}>
@@ -286,7 +276,6 @@ function Login() {
                         // helperText={errors.password}
                       />
                     </Grid>
-
                     <Grid item className={classes.formGridItem}>
                       <Button
                         variant="contained"
@@ -294,6 +283,7 @@ function Login() {
                         style={{ color: 'white', width: '100%' }}
                         onClick={formSubmit}
                         className={classes.button}
+                        disabled={disabled}
                       >
                         {loading ? (
                           <CircularProgress style={{ color: 'white' }} />
@@ -324,5 +314,4 @@ function Login() {
     </>
   );
 }
-
 export default Login;
