@@ -68,9 +68,9 @@ const useStyles = makeStyles(theme => ({
  */
 const Dashboard = () => {
   // this ensures page always renders at the top
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const history = useHistory();
   const classes = useStyles();
   const {
