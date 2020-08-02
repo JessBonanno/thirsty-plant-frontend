@@ -22,7 +22,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
   root: {
-    width: 325,
+    width: 335,
     minHeight: 500,
     margin: '1em 0',
     [theme.breakpoints.down('xs')]: {
