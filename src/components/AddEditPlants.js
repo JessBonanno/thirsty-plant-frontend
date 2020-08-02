@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import theme from '../components/ui/Theme';
 // local imports
 import placeHolder from '../assets/images/placeholder.jpg';
+import noImgPlaceholder from '../assets/images/no-image-placeholder.jpg';
 import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
@@ -64,6 +65,9 @@ const useStyles = makeStyles(theme => ({
   imageDiv: {
     [theme.breakpoints.down('xs')]: {
       margin: '1em',
+    },
+    helperText: {
+      fontSize: '5rem',
     },
   },
 }));
@@ -145,7 +149,7 @@ export default function AddEditPlants(props) {
         `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`,
         {
           ...plantData,
-          imageUrl: imageUrl,
+          imageUrl: imageUrl ? imageUrl : noImgPlaceholder,
         }
       );
       console.log(res);
@@ -292,19 +296,29 @@ export default function AddEditPlants(props) {
                   <TextField
                     className={classes.formField}
                     variant='outlined'
-                    label='Time between waterings'
+                    label='Days between watering'
                     name='h2oFrequency'
                     value={formState.h2oFrequency}
                     onChange={handleChange}
                   />
                 ) : (
-                  <TextField
-                    className={classes.formField}
-                    variant='outlined'
-                    label='Time between waterings'
-                    name='h2oFrequency'
-                    onChange={handleChange}
-                  />
+                  <>
+                    <TextField
+                      className={classes.formField}
+                      variant='outlined'
+                      label='Days between watering'
+                      name='h2oFrequency'
+                      onChange={handleChange}
+                      error={formState.h2oFrequency === ''}
+                    />
+
+                    <Typography
+                      variant='caption'
+                      color='error'
+                      style={{ fontSize: '1rem', height: 25 }}>
+                      {formState.h2oFrequency === '' && 'Required Field'}
+                    </Typography>
+                  </>
                 )}
               </Grid>
             </Grid>
@@ -373,9 +387,13 @@ export default function AddEditPlants(props) {
                 </Grid>
                 <Grid item>
                   <Button
+                    disabled={formState.h2oFrequency === ''}
                     variant='contained'
                     style={{
-                      backgroundColor: theme.palette.common.green,
+                      backgroundColor:
+                        formState.h2oFrequency === ''
+                          ? 'lightgray'
+                          : theme.palette.common.green,
                       marginLeft: matchesXS ? 0 : '1em',
                     }}
                     className={classes.button}

@@ -15,7 +15,7 @@ import InvertColorsTwoToneIcon from '@material-ui/icons/InvertColorsTwoTone';
 import theme from '../components/ui/Theme';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
-import placeholderImage from '../assets/images/placeholder-plant.jpg';
+import placeholderImage from '../assets/images/no-image-placeholder.jpg';
 import { PlantContext } from '../contexts/PlantContext';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
@@ -91,7 +91,7 @@ const PlantCard = props => {
       setIsReloading(false);
     }
   }
-// logic for updating next water date based on last watered
+  // logic for updating next water date based on last watered
   const getWateringDate = moment(lastWatered, 'YYYYMMDD').add(
     h2oFrequency,
     'days'
