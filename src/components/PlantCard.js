@@ -36,6 +36,9 @@ const useStyles = makeStyles({
 
   iconButtonText: {
     ...theme.typography.iconButtonText,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '.8rem',
+    },
   },
 });
 
