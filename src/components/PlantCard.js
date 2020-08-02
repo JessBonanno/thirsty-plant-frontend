@@ -107,7 +107,6 @@ const PlantCard = props => {
   );
   const nextWatering = moment(getWateringDate).format('ll');
   const overDue = moment(getWateringDate).isBefore();
-  // console.log(moment(getWateringDate).isBefore());
 
   return (
     <>
@@ -171,7 +170,7 @@ const PlantCard = props => {
                     <Typography
                       variant='h5'
                       color='textSecondary'
-                      style={{ margin: 0 }}>
+                      style={{ margin: 0, textTransform: 'capitalize' }}>
                       {species}
                     </Typography>
                   </Grid>

@@ -145,11 +145,9 @@ const Dashboard = () => {
     const nextWatering = moment(getWateringDate).format('ll');
     return { ...plant, nextWatering: nextWatering };
   });
-  console.log(newPlants);
   const sortedPlants = newPlants.sort((a, b) =>
     a.nextWatering > b.nextWatering ? 1 : -1
   );
-  console.log(sortedPlants);
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />
