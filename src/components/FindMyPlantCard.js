@@ -149,7 +149,7 @@ const FindMyPlantCard = props => {
                       style={{ margin: 0, textTransform: 'capitalize' }}>
                       <span
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: theme.palette.common.green,
                         }}>
                         Species:
@@ -166,7 +166,7 @@ const FindMyPlantCard = props => {
                       style={{ margin: 0 }}>
                       <span
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: theme.palette.common.green,
                         }}>
                         Class:
@@ -183,7 +183,7 @@ const FindMyPlantCard = props => {
                       style={{ margin: 0 }}>
                       <span
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: theme.palette.common.green,
                         }}>
                         Family:
@@ -200,7 +200,7 @@ const FindMyPlantCard = props => {
                       style={{ margin: 0 }}>
                       <span
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: theme.palette.common.green,
                         }}>
                         Kingdom:
@@ -217,7 +217,7 @@ const FindMyPlantCard = props => {
                       style={{ margin: 0 }}>
                       <span
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: theme.palette.common.green,
                         }}>
                         Phylum:
@@ -234,7 +234,7 @@ const FindMyPlantCard = props => {
                       style={{ margin: 0 }}>
                       <span
                         style={{
-                          fontWeight: 'bold',
+                          fontWeight: 500,
                           color: theme.palette.common.green,
                         }}>
                         Order:

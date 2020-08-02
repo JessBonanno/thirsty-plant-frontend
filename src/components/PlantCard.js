@@ -25,7 +25,6 @@ const useStyles = makeStyles({
     minHeight: 500,
     margin: '1em 0',
     [theme.breakpoints.down('xs')]: {
-      width: '100%',
       overflowX: 'hidden',
     },
   },
