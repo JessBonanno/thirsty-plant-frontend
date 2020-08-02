@@ -92,11 +92,12 @@ const PlantCard = props => {
     }
   }
   // logic for updating next water date based on last watered
-  const getWateringDate = moment(lastWatered, 'YYYYMMDD').add(
-    h2oFrequency,
-    'days'
+  const getWateringDate = moment(lastWatered).add(
+    (Number(h2oFrequency) * 12),
+    'h'
   );
-  const nextWatering = moment(getWateringDate).format('ll');
+  console.log(lastWatered);
+  const nextWatering = moment(getWateringDate).format('lll');
   const overDue = moment(getWateringDate).isBefore();
 
   return (
@@ -213,9 +214,9 @@ const PlantCard = props => {
                         Last watering:
                       </Typography>
                       <Typography variant='body1' color='textSecondary'>
-                        {moment(lastWatered).format('lll') !==
+                        {moment(lastWatered).format('ll') !==
                         'Invalid date' ? (
-                          moment(lastWatered).format('lll')
+                          moment(lastWatered).format('ll')
                         ) : (
                           <>
                             Never watered{'   '}
