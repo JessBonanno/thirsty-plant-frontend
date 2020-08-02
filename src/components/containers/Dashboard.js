@@ -14,6 +14,12 @@ import { axiosWithAuth } from '../../utils/axiosWithAuth';
 import { PlantContext } from '../../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
+  dashContainer: {
+    [theme.breakpoints.up('lg')]: {
+      maxWidth: '70%',
+      margin: '0 auto',
+    },
+  },
   modal: {
     border: 'none',
   },
