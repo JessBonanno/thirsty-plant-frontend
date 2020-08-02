@@ -62,7 +62,7 @@ const FindMyPlantCard = props => {
         `https://bw-water-my-plants.herokuapp.com/api/users/${userId}/plants`,
         {
           nickname: name,
-          species: species,
+          species: species ? species : '',
           imageUrl: imageUrl,
         }
       );
@@ -100,7 +100,7 @@ const FindMyPlantCard = props => {
     }
   };
 
-  const savePlant = (e) => {
+  const savePlant = e => {
     handleNewPlantSubmit(e);
   };
   return (
@@ -122,19 +122,21 @@ const FindMyPlantCard = props => {
                   {name}
                 </Typography>
               </Grid>
-              <Grid item>
-                <Typography
-                  variant='iconButtonText'
-                  className={classes.iconButtonText}
-                  style={{ marginRight: '1em' }}>
-                  Save to my plants
-                </Typography>
-                <IconButton
-                  style={{ marginBottom: '.25em' }}
-                  onClick={savePlant}>
-                  <SaveAltTwoToneIcon style={{ color: 'red' }} />
-                </IconButton>
-              </Grid>
+              {userId && (
+                <Grid item>
+                  <Typography
+                    variant='iconButtonText'
+                    className={classes.iconButtonText}
+                    style={{ marginRight: '1em' }}>
+                    Save to my plants
+                  </Typography>
+                  <IconButton
+                    style={{ marginBottom: '.25em' }}
+                    onClick={savePlant}>
+                    <SaveAltTwoToneIcon style={{ color: 'red' }} />
+                  </IconButton>
+                </Grid>
+              )}{' '}
             </Grid>
             <CardMedia
               className={classes.media}
