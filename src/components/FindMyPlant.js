@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({}));
 const FindMyPlant = () => {
   const classes = useStyles();
   const {
+    matchesXS,
     finding,
     setFinding,
     details,
@@ -42,7 +43,22 @@ const FindMyPlant = () => {
       alignItems={matchesSM ? 'center' : 'flex-start'}
       style={{ padding: '2em', margin: '1em 0' }}>
       <Grid item>
-        <Typography variant='h3'>Find my Plant</Typography>
+        <Typography
+          variant='h3'
+          style={{
+            fontSize: matchesXS && '2.8rem',
+            textAlign: matchesXS && 'center',
+          }}>
+          Find my Plant
+        </Typography>
+        <Typography
+          variant='subtitle1'
+          style={{
+            textAlign: matchesXS && 'center',
+            fontSize: matchesXS && '1.4rem',
+          }}>
+          Upload an image to identify your plant
+        </Typography>
       </Grid>
       <Grid
         item
