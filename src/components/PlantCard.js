@@ -185,7 +185,7 @@ const PlantCard = props => {
                         <EditTwoToneIcon />
                       </IconButton>
                     </Grid>
-                    <Hidden xs>
+                    <Hidden xsDown>
                       <Grid item style={{ marginLeft: 'auto' }}>
                         <Typography
                           variant='iconButtonText'
