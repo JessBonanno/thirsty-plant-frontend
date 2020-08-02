@@ -7,10 +7,11 @@ import makeStyles from '@material-ui/styles/makeStyles';
 import theme from './ui/Theme';
 import FindMyPlantCard from './FindMyPlantCard';
 import placeholder from '../assets/images/no-image-placeholder.jpg';
-import { data } from '../assets/data/plants.js';
 
 // local imports
 import { PlantContext } from '../contexts/PlantContext';
+// data for testing instead of making api calls just replace details in cardcontainer below
+// import { data } from '../assets/data/plants.js';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -19,77 +20,75 @@ const FindMyPlant = () => {
   const {
     finding,
     setFinding,
-    setDetails,
     details,
     classifyPlant,
     matchesSM,
+    handleUpload,
+    imageUrl,
   } = useContext(PlantContext);
 
   const startSearch = e => {
     setFinding(true);
     classifyPlant(e);
+    handleUpload(e);
   };
 
-  console.log(details);
+  console.log(imageUrl);
 
   return (
     <Grid
       container
-      direction="column"
+      direction='column'
       alignItems={matchesSM ? 'center' : 'flex-start'}
-      style={{ padding: '2em', margin: '1em 0' }}
-    >
+      style={{ padding: '2em', margin: '1em 0' }}>
       <Grid item>
-        <Typography variant="h3">Find my Plant</Typography>
+        <Typography variant='h3'>Find my Plant</Typography>
       </Grid>
       <Grid
         item
-        className="uploadButton"
+        className='uploadButton'
         style={{
           alignSelf: 'center',
           marginTop: '2.5em',
-        }}
-      >
+        }}>
         <input
-          accept="image/*"
+          accept='image/*'
           className={classes.input}
           style={{ display: 'none' }}
-          id="raised-button-file"
+          id='raised-button-file'
           multiple
-          type="file"
+          type='file'
           onChange={startSearch}
         />
-        <label htmlFor="raised-button-file">
+        <label htmlFor='raised-button-file'>
           <Button
-            variant="contained"
-            component="span"
+            variant='contained'
+            component='span'
             className={classes.button}
             style={{
               backgroundColor: theme.palette.common.yellow,
               width: 200,
               height: 50,
-            }}
-          >
+            }}>
             {finding ? (
               <CircularProgress style={{ color: 'white' }} />
             ) : (
-              <Typography variant="button">Upload Image</Typography>
+              <Typography variant='button'>Upload Image</Typography>
             )}
           </Button>
         </label>
         <Grid
           item
           container
-          direction="row"
-          justify="center"
+          direction='row'
+          justify='center'
           className={classes.cardsContainer}
-          style={{ padding: '2em 0 ' }}
-        >
+          style={{ padding: '2em 0 ' }}>
           {details &&
             details.length !== 0 &&
             details.map(detail => {
               return (
-                <Grid item align="center">
+                <Grid item align='center'>
                   <FindMyPlantCard
                     name={detail.plant_name}
                     image={
@@ -99,11 +98,6 @@ const FindMyPlant = () => {
                     }
                     species={detail.plant_details.structured_name.species}
                     taxonomy={detail.plant_details.taxonomy}
-                    // plantClass={detail.plant_details.taxonomy.class}
-                    // family={detail.plant_details.taxonomy.family}
-                    // kingdom={detail.plant_details.taxonomy.kingdom}
-                    // phylum={detail.plant_details.taxonomy.phylum}
-                    // order={detail.plant_details.taxonomy.order}
                   />
                 </Grid>
               );

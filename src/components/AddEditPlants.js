@@ -88,7 +88,6 @@ export default function AddEditPlants(props) {
     plants,
   } = useContext(PlantContext);
 
-  const { nickname, species, currentImageUrl, h2oFrequency } = props;
 
   const { id } = useParams();
 
@@ -108,10 +107,7 @@ export default function AddEditPlants(props) {
     imageUrl: '',
   });
 
-  console.log(plant);
-  console.log(plants);
 
-  console.log(id);
   const handleChange = e => {
     setPlantData({
       ...plantData,
@@ -230,7 +226,6 @@ export default function AddEditPlants(props) {
     }
   };
 
-  console.log(editing);
 
   return (
     <Grid
