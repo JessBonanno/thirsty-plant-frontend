@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as Yup from 'yup';
+import { TweenMax, Power3 } from 'gsap';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,12 +10,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import GradientBackground from '../assets/images/green-gradient-background.svg';
-import PlantBackgroundImg from '../assets/images/plant-background.png';
 import Paper from '@material-ui/core/Paper';
 import logo from '../assets/images/logo.png';
 import { CircularProgress } from '@material-ui/core';
-import { TweenMax, Power3 } from 'gsap';
+// local imports
+import GradientBackground from '../assets/images/green-gradient-background.svg';
+import PlantBackgroundImg from '../assets/images/plant-background.png';
 // function for the snackbar
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -85,15 +86,14 @@ function Login() {
   const classes = useStyles();
   const history = useHistory();
   const [formState, setFormState] = useState(defaultState);
-  const [errors, setErrors] = useState({
-    username: '',
-    password: '',
-  });
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [disabled, setDisabled] = useState(true);
-
+          const [errors, setErrors] = useState({
+            username: '',
+            password: '',
+          });
   const formSchema = Yup.object().shape({
     username: Yup.string().required('username is required'),
     password: Yup.string().required('password is required'),
@@ -105,36 +105,14 @@ function Login() {
       ease: Power3.easeOut,
     });
   }, []);
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpenSnackbar(false);
   };
-  const snackbar = (
-    <div className={classes.root}>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={10000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert severity="error">
-          <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
-            <div>
-              <Typography variant="p">{loginError}</Typography>
-            </div>
-            <div>
-              {errors && <Typography variant="p">{errors.username}</Typography>}
-            </div>
-            <div>
-              {errors && <Typography variant="p">{errors.password}</Typography>}
-            </div>
-          </div>
-        </Alert>
-      </Snackbar>
-    </div>
-  );
+
   useEffect(() => {
     if (loginError !== '') {
       setOpenSnackbar(true);
@@ -191,6 +169,7 @@ function Login() {
     });
     validateChange(e);
   };
+
   const login = async () => {
     try {
       const res = await axios.post(
@@ -208,6 +187,7 @@ function Login() {
       setLoading(false);
     }
   };
+
   async function formSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -221,6 +201,30 @@ function Login() {
       console.log(err);
     }
   }
+  const snackbar = (
+    <div className={classes.root}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={10000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert severity="error">
+          <div style={{ height: '100%', width: 350, zIndex: 3200 }}>
+            <div>
+              <Typography variant="p">{loginError}</Typography>
+            </div>
+            <div>
+              {errors && <Typography variant="p">{errors.username}</Typography>}
+            </div>
+            <div>
+              {errors && <Typography variant="p">{errors.password}</Typography>}
+            </div>
+          </div>
+        </Alert>
+      </Snackbar>
+    </div>
+  );
   return (
     <>
       <div className={classes.signUpContainer}>
@@ -237,7 +241,6 @@ function Login() {
               direction="column"
               justify="center"
               alignItems="center"
-              // style={{ border: '1px solid red' }}
             >
               {' '}
               <Grid item>
@@ -263,7 +266,6 @@ function Login() {
                         name="username"
                         value={formState.username}
                         error={errors.username}
-                        // helperText={errors.username}
                       />
                     </Grid>
                     <Grid item className={classes.formGridItem}>
@@ -278,7 +280,6 @@ function Login() {
                         value={formState.password}
                         error={errors.password}
                         onKeyDown={handleEnterPress}
-                        // helperText={errors.password}
                       />
                     </Grid>
                     <Grid item className={classes.formGridItem}>

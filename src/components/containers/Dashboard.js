@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
 import moment from 'moment';
-
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -8,13 +7,11 @@ import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade, makeStyles } from '@material-ui/core/styles';
-// local components
+// local imports
 import PlantCard from '../PlantCard';
-// import AddPlantModal from '../AddPlantModal';
-// context
-import { PlantContext } from '../../contexts/PlantContext';
 import AddButton from '../AddButton';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
+import { PlantContext } from '../../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -63,7 +60,6 @@ const useStyles = makeStyles(theme => ({
   cardsContainer: {},
 }));
 
-// const array = [1, 2, 3, 4, 5, 6];
 /**
  * Dashboard component displays users plants and allows editing, deleting, searching and adding plants
  *
@@ -84,15 +80,13 @@ const Dashboard = () => {
     isReloading,
     setIsReloading,
   } = useContext(PlantContext);
-
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     if (searchTerm === '') {
       getPlants();
     }
-
-    // handleEmptyResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   const handleAddModalOpen = () => {
@@ -114,12 +108,7 @@ const Dashboard = () => {
 
   const handleSearchTerm = e => {
     setSearchTerm(e.target.value);
-    // search();
   };
-
-  useEffect(() => {
-    search();
-  }, [searchTerm]);
 
   const search = async () => {
     const cleaned = searchTerm.toLowerCase();
@@ -137,6 +126,13 @@ const Dashboard = () => {
       getPlants();
     }
   };
+
+  useEffect(() => {
+    search();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
+
+  // logic for sorting the plants by next watering
   const newPlants = plants.map(plant => {
     const getWateringDate = moment(plant.lastWatered, 'YYYYMMDD').add(
       plant.h2oFrequency,
@@ -145,11 +141,10 @@ const Dashboard = () => {
     const nextWatering = moment(getWateringDate).format('ll');
     return { ...plant, nextWatering: nextWatering };
   });
-  console.log(newPlants);
   const sortedPlants = newPlants.sort((a, b) =>
     a.nextWatering > b.nextWatering ? 1 : -1
   );
-  console.log(sortedPlants);
+
   return (
     <>
       <AddButton handleAddModalOpen={handleAddModalOpen} />
@@ -230,7 +225,6 @@ const Dashboard = () => {
             className={classes.cardsContainer}>
             {plants && plants.length !== 0 ? (
               sortedPlants.map(item => (
-                // 12 is full width, 6 half width, etc...
                 <Grid
                   item
                   xs={12}
@@ -335,7 +329,6 @@ const Dashboard = () => {
                       marginBottom: matchesXS ? '1em' : undefined,
                       display: matchesXS && 'none',
                       borderRadius: 0,
-                      // display: matchesXS ? 'none' : 'block',
                     }}
                     onClick={handleAddModalOpen}>
                     Add New Plant

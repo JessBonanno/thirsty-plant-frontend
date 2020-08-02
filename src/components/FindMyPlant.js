@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import makeStyles from '@material-ui/styles/makeStyles';
 import theme from './ui/Theme';
 import FindMyPlantCard from './FindMyPlantCard';
 import placeholder from '../assets/images/no-image-placeholder.jpg';
-
 // local imports
 import { PlantContext } from '../contexts/PlantContext';
-// data for testing instead of making api calls just replace details in cardcontainer below
+
+// * data for testing instead of making api calls just replace details in .cardContainer below
 // import { data } from '../assets/data/plants.js';
 
-const useStyles = makeStyles(theme => ({}));
-
 const FindMyPlant = () => {
-  const classes = useStyles();
+  // this ensures page always renders at the top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const {
     matchesXS,
     finding,
@@ -25,7 +25,6 @@ const FindMyPlant = () => {
     classifyPlant,
     matchesSM,
     handleUpload,
-    imageUrl,
   } = useContext(PlantContext);
 
   const startSearch = e => {
@@ -33,8 +32,6 @@ const FindMyPlant = () => {
     classifyPlant(e);
     handleUpload(e);
   };
-
-  console.log(imageUrl);
 
   return (
     <Grid
@@ -69,7 +66,6 @@ const FindMyPlant = () => {
         }}>
         <input
           accept='image/*'
-          className={classes.input}
           style={{ display: 'none' }}
           id='raised-button-file'
           multiple
@@ -80,7 +76,6 @@ const FindMyPlant = () => {
           <Button
             variant='contained'
             component='span'
-            className={classes.button}
             style={{
               backgroundColor: theme.palette.common.yellow,
               width: 200,
@@ -98,7 +93,6 @@ const FindMyPlant = () => {
           container
           direction='row'
           justify='center'
-          className={classes.cardsContainer}
           style={{ padding: '2em 0 ' }}>
           {details &&
             details.length !== 0 &&

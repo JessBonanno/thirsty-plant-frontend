@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { PlantContext } from '../contexts/PlantContext';
 
 /**
  * Component to handle authorized routing
@@ -9,7 +8,6 @@ import { PlantContext } from '../contexts/PlantContext';
  * @returns {jsx}
  */
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
   return (
     <Route

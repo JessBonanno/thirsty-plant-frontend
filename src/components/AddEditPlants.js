@@ -3,24 +3,23 @@ import { useParams, useHistory } from 'react-router-dom';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import { PlantContext } from '../contexts/PlantContext';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import placeHolder from '../assets/images/placeholder.jpg';
 import theme from '../components/ui/Theme';
+// local imports
+import placeHolder from '../assets/images/placeholder.jpg';
+import { PlantContext } from '../contexts/PlantContext';
 
 const useStyles = makeStyles(theme => ({
   addEditContainer: {},
   bodyOuterContainer: {
-    // width: '50%',
     marginTop: '3em',
 
     [theme.breakpoints.down('xs')]: {
       marginTop: 0,
-      // width: '100%',
     },
   },
   bodyContainer: {
@@ -40,7 +39,6 @@ const useStyles = makeStyles(theme => ({
   },
   inputOuterContainer: {
     padding: '0 2em',
-    // margin: '2em 1em',
     [theme.breakpoints.down('xs')]: {
       padding: '1em',
       margin: 0,
@@ -72,8 +70,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function AddEditPlants(props) {
   const history = useHistory();
+  const { id } = useParams();
+  const userId = localStorage.getItem('userId');
   const classes = useStyles();
-
   const {
     matchesXS,
     imageUrl,
@@ -84,41 +83,21 @@ export default function AddEditPlants(props) {
     setEditing,
     setPlants,
     setIsReloading,
-    isReloading,
     plants,
   } = useContext(PlantContext);
-
-
-  const { id } = useParams();
-
+  const plant = plants.filter(plant => plant.id === Number(id))[0];
   const [plantData, setPlantData] = useState({
     nickname: '',
     species: '',
     h2oFrequency: '',
     imageUrl: '',
   });
-
-  const plant = plants.filter(plant => plant.id === Number(id))[0];
-
   const [formState, setFormState] = useState({
     species: '',
     nickname: '',
     h2oFrequency: '',
     imageUrl: '',
   });
-
-
-  const handleChange = e => {
-    setPlantData({
-      ...plantData,
-      [e.target.name]: e.target.value,
-    });
-
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   useEffect(() => {
     if (plant) {
@@ -131,7 +110,16 @@ export default function AddEditPlants(props) {
     }
   }, [plant]);
 
-  const userId = localStorage.getItem('userId');
+  const handleChange = e => {
+    setPlantData({
+      ...plantData,
+      [e.target.name]: e.target.value,
+    });
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   let image;
   const handleUpload = async e => {
@@ -148,7 +136,6 @@ export default function AddEditPlants(props) {
     const url = await res.data.url;
     setImageUrl(url);
     setFormState({ ...formState, imageUrl: url });
-
     setUploading(false);
   };
 
@@ -160,6 +147,19 @@ export default function AddEditPlants(props) {
           ...plantData,
           imageUrl: imageUrl,
         }
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+      setIsReloading(false);
+    }
+  }
+
+  async function editPlant() {
+    try {
+      const res = await axiosWithAuth().put(
+        `https://bw-water-my-plants.herokuapp.com/api/plants/${id}`,
+        formState
       );
       console.log(res);
     } catch (err) {
@@ -195,19 +195,6 @@ export default function AddEditPlants(props) {
     }
   };
 
-  async function editPlant() {
-    try {
-      const res = await axiosWithAuth().put(
-        `https://bw-water-my-plants.herokuapp.com/api/plants/${id}`,
-        formState
-      );
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-      setIsReloading(false);
-    }
-  }
-
   const handleEditSubmit = async e => {
     try {
       await editPlant();
@@ -226,14 +213,8 @@ export default function AddEditPlants(props) {
     }
   };
 
-
   return (
-    <Grid
-      container
-      direction="column"
-      // alignItems="flex-start"
-      className={classes.addEditContainer}
-    >
+    <Grid container direction='column' className={classes.addEditContainer}>
       <Grid
         item
         style={{
@@ -241,9 +222,8 @@ export default function AddEditPlants(props) {
           color: 'white',
           width: '100%',
           padding: '1em',
-        }}
-      >
-        <Typography variant="header" className={classes.header}>
+        }}>
+        <Typography variant='header' className={classes.header}>
           {editing ? 'Edit' : 'Add'} Plant
         </Typography>
       </Grid>
@@ -252,29 +232,25 @@ export default function AddEditPlants(props) {
           container
           direction={matchesXS ? 'column' : 'row'}
           className={classes.bodyContainer}
-          spacing={0}
-        >
+          spacing={0}>
           <Grid
             item
             className={classes.inputOuterContainer}
-            // style={{ width: matchesXS ? undefined : '49%' }}
             lg={3}
             md={4}
             sm={6}
-            xs={12}
-          >
+            xs={12}>
             <Grid
               container
               className={classes.inputContainer}
-              direction="column"
-            >
+              direction='column'>
               <Grid item>
                 {editing ? (
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="Plant name"
-                    name="nickname"
+                    variant='outlined'
+                    label='Plant name'
+                    name='nickname'
                     value={formState.nickname}
                     onChange={handleChange}
                   />
@@ -284,49 +260,49 @@ export default function AddEditPlants(props) {
                       maxLength: 15,
                     }}
                     className={classes.formField}
-                    variant="outlined"
-                    label="Plant name"
-                    name="nickname"
+                    variant='outlined'
+                    label='Plant name'
+                    name='nickname'
                     onChange={handleChange}
                   />
                 )}
               </Grid>
-              <Grid item classsName={classes.input}>
+              <Grid item>
                 {editing ? (
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="Species name"
-                    name="species"
+                    variant='outlined'
+                    label='Species name'
+                    name='species'
                     value={formState.species}
                     onChange={handleChange}
                   />
                 ) : (
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="Species name"
-                    name="species"
+                    variant='outlined'
+                    label='Species name'
+                    name='species'
                     onChange={handleChange}
                   />
                 )}
               </Grid>
-              <Grid item classsName={classes.input}>
+              <Grid item>
                 {editing ? (
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="Time between waterings"
-                    name="h2oFrequency"
+                    variant='outlined'
+                    label='Time between waterings'
+                    name='h2oFrequency'
                     value={formState.h2oFrequency}
                     onChange={handleChange}
                   />
                 ) : (
                   <TextField
                     className={classes.formField}
-                    variant="outlined"
-                    label="Time between waterings"
-                    name="h2oFrequency"
+                    variant='outlined'
+                    label='Time between waterings'
+                    name='h2oFrequency'
                     onChange={handleChange}
                   />
                 )}
@@ -340,9 +316,7 @@ export default function AddEditPlants(props) {
             xs={12}
             item
             className={classes.image}
-            align="center"
-            // style={{ width: matchesXS ? undefined : '49%' }}
-          >
+            align='center'>
             <div
               className={classes.imageDiv}
               style={{
@@ -357,14 +331,8 @@ export default function AddEditPlants(props) {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
                 height: matchesXS ? 100 : 200,
-                // width: 200,
                 margin: matchesXS ? '1em' : '4em 0 1em',
-                // border: editing
-                //   ? (formState.imageUrl && 'none') ||
-                //     (imageUrl && 'none')
-                //   : '1px solid lightgray',
-              }}
-            ></div>
+              }}></div>
           </Grid>
         </Grid>
         <Grid item className={classes.buttonsOuterContainer}>
@@ -372,25 +340,22 @@ export default function AddEditPlants(props) {
             container
             direction={matchesXS ? 'column-reverse' : 'row'}
             spacing={2}
-            className={classes.buttonsContainer}
-          >
+            className={classes.buttonsContainer}>
             <Grid
               item
               className={classes.mainButtonsOuterContainer}
               lg={3}
               md={4}
               sm={6}
-              xs={12}
-            >
+              xs={12}>
               <Grid
                 container
-                direction="row"
+                direction='row'
                 justify={matchesXS ? 'space-evenly' : 'flex-start'}
-                className={classes.mainButtonsContainer}
-              >
+                className={classes.mainButtonsContainer}>
                 <Grid item>
                   <Button
-                    variant="contained"
+                    variant='contained'
                     style={{
                       backgroundColor: theme.palette.common.lightPink,
                     }}
@@ -402,22 +367,20 @@ export default function AddEditPlants(props) {
                       } else {
                         history.push('/dashboard');
                       }
-                    }}
-                  >
-                    <Typography variant="button">Cancel</Typography>
+                    }}>
+                    <Typography variant='button'>Cancel</Typography>
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button
-                    variant="contained"
+                    variant='contained'
                     style={{
                       backgroundColor: theme.palette.common.green,
                       marginLeft: matchesXS ? 0 : '1em',
                     }}
                     className={classes.button}
-                    onClick={editing ? handleEditSubmit : handleNewPlantSubmit}
-                  >
-                    <Typography variant="button">Submit</Typography>
+                    onClick={editing ? handleEditSubmit : handleNewPlantSubmit}>
+                    <Typography variant='button'>Submit</Typography>
                   </Button>
                 </Grid>
               </Grid>
@@ -429,33 +392,30 @@ export default function AddEditPlants(props) {
               sm={6}
               xs={12}
               className={classes.uploadButton}
-              align="center"
-              // style={{ width: matchesXS ? undefined : '49%' }}
-            >
+              align='center'>
               <input
-                accept="image/*"
+                accept='image/*'
                 className={classes.input}
                 style={{ display: 'none' }}
-                id="raised-button-file"
+                id='raised-button-file'
                 multiple
-                type="file"
+                type='file'
                 onChange={handleUpload}
               />
-              <label htmlFor="raised-button-file">
+              <label htmlFor='raised-button-file'>
                 <Button
-                  variant="contained"
-                  component="span"
+                  variant='contained'
+                  component='span'
                   className={classes.button}
                   style={{
                     backgroundColor: theme.palette.common.yellow,
                     width: 200,
                     height: 50,
-                  }}
-                >
+                  }}>
                   {uploading ? (
                     <CircularProgress style={{ color: 'white' }} />
                   ) : (
-                    <Typography variant="button">Upload Image</Typography>
+                    <Typography variant='button'>Upload Image</Typography>
                   )}
                 </Button>
               </label>

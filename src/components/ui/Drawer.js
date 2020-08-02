@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
 import theme from '../ui/Theme';
-// context
+// local imports
 import { PlantContext } from '../../contexts/PlantContext';
 
 /**
@@ -21,6 +21,8 @@ import { PlantContext } from '../../contexts/PlantContext';
 const FooterDrawer = () => {
   const { pathname } = useLocation();
   const userId = localStorage.getItem('userId');
+  const { drawerOpen, setDrawerOpen } = useContext(PlantContext);
+  // useStyles declared inside functional component so it can access pathname
   const useStyles = makeStyles(theme => ({
     list: {
       width: 250,
@@ -46,10 +48,7 @@ const FooterDrawer = () => {
       },
     },
   }));
-
   const classes = useStyles();
-
-  const { drawerOpen, setDrawerOpen } = useContext(PlantContext);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -64,17 +63,15 @@ const FooterDrawer = () => {
     ) {
       return;
     }
-
     setDrawerOpen(open);
   };
 
   const list = (
     <div
       className={classes.drawerItems}
-      role="presentation"
+      role='presentation'
       onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
+      onKeyDown={toggleDrawer(false)}>
       <List>
         <ListItem>
           <img
@@ -83,20 +80,19 @@ const FooterDrawer = () => {
                 ? require('../../assets/images/logo.png')
                 : require('../../assets/images/logo-white.png')
             }
-            alt="logo"
+            alt='logo'
             style={{ height: 30, width: 30, marginRight: 10 }}
           />
         </ListItem>
         <ListItem>
           <Typography
-            variant="h6"
+            variant='h6'
             style={{
               color:
                 pathname === '/login' || pathname === '/signup'
                   ? theme.palette.common.lightGreen
                   : 'white',
-            }}
-          >
+            }}>
             Water My Plants
           </Typography>
         </ListItem>
@@ -110,43 +106,39 @@ const FooterDrawer = () => {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            href="https://watermyplantsjuly2020.netlify.app/"
-          >
+            href='https://watermyplantsjuly2020.netlify.app/'>
             <ListItemText>
               <Typography
-                variant="p"
-                primary="Settings"
+                variant='p'
+                primary='Settings'
                 style={{
                   fontFamily: 'Raleway',
-                }}
-              >
+                }}>
                 Home
               </Typography>
             </ListItemText>
           </a>
         </ListItem>
-        <ListItem button component={Link} to="/dashboard">
+        <ListItem button component={Link} to='/dashboard'>
           <ListItemText>
             <Typography
-              variant="p"
-              primary="Settings"
+              variant='p'
+              primary='Settings'
               style={{
                 fontFamily: 'Raleway',
-              }}
-            >
+              }}>
               Dashboard
             </Typography>
           </ListItemText>
         </ListItem>
-        <ListItem button component={Link} to="/find-my-plant">
+        <ListItem button component={Link} to='/find-my-plant'>
           <ListItemText>
             <Typography
-              variant="p"
-              primary="Settings"
+              variant='p'
+              primary='Settings'
               style={{
                 fontFamily: 'Raleway',
-              }}
-            >
+              }}>
               Find My Plant
             </Typography>
           </ListItemText>
@@ -160,16 +152,14 @@ const FooterDrawer = () => {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            href="https://watermyplantsjuly2020.netlify.app/about.html"
-          >
+            href='https://watermyplantsjuly2020.netlify.app/about.html'>
             <ListItemText>
               <Typography
-                variant="p"
-                primary="Settings"
+                variant='p'
+                primary='Settings'
                 style={{
                   fontFamily: 'Raleway',
-                }}
-              >
+                }}>
                 About Us
               </Typography>
             </ListItemText>
@@ -184,16 +174,14 @@ const FooterDrawer = () => {
                   ? theme.palette.common.lightGreen
                   : 'white',
             }}
-            href="https://watermyplantsjuly2020.netlify.app/guide.html"
-          >
+            href='https://watermyplantsjuly2020.netlify.app/guide.html'>
             <ListItemText>
               <Typography
-                variant="p"
-                primary="Settings"
+                variant='p'
+                primary='Settings'
                 style={{
                   fontFamily: 'Raleway',
-                }}
-              >
+                }}>
                 Learn
               </Typography>
             </ListItemText>
@@ -208,36 +196,33 @@ const FooterDrawer = () => {
               pathname === '/login' || pathname === '/signup'
                 ? theme.palette.common.lightGreen
                 : 'white',
-          }}
-        >
+          }}>
           <AccountCircleTwoToneIcon />
         </IconButton>
       </ListItem>
       <List>
         {!userId ? (
           <>
-            <ListItem button component={Link} to="/login">
+            <ListItem button component={Link} to='/login'>
               <ListItemText>
                 <Typography
-                  variant="p"
-                  primary="Settings"
+                  variant='p'
+                  primary='Settings'
                   style={{
                     fontFamily: 'Raleway',
-                  }}
-                >
+                  }}>
                   Login
                 </Typography>
               </ListItemText>
             </ListItem>
-            <ListItem button component={Link} to="/signup">
+            <ListItem button component={Link} to='/signup'>
               <ListItemText>
                 <Typography
-                  variant="p"
-                  primary="Settings"
+                  variant='p'
+                  primary='Settings'
                   style={{
                     fontFamily: 'Raleway',
-                  }}
-                >
+                  }}>
                   Sign Up
                 </Typography>
               </ListItemText>
@@ -245,15 +230,14 @@ const FooterDrawer = () => {
           </>
         ) : (
           <>
-            <ListItem button component={Link} to="/settings">
+            <ListItem button component={Link} to='/settings'>
               <ListItemText>
                 <Typography
-                  variant="p"
-                  primary="Settings"
+                  variant='p'
+                  primary='Settings'
                   style={{
                     fontFamily: 'Raleway',
-                  }}
-                >
+                  }}>
                   Settings
                 </Typography>
               </ListItemText>
@@ -261,17 +245,15 @@ const FooterDrawer = () => {
             <ListItem
               button
               component={Link}
-              to="/login"
-              onClick={handleLogout}
-            >
+              to='/login'
+              onClick={handleLogout}>
               <ListItemText>
                 <Typography
-                  variant="p"
-                  primary="Settings"
+                  variant='p'
+                  primary='Settings'
                   style={{
                     fontFamily: 'Raleway',
-                  }}
-                >
+                  }}>
                   Logout
                 </Typography>
               </ListItemText>
@@ -286,17 +268,16 @@ const FooterDrawer = () => {
     <div>
       <>
         <IconButton
-          edge="start"
-          color="inherit"
+          edge='start'
+          color='inherit'
           style={{
             color:
               pathname === '/login' || pathname === '/signup'
                 ? theme.palette.common.lightGreen
                 : 'white',
           }}
-          aria-label="open drawer"
-          onClick={toggleDrawer(true)}
-        >
+          aria-label='open drawer'
+          onClick={toggleDrawer(true)}>
           <MenuIcon
             style={{
               fontSize: '1.5em',
@@ -310,8 +291,7 @@ const FooterDrawer = () => {
           classes={{ paper: classes.drawer }}
           open={drawerOpen}
           onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}
-        >
+          onOpen={toggleDrawer(true)}>
           {list}
         </Drawer>
       </>

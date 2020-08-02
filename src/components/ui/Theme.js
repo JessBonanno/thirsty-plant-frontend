@@ -122,7 +122,7 @@ export default createMuiTheme({
     caption: {
       fontFamily: ralewayFont,
       fontSize: '1.3rem',
-      color: 'darkred',
+      color: 'darked',
       fontStyle: 'none',
     },
     iconButtonText: {

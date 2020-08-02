@@ -12,9 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Hidden from '@material-ui/core/Hidden';
 import theme from './ui/Theme';
-// api imports
+// local imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-
 // transition function from material ui
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -39,20 +38,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DeleteDialog({
-  id,
-  dialogOpen,
-  setDialogOpen,
-  setPlants,
-  setIsReloading,
-}) {
+export default function DeleteDialog(props) {
+  const classes = useStyles();
+  const userId = localStorage.getItem('userId');
+  const { id, dialogOpen, setDialogOpen, setPlants, setIsReloading } = props;
+  const { matchesXS } = useContext(PlantContext);
+
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
-  const classes = useStyles();
-  const { matchesXS } = useContext(PlantContext);
-  const userId = localStorage.getItem('userId');
-
   async function deletePlant() {
     try {
       const res = await axiosWithAuth().delete(
