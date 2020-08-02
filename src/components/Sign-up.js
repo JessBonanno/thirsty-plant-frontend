@@ -218,7 +218,11 @@ function Signup() {
     try {
       const res = await axios.post(
         `https://bw-water-my-plants.herokuapp.com/api/users`,
-        formState
+        {
+          username: formState.username.toLowerCase(),
+          password: formState.password,
+          phoneNumber: formState.phoneNumber,
+        }
       );
       console.log('signup response:', res);
       localStorage.setItem('userId', res.data.newUser.id);
@@ -233,7 +237,10 @@ function Signup() {
     try {
       const res = await axios.post(
         'https://bw-water-my-plants.herokuapp.com/api/users/login',
-        formState
+        {
+          username: formState.username.toLowerCase(),
+          password: formState.password,
+        }
       );
 
       console.log('login response:', res);
