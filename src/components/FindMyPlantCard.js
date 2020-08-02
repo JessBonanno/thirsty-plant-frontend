@@ -13,13 +13,12 @@ import SaveAltTwoToneIcon from '@material-ui/icons/SaveAltTwoTone';
 import theme from '../components/ui/Theme';
 import { PlantContext } from '../contexts/PlantContext';
 
-
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
   root: {
     width: 325,
-    minHeight: 400,
+    minHeight: 500,
     margin: '1em',
   },
   media: {
@@ -161,7 +160,7 @@ const FindMyPlantCard = props => {
                     <Typography
                       variant='h5'
                       color='textSecondary'
-                      style={{ margin: 0 }}>
+                      style={{ margin: 0, textTransform: 'capitalize' }}>
                       <span
                         style={{
                           fontWeight: 'bold',
