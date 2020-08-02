@@ -88,7 +88,6 @@ const FindMyPlantCard = props => {
   return (
     <>
       <Card className={classes.root} disableRipple>
-        <CardActionArea>
           <CardContent style={{ padding: 0 }}>
             <Grid
               container
@@ -247,7 +246,6 @@ const FindMyPlantCard = props => {
               </Grid>
             </Grid>
           </CardContent>
-        </CardActionArea>
       </Card>
     </>
   );
