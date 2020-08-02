@@ -21,11 +21,12 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
   root: {
-    width: 325,
+    width: 350,
     minHeight: 500,
     margin: '1em 0',
     [theme.breakpoints.down('xs')]: {
       overflowX: 'hidden',
+      // minHeight: 0,
     },
   },
   media: {
