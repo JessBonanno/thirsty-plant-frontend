@@ -12,6 +12,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import InvertColorsTwoToneIcon from '@material-ui/icons/InvertColorsTwoTone';
+import Hidden from '@material-ui/core/Hidden';
 import theme from '../components/ui/Theme';
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
@@ -21,7 +22,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
   root: {
-    width: 350,
+    width: 325,
     minHeight: 500,
     margin: '1em 0',
     [theme.breakpoints.down('xs')]: {
@@ -161,7 +162,7 @@ const PlantCard = props => {
                 direction='row'
                 justify='space-between'
                 alignItems='center'>
-                <Grid item style={{ margin: 0, maxWidth: '70%' }}>
+                <Grid item style={{ margin: 0, maxWidth: '60%' }}>
                   <Typography
                     variant='h5'
                     color='textSecondary'
@@ -184,13 +185,15 @@ const PlantCard = props => {
                         <EditTwoToneIcon />
                       </IconButton>
                     </Grid>
-                    <Grid item style={{ marginLeft: 'auto' }}>
-                      <Typography
-                        variant='iconButtonText'
-                        className={classes.iconButtonText}>
-                        Edit
-                      </Typography>
-                    </Grid>
+                    <Hidden xs>
+                      <Grid item style={{ marginLeft: 'auto' }}>
+                        <Typography
+                          variant='iconButtonText'
+                          className={classes.iconButtonText}>
+                          Edit
+                        </Typography>
+                      </Grid>
+                    </Hidden>
                   </Grid>
                 </Grid>
               </Grid>
