@@ -83,6 +83,7 @@ export default createMuiTheme({
     h6: {
       fontFamily: ralewayFont,
       color: green,
+      fontWeight: 500,
     },
     plantCardHeader: {
       fontFamily: 'Mulish',
