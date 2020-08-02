@@ -25,7 +25,6 @@ export const PlantProvider = ({ children }) => {
   const [uploading, setUploading] = useState(false);
   const [details, setDetails] = useState([]);
   const [finding, setFinding] = useState(false);
-  const [adding, setAdding] = useState(false);
   const [editing, setEditing] = useState(false);
   const [plants, setPlants] = useState([]);
   const [isReloading, setIsReloading] = useState(false);
@@ -67,7 +66,7 @@ export const PlantProvider = ({ children }) => {
         .then(data => {
           console.log('Success:', data);
           setDetails(data.suggestions);
-          console.log(base64);
+          // console.log(base64);
           setFinding(false);
         })
         .catch(error => {
@@ -83,7 +82,6 @@ export const PlantProvider = ({ children }) => {
 
   const handleUpload = async e => {
     setUploading(true);
-    console.log('test:');
     image = e.target.files[0];
 
     const data = new FormData();
@@ -149,8 +147,7 @@ export const PlantProvider = ({ children }) => {
         details,
         editing,
         setEditing,
-      }}
-    >
+      }}>
       {children}
     </PlantContext.Provider>
   );

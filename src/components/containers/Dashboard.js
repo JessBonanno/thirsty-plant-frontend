@@ -112,7 +112,6 @@ const Dashboard = () => {
 
   const handleSearchTerm = e => {
     setSearchTerm(e.target.value);
-    console.log(searchTerm);
     // search();
   };
 
