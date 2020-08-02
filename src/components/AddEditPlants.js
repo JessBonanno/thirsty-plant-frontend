@@ -296,7 +296,7 @@ export default function AddEditPlants(props) {
                   <TextField
                     className={classes.formField}
                     variant='outlined'
-                    label='Days between waterings'
+                    label='Days between watering'
                     name='h2oFrequency'
                     value={formState.h2oFrequency}
                     onChange={handleChange}
@@ -306,7 +306,7 @@ export default function AddEditPlants(props) {
                     <TextField
                       className={classes.formField}
                       variant='outlined'
-                      label='Days between waterings'
+                      label='Days between watering'
                       name='h2oFrequency'
                       onChange={handleChange}
                       error={formState.h2oFrequency === ''}
