@@ -13,10 +13,6 @@ import SaveAltTwoToneIcon from '@material-ui/icons/SaveAltTwoTone';
 import theme from '../components/ui/Theme';
 import { PlantContext } from '../contexts/PlantContext';
 
-// Local Imports
-import DeleteDialog from '../components/DeleteDialog';
-import EditPlantModal from '../components/EditPlantModal';
-import placeholderImage from '../assets/images/placholder-plant.jpg';
 
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
