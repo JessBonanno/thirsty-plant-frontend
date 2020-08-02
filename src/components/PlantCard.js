@@ -25,7 +25,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 const useStyles = makeStyles({
   root: {
     width: 325,
-    minHeight: 275,
+    minHeight: 500,
     margin: '1em 0',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
@@ -106,6 +106,8 @@ const PlantCard = props => {
     'days'
   );
   const nextWatering = moment(getWateringDate).format('ll');
+  const overDue = moment(getWateringDate).isBefore();
+  // console.log(moment(getWateringDate).isBefore());
 
   return (
     <>
@@ -198,6 +200,13 @@ const PlantCard = props => {
                     </Grid>
                   </Grid>
                 </Grid>
+                <Grid item style={{ height: 25 }}>
+                  {overDue && (
+                    <Typography variant='body1' color='error'>
+                      Thirsty Plant!
+                    </Typography>
+                  )}
+                </Grid>
                 <Grid item style={{ margin: 0, padding: '1em 0' }}>
                   <Typography variant='h6' color='textSecondary'>
                     Next watering:
@@ -207,6 +216,7 @@ const PlantCard = props => {
                       ? nextWatering
                       : 'Water to start tracking'}
                   </Typography>
+
                   <Grid container justify='space-between' alignItems='center'>
                     <Grid item style={{ width: '70%' }}>
                       <Typography variant='h6' color='textSecondary'>
