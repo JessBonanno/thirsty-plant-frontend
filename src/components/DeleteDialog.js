@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,6 +6,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import { PlantContext } from '../contexts/PlantContext';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
+import Hidden from '@material-ui/core/Hidden';
+import theme from './ui/Theme';
 // api imports
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
@@ -23,6 +29,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  * @returns {jsx}
  */
 
+const useStyles = makeStyles(theme => ({
+  mainButtonsContainer: {
+    padding: '0 1em',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1em',
+      padding: '0 2em',
+    },
+  },
+}));
+
 export default function DeleteDialog({
   id,
   dialogOpen,
@@ -33,7 +49,8 @@ export default function DeleteDialog({
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
-
+  const classes = useStyles();
+  const { matchesXS } = useContext(PlantContext);
   const userId = localStorage.getItem('userId');
 
   async function deletePlant() {
@@ -86,12 +103,46 @@ export default function DeleteDialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDialogClose} color='primary'>
-          Cancel
-        </Button>
-        <Button onClick={handleDeletePlant} color='primary'>
-          Delete
-        </Button>
+        <Hidden xsDown>
+          <Grid
+            container
+            direction='row'
+            justify={'flex-end'}
+            className={classes.mainButtonsContainer}>
+            <Grid item>
+              <Button
+                variant='contained'
+                style={{
+                  backgroundColor: theme.palette.common.lightPink,
+                }}
+                className={classes.button}
+                onClick={handleDialogClose}>
+                <Typography variant='button'>Cancel</Typography>
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant='contained'
+                style={{
+                  backgroundColor: theme.palette.common.green,
+                  marginLeft: matchesXS ? 0 : '1em',
+                }}
+                className={classes.button}
+                onClick={handleDeletePlant}>
+                <Typography variant='button'>Delete</Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </Hidden>
+
+        <Hidden smUp>
+          <Button onClick={handleDialogClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={handleDeletePlant} color='primary'>
+            Delete
+          </Button>
+        </Hidden>
       </DialogActions>
     </Dialog>
   );

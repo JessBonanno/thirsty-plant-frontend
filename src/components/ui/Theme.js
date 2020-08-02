@@ -73,7 +73,7 @@ export default createMuiTheme({
     h4: {
       fontFamily: 'Mulish',
       color: pink,
-      fontSize: '1.5rem',
+      fontSize: '1.3rem',
     },
     h5: {
       fontFamily: ralewayFont,
