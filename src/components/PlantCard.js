@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
@@ -25,7 +25,6 @@ const useStyles = makeStyles({
     minHeight: 500,
     margin: '1em 0',
     [theme.breakpoints.down('xs')]: {
-      width: '100%',
       overflowX: 'hidden',
     },
   },
@@ -51,7 +50,8 @@ const PlantCard = props => {
     history.push(`/edit-plant/${id}`);
   };
 
-  const handleDialogOpen = () => {
+  const handleDialogOpen = e => {
+    e.stopPropagation();
     setDialogOpen(true);
   };
 
@@ -93,7 +93,7 @@ const PlantCard = props => {
   }
   // logic for updating next water date based on last watered
   const getWateringDate = moment(lastWatered).add(
-    (Number(h2oFrequency) * 12),
+    Number(h2oFrequency) * 12,
     'h'
   );
   console.log(lastWatered);
@@ -109,150 +109,150 @@ const PlantCard = props => {
         setPlants={setPlants}
         setIsReloading={setIsReloading}
       />
-      <Card className={classes.root} disableRipple raised={true}>
-        <CardActionArea>
-          <CardContent style={{ padding: 0 }}>
-            <Grid
-              container
-              justify='space-between'
-              alignItems='center'
-              className={classes.cardHeaderContainer}
-              style={{ padding: '0 1em' }}>
-              <Grid item>
-                <Typography gutterBottom variant='h4'>
-                  {nickname}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  style={{ marginBottom: '.25em' }}
-                  onClick={handleDialogOpen}>
-                  <DeleteTwoToneIcon style={{ color: 'red' }} />
-                </IconButton>
-              </Grid>
+      <Card className={classes.root} raised={true}>
+        <CardContent style={{ padding: 0 }}>
+          <Grid
+            container
+            justify='space-between'
+            alignItems='center'
+            className={classes.cardHeaderContainer}
+            style={{ padding: '0 1em' }}>
+            <Grid item>
+              <Typography gutterBottom variant='h4'>
+                {nickname}
+              </Typography>
             </Grid>
-            <CardMedia
-              className={classes.media}
-              image={imageUrl === '' ? placeholderImage : imageUrl}
-              title='Contemplative Reptile'
-              style={{
-                marginBottom: '1em',
-                height: 167,
-                backgroundSize: 'contain',
-              }}
-            />
+            <Grid item>
+              <IconButton
+                style={{ marginBottom: '.25em' }}
+                onClick={handleDialogOpen}>
+                <DeleteTwoToneIcon
+                  disableRipple={true}
+                  style={{ color: 'red' }}
+                />
+              </IconButton>
+            </Grid>
+          </Grid>
+          <CardMedia
+            className={classes.media}
+            image={imageUrl === '' ? placeholderImage : imageUrl}
+            title='Contemplative Reptile'
+            style={{
+              marginBottom: '1em',
+              height: 167,
+              backgroundSize: 'contain',
+            }}
+          />
+          <Grid
+            item
+            container
+            justify='space-between'
+            style={{ padding: '0 1em' }}
+            className={classes.bottomContainer}>
             <Grid
               item
               container
-              justify='space-between'
-              style={{ padding: '0 1em' }}
-              className={classes.bottomContainer}>
+              align='left'
+              className={classes.bottomInfo}
+              direction='column'>
               <Grid
-                item
                 container
-                align='left'
-                className={classes.bottomInfo}
-                direction='column'>
+                direction='row'
+                justify='space-between'
+                alignItems='center'>
+                <Grid item style={{ margin: 0, maxWidth: '70%' }}>
+                  <Typography
+                    variant='h5'
+                    color='textSecondary'
+                    style={{ margin: 0, textTransform: 'capitalize' }}>
+                    {species}
+                  </Typography>
+                </Grid>
                 <Grid
-                  container
-                  direction='row'
-                  justify='space-between'
-                  alignItems='center'>
-                  <Grid item style={{ margin: 0, maxWidth: '70%' }}>
-                    <Typography
-                      variant='h5'
-                      color='textSecondary'
-                      style={{ margin: 0, textTransform: 'capitalize' }}>
-                      {species}
+                  item
+                  style={{
+                    marginLeft: 'auto',
+                    marginTop: 'auto',
+                    maxWidth: '25%',
+                  }}>
+                  <Grid container direction='row' alignItems='center'>
+                    <Grid item>
+                      <IconButton
+                        style={{ marginBottom: '.25em', paddingRight: 10 }}
+                        onClick={() => handleEditModalOpen(id)}>
+                        <EditTwoToneIcon />
+                      </IconButton>
+                    </Grid>
+                    <Grid item style={{ marginLeft: 'auto' }}>
+                      <Typography
+                        variant='iconButtonText'
+                        className={classes.iconButtonText}>
+                        Edit
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item style={{ height: 25 }}>
+                {overDue && (
+                  <Typography variant='body1' color='error'>
+                    Thirsty Plant!
+                  </Typography>
+                )}
+              </Grid>
+              <Grid item style={{ margin: 0, padding: '1em 0' }}>
+                <Typography variant='h6' color='textSecondary'>
+                  Next watering:
+                </Typography>
+                <Typography variant='body1' color='textSecondary'>
+                  {nextWatering !== 'Invalid date'
+                    ? nextWatering
+                    : 'Water to start tracking'}
+                </Typography>
+
+                <Grid container justify='space-between' alignItems='center'>
+                  <Grid item style={{ width: '70%' }}>
+                    <Typography variant='h6' color='textSecondary'>
+                      Last watering:
+                    </Typography>
+                    <Typography variant='body1' color='textSecondary'>
+                      {moment(lastWatered).format('ll') !== 'Invalid date' ? (
+                        moment(lastWatered).format('ll')
+                      ) : (
+                        <>
+                          Never watered{'   '}
+                          <i
+                            class='fas fa-skull-crossbones'
+                            style={{ color: 'rgba(0, 0, 0, 0.54)' }}></i>
+                        </>
+                      )}
                     </Typography>
                   </Grid>
-                  <Grid
-                    item
-                    style={{
-                      marginLeft: 'auto',
-                      marginTop: 'auto',
-                      maxWidth: '25%',
-                    }}>
-                    <Grid container direction='row' alignItems='center'>
+                  <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
+                    <Grid container direction='column' alignItems='center'>
                       <Grid item>
                         <IconButton
-                          style={{ marginBottom: '.25em', paddingRight: 10 }}
-                          onClick={() => handleEditModalOpen(id)}>
-                          <EditTwoToneIcon />
+                          style={{ padding: 5 }}
+                          onClick={submitWatering}>
+                          <InvertColorsTwoToneIcon
+                            style={{ color: theme.palette.common.blue }}
+                          />
                         </IconButton>
                       </Grid>
-                      <Grid item style={{ marginLeft: 'auto' }}>
+                      <Grid item>
                         <Typography
                           variant='iconButtonText'
                           className={classes.iconButtonText}>
-                          Edit
+                          Water Now
                         </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item style={{ height: 25 }}>
-                  {overDue && (
-                    <Typography variant='body1' color='error'>
-                      Thirsty Plant!
-                    </Typography>
-                  )}
-                </Grid>
-                <Grid item style={{ margin: 0, padding: '1em 0' }}>
-                  <Typography variant='h6' color='textSecondary'>
-                    Next watering:
-                  </Typography>
-                  <Typography variant='body1' color='textSecondary'>
-                    {nextWatering !== 'Invalid date'
-                      ? nextWatering
-                      : 'Water to start tracking'}
-                  </Typography>
-
-                  <Grid container justify='space-between' alignItems='center'>
-                    <Grid item style={{ width: '70%' }}>
-                      <Typography variant='h6' color='textSecondary'>
-                        Last watering:
-                      </Typography>
-                      <Typography variant='body1' color='textSecondary'>
-                        {moment(lastWatered).format('ll') !==
-                        'Invalid date' ? (
-                          moment(lastWatered).format('ll')
-                        ) : (
-                          <>
-                            Never watered{'   '}
-                            <i
-                              class='fas fa-skull-crossbones'
-                              style={{ color: 'rgba(0, 0, 0, 0.54)' }}></i>
-                          </>
-                        )}
-                      </Typography>
-                    </Grid>
-                    <Grid item style={{ marginLeft: 'auto', maxWidth: '29%' }}>
-                      <Grid container direction='column' alignItems='center'>
-                        <Grid item>
-                          <IconButton
-                            style={{ padding: 5 }}
-                            onClick={submitWatering}>
-                            <InvertColorsTwoToneIcon
-                              style={{ color: theme.palette.common.blue }}
-                            />
-                          </IconButton>
-                        </Grid>
-                        <Grid item>
-                          <Typography
-                            variant='iconButtonText'
-                            className={classes.iconButtonText}>
-                            Water Now
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
               </Grid>
             </Grid>
-          </CardContent>
-        </CardActionArea>
+          </Grid>
+        </CardContent>
       </Card>
     </>
   );
