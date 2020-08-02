@@ -96,7 +96,6 @@ const PlantCard = props => {
     Number(h2oFrequency) * 12,
     'h'
   );
-  console.log(lastWatered);
   const nextWatering = moment(getWateringDate).format('lll');
   const overDue = moment(getWateringDate).isBefore();
 

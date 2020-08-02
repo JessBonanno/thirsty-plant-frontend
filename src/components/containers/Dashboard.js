@@ -140,12 +140,12 @@ const Dashboard = () => {
 
   // logic for sorting the plants by next watering
   const newPlants = plants.map(plant => {
-    const getWateringDate = moment(plant.lastWatered, 'YYYYMMDD').add(
-      plant.h2oFrequency,
-      'days'
+    const getWateringDate = moment(plant.lastWatered).add(
+      Number(plant.h2oFrequency) * 12,
+      'h'
     );
-    const nextWatering = moment(getWateringDate).format('ll');
-    return { ...plant, nextWatering: nextWatering };
+    const nextWatering = moment(getWateringDate).format('lll');
+      return { ...plant, nextWatering: nextWatering };
   });
   const sortedPlants = newPlants.sort((a, b) =>
     a.nextWatering > b.nextWatering ? 1 : -1
