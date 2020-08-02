@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Toolbar, AppBar, Grid, Typography } from '@material-ui/core/';
 import theme from '../ui/Theme';
-
 // local components
 import Drawer from './Drawer';
 

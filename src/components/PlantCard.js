@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,13 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import EditTwoToneIcon from '@material-ui/icons/EditTwoTone';
 import InvertColorsTwoToneIcon from '@material-ui/icons/InvertColorsTwoTone';
 import theme from '../components/ui/Theme';
-
 // Local Imports
 import DeleteDialog from '../components/DeleteDialog';
-import placeholderImage from '../assets/images/placholder-plant.jpg';
-
+import placeholderImage from '../assets/images/placeholder-plant.jpg';
 import { PlantContext } from '../contexts/PlantContext';
-
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 const useStyles = makeStyles({
@@ -42,18 +39,12 @@ const useStyles = makeStyles({
 });
 
 const PlantCard = props => {
-  const history = useHistory();
-  const { id, nickname, species, imageUrl, lastWatered, h2oFrequency } = props;
-
-  const { setEditing, plants, setPlants, setIsReloading } = useContext(
-    PlantContext
-  );
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const userId = localStorage.getItem('userId');
-
   const classes = useStyles();
+  const history = useHistory();
+  const userId = localStorage.getItem('userId');
+  const { id, nickname, species, imageUrl, lastWatered, h2oFrequency } = props;
+  const { setEditing, setPlants, setIsReloading } = useContext(PlantContext);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleEditModalOpen = id => {
     setEditing(true);
@@ -100,7 +91,7 @@ const PlantCard = props => {
       setIsReloading(false);
     }
   }
-
+// logic for updating next water date based on last watered
   const getWateringDate = moment(lastWatered, 'YYYYMMDD').add(
     h2oFrequency,
     'days'

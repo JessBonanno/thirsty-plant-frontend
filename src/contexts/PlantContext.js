@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import theme from '../components/ui/Theme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import axios from 'axios';
@@ -12,12 +11,9 @@ export const PlantProvider = ({ children }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const matchesLG = useMediaQuery(theme.breakpoints.down('lg'));
-
-  const history = useHistory();
-
   const [imageUrl, setImageUrl] = useState('');
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const [setEditModalOpen] = React.useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -29,11 +25,10 @@ export const PlantProvider = ({ children }) => {
   const [plants, setPlants] = useState([]);
   const [isReloading, setIsReloading] = useState(false);
 
+  // calling plant.id api for plant ID
   let image;
-
   const getDetails = async e => {
     e.preventDefault();
-
     let file = e.target.files[0];
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -54,7 +49,6 @@ export const PlantProvider = ({ children }) => {
           'species',
         ],
       };
-
       fetch('https://api.plant.id/v2/identify', {
         method: 'POST',
         headers: {
@@ -83,21 +77,18 @@ export const PlantProvider = ({ children }) => {
   const handleUpload = async e => {
     setUploading(true);
     image = e.target.files[0];
-
     const data = new FormData();
     data.append('file', image);
     data.append('upload_preset', 'wpnbbzl6');
     data.append('api_key', '925249979199193');
-
     const res = await axios.post(
       `https://api.cloudinary.com/v1_1/wpnbbzl6/image/upload`,
       data
     );
-
     setImageUrl(res.data.url);
     setUploading(false);
   };
-
+  
   const handleAddModalClose = () => {
     setAddModalOpen(false);
   };

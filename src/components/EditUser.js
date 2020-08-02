@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
 import * as Yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -8,8 +7,10 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import theme from './ui/Theme';
 import { CircularProgress } from '@material-ui/core';
+import theme from './ui/Theme';
+// local imports
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
@@ -36,19 +37,18 @@ const useStyles = makeStyles(theme => ({
     padding: '5em',
   },
 }));
-
+const defaultState = {
+  phoneNumber: '',
+  password: '',
+  newPassword: '',
+};
 function EditUser() {
+  const classes = useStyles();
+  const userId = localStorage.getItem('userId');
   const [phoneSaveLoading, setPhoneSaveLoading] = useState(false);
   const [passwordSaveLoading, setPasswordSaveLoading] = useState(false);
   const [openPhoneSnackbar, setOpenPhoneSnackbar] = useState(false);
   const [openPasswordSnackbar, setOpenPasswordSnackbar] = useState(false);
-
-  const classes = useStyles();
-  const defaultState = {
-    phoneNumber: '',
-    password: '',
-    newPassword: '',
-  };
   const [formState, setFormState] = useState(defaultState);
   const [errors, setErrors] = useState({
     password: '',
@@ -56,7 +56,6 @@ function EditUser() {
     confirmedNewPassword: '',
     phoneNumber: '',
   });
-  const userId = localStorage.getItem('userId');
 
   async function getUser() {
     try {
@@ -74,7 +73,7 @@ function EditUser() {
   }
   useEffect(() => {
     getUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const phoneRegex = RegExp(
@@ -113,6 +112,15 @@ function EditUser() {
         })
       );
   };
+  const changeHandler = e => {
+    const value =
+      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    setFormState({
+      ...formState,
+      [e.target.name]: value,
+    });
+    validateChange(e);
+  };
 
   async function editPhone() {
     setPhoneSaveLoading(true);
@@ -137,10 +145,6 @@ function EditUser() {
       console.log(err);
     }
   }
-  useEffect(() => {
-    getUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   async function phoneSubmit(e) {
     e.preventDefault();
@@ -196,21 +200,11 @@ function EditUser() {
       console.log(err);
     }
   }
-  const changeHandler = e => {
-    const value =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setFormState({
-      ...formState,
-      [e.target.name]: value,
-    });
-    validateChange(e);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenPasswordSnackbar(false);
     setOpenPhoneSnackbar(false);
   };
