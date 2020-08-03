@@ -68,7 +68,7 @@ export default createMuiTheme({
     h3: {
       fontFamily: ralewayFont,
       color: green,
-      fontSize: '3.5em',
+      fontSize: '3.5rem',
     },
     h4: {
       fontFamily: 'Mulish',

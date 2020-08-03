@@ -223,7 +223,9 @@ const Dashboard = () => {
           )}
         </Grid>
         {isReloading ? (
-          <Typography variant='h3'>Fetching plant data...</Typography>
+          <Typography variant='h3' style={{ fontSize: matchesSM && '2rem' }}>
+            Fetching plant data...
+          </Typography>
         ) : (
           <Grid
             item
