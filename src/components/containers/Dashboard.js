@@ -144,12 +144,14 @@ const Dashboard = () => {
       Number(plant.h2oFrequency) * 12,
       'h'
     );
-    const nextWatering = moment(getWateringDate).format('ll');
+    const nextWatering = moment(getWateringDate).format('lll');
     return { ...plant, nextWatering: nextWatering };
   });
   const sortedPlants = newPlants.sort((a, b) =>
     a.nextWatering > b.nextWatering ? 1 : -1
   );
+  console.log(sortedPlants);
+  console.log(plants);
 
   return (
     <>
