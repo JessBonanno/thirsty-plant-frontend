@@ -173,18 +173,7 @@ export default function DenseAppBar() {
               <Grid container>
                 <Grid item>
                   <Button color="inherit">
-                    <a
-                      style={{
-                        textDecoration: 'none',
-                        color:
-                          pathname === '/login' || pathname === '/signup'
-                            ? theme.palette.common.lightGreen
-                            : 'white',
-                      }}
-                      href="https://watermyplantsjuly2020.netlify.app/"
-                    >
-                      Home
-                    </a>
+
                   </Button>
                 </Grid>
                 <Grid item>
