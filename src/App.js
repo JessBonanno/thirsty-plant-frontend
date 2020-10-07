@@ -1,7 +1,7 @@
 import React from 'react';
-import { ThemeProvider } from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Hidden from '@material-ui/core/Hidden';
 import './App.css';
 
@@ -20,7 +20,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Hidden smDown>
-        <AppBar style={{ margin: 0 }} />
+        <AppBar style={{margin: 0}}/>
       </Hidden>
       <div
         className="App"
@@ -33,23 +33,19 @@ function App() {
           <Route
             exact
             path="/"
-            component={() => {
-              window.location.href =
-                'https://watermyplantsjuly2020.netlify.app/';
-              return null;
-            }}
-          ></Route>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <PrivateRoute exact path="/settings" component={EditUser} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute path="/add-plant" component={AddEditPlants} />
-          <PrivateRoute path="/edit-plant/:id" component={AddEditPlants} />
-          <Route path="/find-my-plant" component={FindMyPlant} />
+            component={Login}
+          />
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/signup" component={Signup}/>
+          <PrivateRoute exact path="/settings" component={EditUser}/>
+          <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+          <PrivateRoute path="/add-plant" component={AddEditPlants}/>
+          <PrivateRoute path="/edit-plant/:id" component={AddEditPlants}/>
+          <Route path="/find-my-plant" component={FindMyPlant}/>
         </Switch>
       </div>
       <Hidden mdUp>
-        <Footer />
+        <Footer/>
       </Hidden>
     </ThemeProvider>
   );
