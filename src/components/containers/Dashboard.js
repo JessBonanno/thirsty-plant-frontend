@@ -150,8 +150,6 @@ const Dashboard = () => {
   const sortedPlants = newPlants.sort((a, b) =>
     a.nextWatering > b.nextWatering ? 1 : -1
   );
-  console.log(sortedPlants);
-  console.log(plants);
 
   return (
     <>

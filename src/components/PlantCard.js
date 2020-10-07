@@ -104,7 +104,6 @@ const PlantCard = props => {
   const nextWatering = moment(getWateringDate).format('lll');
   const overDue = moment(getWateringDate).isBefore();
 
-  console.log({lastWatered})
   return (
     <>
       <DeleteDialog

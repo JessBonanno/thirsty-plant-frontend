@@ -171,7 +171,6 @@ function Login() {
   };
 
   const login = async () => {
-    console.log(formState);
     try {
       const res = await axios.post(
         'https://bw-water-my-plants.herokuapp.com/api/users/login',
@@ -203,7 +202,6 @@ function Login() {
       console.log(err);
     }
   }
-  console.log(formState);
   const snackbar = (
     <div className={classes.root}>
       <Snackbar
